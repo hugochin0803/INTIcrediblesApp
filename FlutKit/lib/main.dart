@@ -26,7 +26,7 @@ Future<void> main() async {
       create: (context) => AppNotifier(),
       child: ChangeNotifierProvider<FxAppThemeNotifier>(
         create: (context) => FxAppThemeNotifier(),
-        child: userID == null ? MyApp() : Dashboard(),
+        child: userID == null ? const MyApp() : const Dashboard(),
       ),
     ));
   });

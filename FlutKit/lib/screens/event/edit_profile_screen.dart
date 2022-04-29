@@ -14,6 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({Key? key}) : super(key: key);
+
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
@@ -24,18 +26,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
-  var stname = new TextEditingController();
-  var stalumniId = new TextEditingController();
-  var stgraduatedProgrammeName = new TextEditingController();
-  var stgraduatingCampus = new TextEditingController();
-  var stgraduatingProgramme = new TextEditingController();
-  var stidentificationCard = new TextEditingController();
-  var stlevelOfStudy = new TextEditingController();
-  var stpersonalEmail = new TextEditingController();
-  var ststudentHandphone = new TextEditingController();
-  var ststudentId = new TextEditingController();
-  var ststudentTelephoneNumber = new TextEditingController();
-  var styearOfGraduation = new TextEditingController();
+  var stname = TextEditingController();
+  var stalumniId = TextEditingController();
+  var stgraduatedProgrammeName = TextEditingController();
+  var stgraduatingCampus = TextEditingController();
+  var stgraduatingProgramme = TextEditingController();
+  var stidentificationCard = TextEditingController();
+  var stlevelOfStudy = TextEditingController();
+  var stpersonalEmail = TextEditingController();
+  var ststudentHandphone = TextEditingController();
+  var ststudentId = TextEditingController();
+  var ststudentTelephoneNumber = TextEditingController();
+  var styearOfGraduation = TextEditingController();
 
   @override
   void initState() {
@@ -72,10 +74,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   Stack(
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.all(20),
+                        margin: const EdgeInsets.all(20),
                         width: 140,
                         height: 140,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               image: AssetImage(
@@ -96,7 +98,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             color: theme.colorScheme.primary,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(6),
+                            padding: const EdgeInsets.all(6),
                             child: Icon(
                               MdiIcons.pencil,
                               size: 20,
@@ -119,13 +121,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 20, left: 24, right: 24),
+              padding: const EdgeInsets.only(top: 20, left: 24, right: 24),
               child: Form(
                 key: _formkey,
                 child: Column(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       child: TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
@@ -137,27 +139,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               letterSpacing: 0.1,
                               color: theme.colorScheme.onBackground,
                               fontWeight: 500),
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
+                          enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
                           filled: true,
                           fillColor: customTheme.card,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             MdiIcons.accountOutline,
                           ),
-                          contentPadding: EdgeInsets.all(0),
+                          contentPadding: const EdgeInsets.all(0),
                         ),
                         controller: ststudentId,
                         textCapitalization: TextCapitalization.sentences,
@@ -165,7 +167,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       child: TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
@@ -177,27 +179,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               letterSpacing: 0.1,
                               color: theme.colorScheme.onBackground,
                               fontWeight: 500),
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
+                          enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
                           filled: true,
                           fillColor: customTheme.card,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             MdiIcons.emailOutline,
                           ),
-                          contentPadding: EdgeInsets.all(0),
+                          contentPadding: const EdgeInsets.all(0),
                         ),
                         keyboardType: TextInputType.emailAddress,
                         controller: stpersonalEmail,
@@ -206,7 +208,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       child: TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
@@ -218,27 +220,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               letterSpacing: 0.1,
                               color: theme.colorScheme.onBackground,
                               fontWeight: 500),
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
+                          enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
                           filled: true,
                           fillColor: customTheme.card,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             MdiIcons.cardAccountDetails,
                           ),
-                          contentPadding: EdgeInsets.all(0),
+                          contentPadding: const EdgeInsets.all(0),
                         ),
                         keyboardType: TextInputType.emailAddress,
                         controller: stidentificationCard,
@@ -247,7 +249,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       child: TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
@@ -259,27 +261,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               letterSpacing: 0.1,
                               color: theme.colorScheme.onBackground,
                               fontWeight: 500),
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
+                          enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
                           filled: true,
                           fillColor: customTheme.card,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             MdiIcons.phone,
                           ),
-                          contentPadding: EdgeInsets.all(0),
+                          contentPadding: const EdgeInsets.all(0),
                         ),
                         keyboardType: TextInputType.phone,
                         validator: (value) {
@@ -298,7 +300,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       child: TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
@@ -310,27 +312,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               letterSpacing: 0.1,
                               color: theme.colorScheme.onBackground,
                               fontWeight: 500),
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          enabledBorder: OutlineInputBorder(
+                          enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide.none),
                           filled: true,
                           fillColor: customTheme.card,
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             MdiIcons.phoneClassic,
                           ),
-                          contentPadding: EdgeInsets.all(0),
+                          contentPadding: const EdgeInsets.all(0),
                         ),
                         keyboardType: TextInputType.phone,
                         validator: (value) {
@@ -349,7 +351,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 24),
+                      margin: const EdgeInsets.only(top: 24),
                       child: FxButton(
                           onPressed: () {
                             if (_formkey.currentState!.validate()) {
@@ -442,13 +444,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           MaterialPageRoute(builder: (context) => EventFullApp()),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 "There is an issue on our end! Please contact admin for assistance!")));
       }
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Blank Field Not Allowed")));
     }
   }
 }
@@ -511,7 +513,8 @@ class UpdateAlumniState {
   factory UpdateAlumniState.fromJson(Map<String, dynamic> json) {
     if (json['message'] != null) {
       return UpdateAlumniState(message: json['message']);
-    } else
+    } else {
       return UpdateAlumniState(error: json['error']);
+    }
   }
 }

@@ -67,13 +67,11 @@ class LoadingScreens {
                           Flexible(
                             flex: 2,
                             child: Container(
-                              child: Container(
-                                height: 8,
-                                color: Colors.grey,
-                              ),
+                              height: 8,
+                              color: Colors.grey,
                             ),
                           ),
-                          Flexible(
+                          const Flexible(
                             flex: 1,
                             child: Align(
                               alignment: Alignment.centerRight,
@@ -86,10 +84,8 @@ class LoadingScreens {
                           Flexible(
                             flex: 2,
                             child: Container(
-                              child: Container(
-                                height: 8,
-                                color: Colors.grey,
-                              ),
+                              height: 8,
+                              color: Colors.grey,
                             ),
                           ),
                           Flexible(
@@ -179,13 +175,11 @@ class LoadingScreens {
                           Flexible(
                             flex: 2,
                             child: Container(
-                              child: Container(
-                                height: 8,
-                                color: Colors.grey,
-                              ),
+                              height: 8,
+                              color: Colors.grey,
                             ),
                           ),
-                          Flexible(
+                          const Flexible(
                             flex: 1,
                             child: Align(
                               alignment: Alignment.centerRight,
@@ -198,10 +192,8 @@ class LoadingScreens {
                           Flexible(
                             flex: 2,
                             child: Container(
-                              child: Container(
-                                height: 8,
-                                color: Colors.grey,
-                              ),
+                              height: 8,
+                              color: Colors.grey,
                             ),
                           ),
                           Flexible(
@@ -246,7 +238,7 @@ class LoadingScreens {
               width: MediaQuery.of(context).size.width * 0.5,
               color: Colors.grey,
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Container(
@@ -258,7 +250,7 @@ class LoadingScreens {
                 border: Border.all(color: Colors.grey),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
               height: 120,
               width: MediaQuery.of(context).size.width,
@@ -268,7 +260,7 @@ class LoadingScreens {
                 border: Border.all(color: Colors.grey),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
               height: 220,
               width: MediaQuery.of(context).size.width,
@@ -298,7 +290,7 @@ class LoadingScreens {
               width: MediaQuery.of(context).size.width,
               color: Colors.grey,
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Expanded(
@@ -311,7 +303,7 @@ class LoadingScreens {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
               height: 80,
               width: MediaQuery.of(context).size.width,
@@ -373,7 +365,7 @@ class LoadingScreens {
                               children: <Widget>[
                                 Container(
                                     height: 8, width: 160, color: Colors.grey),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Container(
                                     height: 8, width: 80, color: Colors.grey),
                               ],
@@ -729,7 +721,7 @@ class LoadingScreens {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Row(
@@ -756,7 +748,7 @@ class LoadingScreens {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Row(
@@ -783,7 +775,7 @@ class LoadingScreens {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Row(
@@ -810,7 +802,7 @@ class LoadingScreens {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Row(

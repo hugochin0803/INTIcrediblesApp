@@ -2,6 +2,7 @@ import 'dart:convert';
 //import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -18,7 +19,7 @@ const productionApi = 'https://edzj.fa.em2.oraclecloud.com:443';
 const endPointApi = isInProduction ? productionApi : debugApi;
 
 class APIService {
-  var dio;
+  var dio = Dio();
 
   APIService() {
     dio = Dio();
@@ -38,12 +39,16 @@ class APIService {
   }
 
   Future<Map<String, String>> getHeaders() async {
-    final _storage = FlutterSecureStorage();
+    const _storage = FlutterSecureStorage();
     final authToken = await _storage.read(key: 'access_token');
-    print(authToken);
+    if (kDebugMode) {
+      print(authToken);
+    }
     String username = 'scm_master';
     String password = 'Epm@2020';
-    print(base64Encode(utf8.encode('$username:$password')));
+    if (kDebugMode) {
+      print(base64Encode(utf8.encode('$username:$password')));
+    }
     return {
       'content-type': 'application/vnd.oracle.adf.resourceitem+json',
       'authorization':

@@ -5,12 +5,13 @@
 
 import 'dart:io';
 
-import 'package:flutkit/screens/auth/firstTime_login_Screen.dart';
+import 'package:flutkit/screens/auth/first_time_login_screen.dart';
 import 'package:flutkit/screens/auth/update_profile.dart';
 import 'package:flutkit/screens/auth/otp_verification.dart';
 import 'package:flutkit/screens/event/event_full_app.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutkit/screens/auth/forgot_password_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutx/flutx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -22,6 +23,8 @@ import 'dart:developer' as developer;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login2Screen extends StatefulWidget {
+  const Login2Screen({Key? key}) : super(key: key);
+
   @override
   _Login2ScreenState createState() => _Login2ScreenState();
 }
@@ -59,7 +62,7 @@ class _Login2ScreenState extends State<Login2Screen> {
     return Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
           image: AssetImage('assets/images/all/background.png'),
           fit: BoxFit.cover,
@@ -69,7 +72,7 @@ class _Login2ScreenState extends State<Login2Screen> {
             backgroundColor: Colors.transparent,
             body: Stack(
               children: <Widget>[
-                new Positioned(
+                Positioned(
                   left: 30,
                   right: 30,
                   top: MediaQuery.of(context).size.height * 0.2,
@@ -77,14 +80,14 @@ class _Login2ScreenState extends State<Login2Screen> {
                     shrinkWrap: true,
                     children: <Widget>[
                       FxContainer.bordered(
-                        padding: EdgeInsets.only(top: 16, bottom: 16),
+                        padding: const EdgeInsets.only(top: 16, bottom: 16),
                         color: theme.scaffoldBackgroundColor,
                         child: Column(
                           children: <Widget>[
                             Container(
                               height: 100.0,
                               width: 300.0,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage(
                                       'assets/images/all/login_logo.png'),
@@ -94,11 +97,12 @@ class _Login2ScreenState extends State<Login2Screen> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(bottom: 24, top: 8),
+                              margin: const EdgeInsets.only(bottom: 24, top: 8),
                               child: FxText.h6("LOGIN", fontWeight: 600),
                             ),
                             Container(
-                              padding: EdgeInsets.only(left: 16, right: 16),
+                              padding:
+                                  const EdgeInsets.only(left: 16, right: 16),
                               child: Column(
                                 children: <Widget>[
                                   TextFormField(
@@ -119,11 +123,12 @@ class _Login2ScreenState extends State<Login2Screen> {
                                           letterSpacing: 0.1,
                                           color: theme.colorScheme.onBackground,
                                           fontWeight: 500),
-                                      prefixIcon: Icon(MdiIcons.emailOutline),
+                                      prefixIcon:
+                                          const Icon(MdiIcons.emailOutline),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 16),
+                                    margin: const EdgeInsets.only(top: 16),
                                     child: TextFormField(
                                       style: FxTextStyle.b1(
                                           letterSpacing: 0.1,
@@ -143,7 +148,8 @@ class _Login2ScreenState extends State<Login2Screen> {
                                             color:
                                                 theme.colorScheme.onBackground,
                                             fontWeight: 500),
-                                        prefixIcon: Icon(MdiIcons.lockOutline),
+                                        prefixIcon:
+                                            const Icon(MdiIcons.lockOutline),
                                         suffixIcon: IconButton(
                                           icon: Icon(_passwordVisible!
                                               ? MdiIcons.eyeOutline
@@ -160,7 +166,8 @@ class _Login2ScreenState extends State<Login2Screen> {
                                     ),
                                   ),
                                   Container(
-                                      margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                                      margin:
+                                          const EdgeInsets.fromLTRB(5, 5, 0, 0),
                                       alignment: Alignment.centerRight,
                                       child: FxButton.text(
                                           onPressed: () {
@@ -168,7 +175,7 @@ class _Login2ScreenState extends State<Login2Screen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ForgotPasswordScreen()),
+                                                      const ForgotPasswordScreen()),
                                             );
                                           },
                                           child: FxText.b1(
@@ -177,7 +184,7 @@ class _Login2ScreenState extends State<Login2Screen> {
                                             fontSize: 14,
                                           ))),
                                   Container(
-                                    margin: EdgeInsets.only(top: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     child: FxButton.block(
                                         elevation: 0,
                                         borderRadiusAll: 4,
@@ -220,8 +227,8 @@ class _Login2ScreenState extends State<Login2Screen> {
           var futureLogin = LoginState.fromJson(jsonDecode(response.body));
 
           if (futureLogin.loginStatus == 1) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Invalid Credentials")));
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Invalid Credentials")));
           } else {
             final prefs = await SharedPreferences.getInstance();
 
@@ -232,17 +239,20 @@ class _Login2ScreenState extends State<Login2Screen> {
               if (futureLogin.activationStatus == 0) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => firstTimeLogin()),
+                  MaterialPageRoute(
+                      builder: (context) => const firstTimeLogin()),
                 );
               } else if (futureLogin.activationStatus == 10) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => updateProfile()),
+                  MaterialPageRoute(
+                      builder: (context) => const updateProfile()),
                 );
               } else if (futureLogin.activationStatus == 20) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => otpVerification()),
+                  MaterialPageRoute(
+                      builder: (context) => const otpVerification()),
                 );
               } else if (futureLogin.activationStatus == 30) {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -254,25 +264,29 @@ class _Login2ScreenState extends State<Login2Screen> {
                     (Route<dynamic> route) => false);
               }
             } else {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text("Invalid Credentials")));
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Invalid Credentials")));
             }
           }
         } else {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Server Error")));
+              .showSnackBar(const SnackBar(content: Text("Server Error")));
         }
       } on SocketException catch (e) {
-        print('Socket Error: $e');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        if (kDebugMode) {
+          print('Socket Error: $e');
+        }
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 "Unable to connect to server!\nPlease contact admin for more information!")));
       } on Error catch (e) {
-        print('General Error: $e');
+        if (kDebugMode) {
+          print('General Error: $e');
+        }
       }
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Blank Field Not Allowed")));
     }
   }
 }

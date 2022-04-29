@@ -11,6 +11,8 @@ import 'package:flutkit/screens/event/event_full_app.dart';
 
 // ignore: camel_case_types
 class otpSuccess extends StatefulWidget {
+  const otpSuccess({Key? key}) : super(key: key);
+
   @override
   _otpSuccess createState() => _otpSuccess();
 }
@@ -33,10 +35,10 @@ class _otpSuccess extends State<otpSuccess> {
     return Scaffold(
         body: Stack(
       children: <Widget>[
-        new Container(
-          decoration: new BoxDecoration(
-            image: new DecorationImage(
-              image: new AssetImage('assets/images/all/background.png'),
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/all/background.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -49,12 +51,12 @@ class _otpSuccess extends State<otpSuccess> {
             shrinkWrap: true,
             children: <Widget>[
               FxContainer.bordered(
-                padding: EdgeInsets.only(top: 16, bottom: 16),
+                padding: const EdgeInsets.only(top: 16, bottom: 16),
                 color: theme.scaffoldBackgroundColor,
                 child: Column(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(bottom: 1, top: 8),
+                      margin: const EdgeInsets.only(bottom: 1, top: 8),
                       child: FxText.h6(
                         "OTP Verification Success",
                         fontWeight: 800,
@@ -63,19 +65,19 @@ class _otpSuccess extends State<otpSuccess> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(bottom: 0, top: 10),
+                      margin: const EdgeInsets.only(bottom: 0, top: 10),
                       child: FxText.h6("Verification Successful!",
                           fontWeight: 400, fontSize: 16),
                     ),
                     Container(
-                      margin: EdgeInsets.only(bottom: 30, top: 0),
+                      margin: const EdgeInsets.only(bottom: 30, top: 0),
                       child: FxText.h6("Please proceed to home page",
                           fontWeight: 400, fontSize: 16),
                     ),
                     Container(
                       height: 120.0,
                       width: 170.0,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/images/all/otpsuccess.png'),
                           fit: BoxFit.fill,
@@ -84,7 +86,8 @@ class _otpSuccess extends State<otpSuccess> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 16, left: 12, right: 12),
+                      margin:
+                          const EdgeInsets.only(top: 16, left: 12, right: 12),
                       child: FxButton.block(
                           elevation: 0,
                           borderRadiusAll: 4,

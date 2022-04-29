@@ -87,7 +87,7 @@ class _ProductsSearchWidgetState extends State<ProductsSearchWidget> {
                   padding: const EdgeInsets.only(left: 20.0, right: 8),
                   child: Container(
                     child: TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Try to search",
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -127,20 +127,21 @@ class _ProductsSearchWidgetState extends State<ProductsSearchWidget> {
               : Container(
                   color: theme.backgroundColor,
                   child: ListView(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.only(left: 20, right: 20),
+                        padding: const EdgeInsets.only(left: 20, right: 20),
                         child: FxText.b2("RESULT", fontWeight: 600),
                       ),
                       Container(
-                        padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                        padding:
+                            const EdgeInsets.only(left: 20, right: 20, top: 20),
                         child: Row(
                           children: <Widget>[
                             Expanded(
                                 child: Container(
-                              margin: EdgeInsets.only(right: 8),
-                              child: _SimpleCard(
+                              margin: const EdgeInsets.only(right: 8),
+                              child: const _SimpleCard(
                                 image:
                                     './assets/images/apps/shopping/product/product-7.jpg',
                                 name: 'Product-1',
@@ -152,8 +153,8 @@ class _ProductsSearchWidgetState extends State<ProductsSearchWidget> {
                             )),
                             Expanded(
                                 child: Container(
-                              margin: EdgeInsets.only(left: 8),
-                              child: _SimpleCard(
+                              margin: const EdgeInsets.only(left: 8),
+                              child: const _SimpleCard(
                                 image:
                                     './assets/images/apps/shopping/product/product-8.jpg',
                                 name: 'Product-1',
@@ -167,19 +168,20 @@ class _ProductsSearchWidgetState extends State<ProductsSearchWidget> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                             top: 20, left: 20, right: 20, bottom: 4),
                         child: FxText.b2("RECOMMENDED", fontWeight: 600),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 8),
+                        margin: const EdgeInsets.only(top: 8),
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: <Widget>[
                               Container(
-                                margin: EdgeInsets.only(left: 20, bottom: 8),
-                                child: _SimpleCard(
+                                margin:
+                                    const EdgeInsets.only(left: 20, bottom: 8),
+                                child: const _SimpleCard(
                                   image:
                                       './assets/images/apps/shopping/product/product-3.jpg',
                                   name: 'Product-1',
@@ -191,8 +193,9 @@ class _ProductsSearchWidgetState extends State<ProductsSearchWidget> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(left: 20, bottom: 8),
-                                child: _SimpleCard(
+                                margin:
+                                    const EdgeInsets.only(left: 20, bottom: 8),
+                                child: const _SimpleCard(
                                   image:
                                       './assets/images/apps/shopping/product/product-5.jpg',
                                   name: 'Product-1',
@@ -204,9 +207,9 @@ class _ProductsSearchWidgetState extends State<ProductsSearchWidget> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(
+                                margin: const EdgeInsets.only(
                                     left: 20, right: 20, bottom: 8),
-                                child: _SimpleCard(
+                                child: const _SimpleCard(
                                   image:
                                       './assets/images/apps/shopping/product/product-2.jpg',
                                   name: 'Product-1',
@@ -261,13 +264,11 @@ class _SimpleCardState extends State<_SimpleCard> {
         children: <Widget>[
           Image(
             image: AssetImage(widget.image!),
-            width: widget.width == null
-                ? MediaQuery.of(context).size.width
-                : widget.width,
+            width: widget.width ?? MediaQuery.of(context).size.width,
             fit: BoxFit.fill,
           ),
           Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -276,7 +277,7 @@ class _SimpleCardState extends State<_SimpleCard> {
                   children: <Widget>[
                     FxText.b2(widget.name!, fontWeight: 600),
                     Container(
-                      margin: EdgeInsets.only(top: 2),
+                      margin: const EdgeInsets.only(top: 2),
                       child: FxText.caption(
                         widget.description.toString(),
                         maxLines: 1,
@@ -284,14 +285,14 @@ class _SimpleCardState extends State<_SimpleCard> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 2),
+                      margin: const EdgeInsets.only(top: 2),
                       child: Row(
                         children: <Widget>[
                           FxStarRating(
                               rating: widget.star!.toDouble(),
                               inactiveColor: Generator.starColor),
                           Container(
-                            margin: EdgeInsets.only(left: 4),
+                            margin: const EdgeInsets.only(left: 4),
                             child: FxText(
                               "(" + widget.countStar.toString() + ")",
                             ),

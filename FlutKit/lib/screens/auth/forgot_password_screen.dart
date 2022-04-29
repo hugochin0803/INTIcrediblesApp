@@ -16,6 +16,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
+
   @override
   _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
@@ -38,7 +40,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
           image: AssetImage('assets/images/all/background.png'),
           fit: BoxFit.cover,
@@ -56,16 +58,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     children: <Widget>[
                       FxContainer.bordered(
                         color: theme.scaffoldBackgroundColor,
-                        padding: EdgeInsets.only(top: 16, bottom: 16),
+                        padding: const EdgeInsets.only(top: 16, bottom: 16),
                         child: Column(
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(bottom: 24, top: 8),
+                              margin: const EdgeInsets.only(bottom: 24, top: 8),
                               child:
                                   FxText.h6("FORGOT PASSWORD", fontWeight: 600),
                             ),
                             Container(
-                              padding: EdgeInsets.only(left: 16, right: 16),
+                              padding:
+                                  const EdgeInsets.only(left: 16, right: 16),
                               child: Column(
                                 children: <Widget>[
                                   TextFormField(
@@ -85,11 +88,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                           letterSpacing: 0.1,
                                           color: theme.colorScheme.onBackground,
                                           fontWeight: 500),
-                                      prefixIcon: Icon(MdiIcons.emailOutline),
+                                      prefixIcon:
+                                          const Icon(MdiIcons.emailOutline),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 16),
+                                    margin: const EdgeInsets.only(top: 16),
                                     child: FxButton(
                                         elevation: 0,
                                         borderRadiusAll: 4,
@@ -142,8 +146,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       int userId = futureGetInfo.userId;
 
       if (futureGetInfo.error.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Invalid Student ID! Please try again!")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Invalid Student ID! Please try again!")));
       } else {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool("forgotPassword", true);
@@ -151,7 +155,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         prefs.setInt("resetUserId", userId);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => otpVerification()),
+          MaterialPageRoute(builder: (context) => const otpVerification()),
         );
       }
     }

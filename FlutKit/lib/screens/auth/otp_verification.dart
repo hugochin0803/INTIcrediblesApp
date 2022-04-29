@@ -18,6 +18,8 @@ import 'package:http/http.dart' as http;
 
 // ignore: camel_case_types
 class otpVerification extends StatefulWidget {
+  const otpVerification({Key? key}) : super(key: key);
+
   @override
   _otpVerification createState() => _otpVerification();
 }
@@ -55,10 +57,10 @@ class _otpVerification extends State<otpVerification> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
-            new Container(
-              decoration: new BoxDecoration(
-                image: new DecorationImage(
-                  image: new AssetImage('assets/images/all/background.png'),
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/all/background.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -71,29 +73,29 @@ class _otpVerification extends State<otpVerification> {
                 shrinkWrap: true,
                 children: <Widget>[
                   FxContainer.bordered(
-                    padding: EdgeInsets.only(top: 16, bottom: 16),
+                    padding: const EdgeInsets.only(top: 16, bottom: 16),
                     color: theme.scaffoldBackgroundColor,
                     child: Column(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(bottom: 1, top: 8),
+                          margin: const EdgeInsets.only(bottom: 1, top: 8),
                           child: FxText.h6("OTP Verification",
                               fontWeight: 800, fontSize: 25),
                         ),
                         Container(
-                          margin: EdgeInsets.only(bottom: 10, top: 10),
+                          margin: const EdgeInsets.only(bottom: 10, top: 10),
                           child: FxText.h6("The OTP will send to below email:",
                               fontWeight: 400, fontSize: 16),
                         ),
                         Container(
-                          margin: EdgeInsets.only(bottom: 30, top: 0),
+                          margin: const EdgeInsets.only(bottom: 30, top: 0),
                           child:
                               FxText.h6(email, fontWeight: 400, fontSize: 16),
                         ),
                         Container(
                           height: 120.0,
                           width: 170.0,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               image:
                                   AssetImage('assets/images/all/otpmail.png'),
@@ -103,7 +105,7 @@ class _otpVerification extends State<otpVerification> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 16, right: 16),
+                          padding: const EdgeInsets.only(left: 16, right: 16),
                           child: Column(
                             children: <Widget>[
                               TextFormField(
@@ -120,11 +122,11 @@ class _otpVerification extends State<otpVerification> {
                                       color: theme.colorScheme.onBackground,
                                       fontWeight: 500),
                                   prefixIcon:
-                                      Icon(MdiIcons.numeric0BoxMultiple),
+                                      const Icon(MdiIcons.numeric0BoxMultiple),
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 16),
+                                margin: const EdgeInsets.only(top: 16),
                                 alignment: Alignment.centerRight,
                                 child: FxButton.text(
                                   elevation: 0,
@@ -138,7 +140,8 @@ class _otpVerification extends State<otpVerification> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(bottom: 2, top: 30),
+                                margin:
+                                    const EdgeInsets.only(bottom: 2, top: 30),
                                 child: FxText.h6(
                                   "Please check your email and enter the OTP",
                                   fontWeight: 400,
@@ -147,7 +150,7 @@ class _otpVerification extends State<otpVerification> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 16),
+                                margin: const EdgeInsets.only(top: 16),
                                 child: FxButton.block(
                                     elevation: 0,
                                     borderRadiusAll: 4,
@@ -209,11 +212,11 @@ class _otpVerification extends State<otpVerification> {
           );
         } else {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Invalid OTP!")));
+              .showSnackBar(const SnackBar(content: Text("Invalid OTP!")));
         }
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Invalid OTP!")));
+            .showSnackBar(const SnackBar(content: Text("Invalid OTP!")));
       }
     } else {
       if (otp.text.isNotEmpty) {
@@ -232,19 +235,19 @@ class _otpVerification extends State<otpVerification> {
           if (futureGetAlumni.otpVerify == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => otpSuccess()),
+              MaterialPageRoute(builder: (context) => const otpSuccess()),
             );
           } else {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Invalid OTP!")));
+                .showSnackBar(const SnackBar(content: Text("Invalid OTP!")));
           }
         } else {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("Server Error")));
+              .showSnackBar(const SnackBar(content: Text("Server Error")));
         }
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Blank Field Not Allowed")));
       }
     }
   }

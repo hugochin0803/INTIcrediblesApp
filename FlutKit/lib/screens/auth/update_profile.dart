@@ -17,6 +17,8 @@ import 'package:http/http.dart' as http;
 
 // ignore: camel_case_types
 class updateProfile extends StatefulWidget {
+  const updateProfile({Key? key}) : super(key: key);
+
   @override
   _updateProfile createState() => _updateProfile();
 }
@@ -48,10 +50,10 @@ class _updateProfile extends State<updateProfile> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
-            new Container(
-              decoration: new BoxDecoration(
-                image: new DecorationImage(
-                  image: new AssetImage('assets/images/all/background.png'),
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/all/background.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -64,22 +66,22 @@ class _updateProfile extends State<updateProfile> {
                 shrinkWrap: true,
                 children: <Widget>[
                   FxContainer.bordered(
-                    padding: EdgeInsets.only(top: 16, bottom: 16),
+                    padding: const EdgeInsets.only(top: 16, bottom: 16),
                     color: theme.scaffoldBackgroundColor,
                     child: Column(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(bottom: 1, top: 8),
+                          margin: const EdgeInsets.only(bottom: 1, top: 8),
                           child: FxText.h6("Update Profile",
                               fontWeight: 800, fontSize: 25),
                         ),
                         Container(
-                          margin: EdgeInsets.only(bottom: 10, top: 0),
+                          margin: const EdgeInsets.only(bottom: 10, top: 0),
                           child: FxText.h6("Please update your profile here",
                               fontWeight: 400, fontSize: 16),
                         ),
                         Container(
-                            padding: EdgeInsets.only(left: 16, right: 16),
+                            padding: const EdgeInsets.only(left: 16, right: 16),
                             child: Form(
                               key: _formkey,
                               child: Column(
@@ -107,11 +109,12 @@ class _updateProfile extends State<updateProfile> {
                                           letterSpacing: 0.1,
                                           color: theme.colorScheme.onBackground,
                                           fontWeight: 500),
-                                      prefixIcon: Icon(MdiIcons.emailOutline),
+                                      prefixIcon:
+                                          const Icon(MdiIcons.emailOutline),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 16),
+                                    margin: const EdgeInsets.only(top: 16),
                                     child: TextFormField(
                                       style: FxTextStyle.b1(
                                           letterSpacing: 0.1,
@@ -139,12 +142,13 @@ class _updateProfile extends State<updateProfile> {
                                             color:
                                                 theme.colorScheme.onBackground,
                                             fontWeight: 500),
-                                        prefixIcon: Icon(MdiIcons.emailOutline),
+                                        prefixIcon:
+                                            const Icon(MdiIcons.emailOutline),
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 16),
+                                    margin: const EdgeInsets.only(top: 16),
                                     child: TextFormField(
                                       style: FxTextStyle.b1(
                                           letterSpacing: 0.1,
@@ -170,12 +174,12 @@ class _updateProfile extends State<updateProfile> {
                                             color:
                                                 theme.colorScheme.onBackground,
                                             fontWeight: 500),
-                                        prefixIcon: Icon(MdiIcons.phone),
+                                        prefixIcon: const Icon(MdiIcons.phone),
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 16),
+                                    margin: const EdgeInsets.only(top: 16),
                                     child: TextFormField(
                                       style: FxTextStyle.b1(
                                           letterSpacing: 0.1,
@@ -201,12 +205,13 @@ class _updateProfile extends State<updateProfile> {
                                             color:
                                                 theme.colorScheme.onBackground,
                                             fontWeight: 500),
-                                        prefixIcon: Icon(MdiIcons.phoneDial),
+                                        prefixIcon:
+                                            const Icon(MdiIcons.phoneDial),
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 16),
+                                    margin: const EdgeInsets.only(top: 16),
                                     child: FxButton.block(
                                         elevation: 0,
                                         borderRadiusAll: 4,
@@ -277,20 +282,20 @@ class _updateProfile extends State<updateProfile> {
           prefs.setString('email', confirmEmail.text);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => otpVerification()),
+            MaterialPageRoute(builder: (context) => const otpVerification()),
           );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text(
                   "There is an issue on our end! Please contact admin for assistance!")));
         }
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Server Error")));
+            .showSnackBar(const SnackBar(content: Text("Server Error")));
       }
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Blank Field Not Allowed")));
     }
   }
 }

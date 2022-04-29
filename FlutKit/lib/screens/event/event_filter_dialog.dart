@@ -4,6 +4,8 @@ import 'package:flutx/flutx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class EventFilterDialog extends StatefulWidget {
+  const EventFilterDialog({Key? key}) : super(key: key);
+
   @override
   _EventFilterDialogState createState() => _EventFilterDialogState();
 }
@@ -35,6 +37,7 @@ class _EventFilterDialogState extends State<EventFilterDialog> {
     await showTimePicker(context: context, initialTime: TimeOfDay.now());
   }
 
+  @override
   Widget build(BuildContext context) {
     return Dialog(
         shape: RoundedRectangleBorder(
@@ -60,8 +63,7 @@ class _EventFilterDialogState extends State<EventFilterDialog> {
                     ),
                   ),
                   FxText.caption("Filter".toUpperCase(),
-                      fontWeight: 700,
-                      color: theme.colorScheme.onBackground),
+                      fontWeight: 700, color: theme.colorScheme.onBackground),
                   FxText.caption("Reset",
                       fontSize: 12,
                       xMuted: true,
@@ -104,14 +106,13 @@ class _EventFilterDialogState extends State<EventFilterDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   FxText.sh2("Price",
-                      color: theme.colorScheme.onBackground,
-                      fontWeight: 700),
+                      color: theme.colorScheme.onBackground, fontWeight: 700),
                   Container(
                     margin: FxSpacing.top(4),
                     child: FxText.caption(
                         ((_startValue == 0)
-                            ? "Free"
-                            : "\$" + _startValue.floor().toString()) +
+                                ? "Free"
+                                : "\$" + _startValue.floor().toString()) +
                             " - \$" +
                             _endValue.floor().toString(),
                         color: theme.colorScheme.onBackground,
@@ -123,9 +124,9 @@ class _EventFilterDialogState extends State<EventFilterDialog> {
             Container(
               margin: FxSpacing.fromLTRB(12, 0, 12, 0),
               child: SliderTheme(
-                data: SliderThemeData(
+                data: const SliderThemeData(
                   rangeThumbShape:
-                  RoundRangeSliderThumbShape(enabledThumbRadius: 7),
+                      RoundRangeSliderThumbShape(enabledThumbRadius: 7),
                   trackHeight: 2,
                 ),
                 child: RangeSlider(
@@ -183,124 +184,118 @@ class _EventFilterDialogState extends State<EventFilterDialog> {
   }
 
   Widget locationWidget() {
-    return Container(
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          InkWell(
-            onTap: () {
-              setState(() {
-                selectedLocation = 0;
-              });
-            },
-            child: singleChip(
-                isSelected: selectedLocation == 0,
-                text: "Current location",
-                iconData: MdiIcons.mapMarkerOutline),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                selectedLocation = 1;
-              });
-            },
-            child: singleChip(
-                isSelected: selectedLocation == 1,
-                text: "Search",
-                iconData: MdiIcons.magnify),
-          ),
-        ],
-      ),
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        InkWell(
+          onTap: () {
+            setState(() {
+              selectedLocation = 0;
+            });
+          },
+          child: singleChip(
+              isSelected: selectedLocation == 0,
+              text: "Current location",
+              iconData: MdiIcons.mapMarkerOutline),
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              selectedLocation = 1;
+            });
+          },
+          child: singleChip(
+              isSelected: selectedLocation == 1,
+              text: "Search",
+              iconData: MdiIcons.magnify),
+        ),
+      ],
     );
   }
 
   Widget todWidget() {
-    return Container(
-      child: Wrap(
-        spacing: 12,
-        runSpacing: 12,
-        children: [
-          InkWell(
-            onTap: () {
-              setState(() {
-                selectedTOD = 0;
-              });
-            },
-            child: singleChip(isSelected: selectedTOD == 0, text: "Day"),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                selectedTOD = 1;
-              });
-            },
-            child: singleChip(isSelected: selectedTOD == 1, text: "Night"),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                selectedTOD = 2;
-                _pickTime(context);
-              });
-            },
-            child: singleChip(
-                isSelected: selectedTOD == 2,
-                text: "Choose time",
-                iconData: MdiIcons.clockOutline),
-          ),
-        ],
-      ),
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        InkWell(
+          onTap: () {
+            setState(() {
+              selectedTOD = 0;
+            });
+          },
+          child: singleChip(isSelected: selectedTOD == 0, text: "Day"),
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              selectedTOD = 1;
+            });
+          },
+          child: singleChip(isSelected: selectedTOD == 1, text: "Night"),
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              selectedTOD = 2;
+              _pickTime(context);
+            });
+          },
+          child: singleChip(
+              isSelected: selectedTOD == 2,
+              text: "Choose time",
+              iconData: MdiIcons.clockOutline),
+        ),
+      ],
     );
   }
 
   Widget dateWidget() {
-    return Container(
-      child: Wrap(
-        spacing: 12,
-        runSpacing: 12,
-        children: [
-          InkWell(
-            onTap: () {
-              setState(() {
-                selectedDate = 0;
-              });
-            },
-            child: singleChip(isSelected: selectedDate == 0, text: "Today"),
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        InkWell(
+          onTap: () {
+            setState(() {
+              selectedDate = 0;
+            });
+          },
+          child: singleChip(isSelected: selectedDate == 0, text: "Today"),
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              selectedDate = 1;
+            });
+          },
+          child: singleChip(isSelected: selectedDate == 1, text: "Tomorrow"),
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              selectedDate = 2;
+            });
+          },
+          child: singleChip(
+            isSelected: selectedDate == 2,
+            text: "This week",
           ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                selectedDate = 1;
-              });
-            },
-            child: singleChip(isSelected: selectedDate == 1, text: "Tomorrow"),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                selectedDate = 2;
-              });
-            },
-            child: singleChip(
-              isSelected: selectedDate == 2,
-              text: "This week",
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                selectedDate = 3;
-                _pickDate(context);
-              });
-            },
-            child: singleChip(
-                isSelected: selectedDate == 3,
-                text: "Choose a date",
-                iconData: MdiIcons.calendarOutline),
-          ),
-        ],
-      ),
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              selectedDate = 3;
+              _pickDate(context);
+            });
+          },
+          child: singleChip(
+              isSelected: selectedDate == 3,
+              text: "Choose a date",
+              iconData: MdiIcons.calendarOutline),
+        ),
+      ],
     );
   }
 

@@ -18,6 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: camel_case_types
 class firstTimeLogin extends StatefulWidget {
+  const firstTimeLogin({Key? key}) : super(key: key);
+
   @override
   _firstTimeLogin createState() => _firstTimeLogin();
 }
@@ -31,8 +33,8 @@ class _firstTimeLogin extends State<firstTimeLogin> {
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
-  var _pass = TextEditingController();
-  var _confirmPass = TextEditingController();
+  final _pass = TextEditingController();
+  final _confirmPass = TextEditingController();
 
   @override
   void initState() {
@@ -51,10 +53,10 @@ class _firstTimeLogin extends State<firstTimeLogin> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
-            new Container(
-              decoration: new BoxDecoration(
-                image: new DecorationImage(
-                  image: new AssetImage('assets/images/all/background.png'),
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/all/background.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -67,24 +69,24 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                 shrinkWrap: true,
                 children: <Widget>[
                   FxContainer.bordered(
-                    padding: EdgeInsets.only(top: 16, bottom: 16),
+                    padding: const EdgeInsets.only(top: 16, bottom: 16),
                     color: theme.scaffoldBackgroundColor,
                     child: Column(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(bottom: 1, top: 8),
+                          margin: const EdgeInsets.only(bottom: 1, top: 8),
                           child: FxText.h6("First Time Login?",
                               fontWeight: 800, fontSize: 25),
                         ),
                         Container(
-                          margin: EdgeInsets.only(bottom: 10, top: 0),
+                          margin: const EdgeInsets.only(bottom: 10, top: 0),
                           child: FxText.h6("Please reset your password",
                               fontWeight: 400, fontSize: 16),
                         ),
                         Container(
                           height: 150.0,
                           width: 150.0,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage('assets/images/all/lock.png'),
                               fit: BoxFit.fill,
@@ -93,7 +95,7 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                           ),
                         ),
                         Container(
-                            padding: EdgeInsets.only(left: 16, right: 16),
+                            padding: const EdgeInsets.only(left: 16, right: 16),
                             child: Form(
                               key: _formkey,
                               child: Column(
@@ -116,7 +118,8 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                                           letterSpacing: 0.1,
                                           color: theme.colorScheme.onBackground,
                                           fontWeight: 500),
-                                      prefixIcon: Icon(MdiIcons.lockOutline),
+                                      prefixIcon:
+                                          const Icon(MdiIcons.lockOutline),
                                       suffixIcon: IconButton(
                                         icon: Icon(_passwordVisible1!
                                             ? MdiIcons.eyeOutline
@@ -132,7 +135,7 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                                     obscureText: _passwordVisible1!,
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 16),
+                                    margin: const EdgeInsets.only(top: 16),
                                     child: TextFormField(
                                       style: FxTextStyle.b1(
                                           letterSpacing: 0.1,
@@ -156,7 +159,8 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                                             color:
                                                 theme.colorScheme.onBackground,
                                             fontWeight: 500),
-                                        prefixIcon: Icon(MdiIcons.lockOutline),
+                                        prefixIcon:
+                                            const Icon(MdiIcons.lockOutline),
                                         suffixIcon: IconButton(
                                           icon: Icon(_passwordVisible2!
                                               ? MdiIcons.eyeOutline
@@ -173,7 +177,7 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 16),
+                                    margin: const EdgeInsets.only(top: 16),
                                     child: FxButton.block(
                                         elevation: 0,
                                         borderRadiusAll: 4,
@@ -238,20 +242,20 @@ class _firstTimeLogin extends State<firstTimeLogin> {
         if (futureResetPassword.status == "200") {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => updateProfile()),
+            MaterialPageRoute(builder: (context) => const updateProfile()),
           );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text(
                   "There is an issue on our end! Please contact admin for assistance!")));
         }
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Server Error")));
+            .showSnackBar(const SnackBar(content: Text("Server Error")));
       }
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Blank Field Not Allowed")));
     }
   }
 }

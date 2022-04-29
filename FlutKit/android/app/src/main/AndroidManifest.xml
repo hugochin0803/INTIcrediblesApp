@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.inticredibles">
    <application
-        android:label="inticredibles"
+        android:label="INTIcredibles"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/full_logo">
         <activity
             android:name=".MainActivity"
             android:exported="true"

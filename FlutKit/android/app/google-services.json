@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "623633695993",
+    "project_id": "inti-alumni-mobile",
+    "storage_bucket": "inti-alumni-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623633695993:android:4b65447f56792243eb4e28",
+        "android_client_info": {
+          "package_name": "com.INTI.inticredibles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "623633695993-251sb2tihfr314ne70mvnpotear6lgli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRIm5XlDofFxHxCVVTxbz0gRlntpCMDTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "623633695993-251sb2tihfr314ne70mvnpotear6lgli.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,14 +4,21 @@
 * */
 
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutkit/screens/event/event_full_app.dart';
+import 'package:flutkit/screens/auth/reset_email.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutx/flutx.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -23,6 +30,8 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   late CustomTheme customTheme;
   late ThemeData theme;
+
+  String pickedImage = "";
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -46,6 +55,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     theme = AppTheme.theme;
 
     getAlumni();
+    loadProfile();
+    clearVariable();
+  }
+
+  void clearVariable() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("changeEmail");
+    prefs.remove("resetEmail");
+  }
+
+  void loadProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      pickedImage = prefs.getString('userProfile') ?? "";
+    });
   }
 
   @override
@@ -71,43 +95,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(20),
-                        width: 140,
-                        height: 140,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  "./assets/images/profile/avatar-4.jpg"),
-                              fit: BoxFit.fill),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 12,
-                        right: 8,
-                        child: Container(
+                  GestureDetector(
+                    onTap: () {
+                      _showPickOptionsDialog(context);
+                    },
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.all(20),
+                          width: 140,
+                          height: 140,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(
-                                color: theme.scaffoldBackgroundColor,
-                                width: 2,
-                                style: BorderStyle.solid),
-                            color: theme.colorScheme.primary,
+                            image: getImage(pickedImage),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(6),
-                            child: Icon(
-                              MdiIcons.pencil,
-                              size: 20,
-                              color: theme.colorScheme.onPrimary,
+                        ),
+                        Positioned(
+                          bottom: 12,
+                          right: 8,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: theme.scaffoldBackgroundColor,
+                                  width: 2,
+                                  style: BorderStyle.solid),
+                              color: theme.colorScheme.primary,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: Icon(
+                                MdiIcons.pencil,
+                                size: 20,
+                                color: theme.colorScheme.onPrimary,
+                              ),
                             ),
                           ),
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -121,14 +147,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(top: 20, left: 24, right: 24),
-              child: Form(
-                key: _formkey,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      child: TextFormField(
+              padding: const EdgeInsets.only(top: 15, left: 24, right: 24),
+              child: FxContainer(
+                child: Form(
+                  key: _formkey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
                             color: theme.colorScheme.onBackground,
@@ -165,51 +190,64 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         textCapitalization: TextCapitalization.sentences,
                         readOnly: true,
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      child: TextFormField(
-                        style: FxTextStyle.b1(
-                            letterSpacing: 0.1,
-                            color: theme.colorScheme.onBackground,
-                            fontWeight: 500),
-                        decoration: InputDecoration(
-                          hintText: "Personal Email",
-                          hintStyle: FxTextStyle.sh2(
-                              letterSpacing: 0.1,
-                              color: theme.colorScheme.onBackground,
-                              fontWeight: 500),
-                          border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
+                      Row(children: <Widget>[
+                        Expanded(
+                          child: TextFormField(
+                            style: FxTextStyle.bodyLarge(
+                                letterSpacing: 0.1,
+                                color: theme.colorScheme.onBackground,
+                                fontWeight: 500),
+                            decoration: InputDecoration(
+                              hintText: "Personal Email",
+                              hintStyle: FxTextStyle.sh2(
+                                  letterSpacing: 0.1,
+                                  color: theme.colorScheme.onBackground,
+                                  fontWeight: 500),
+                              border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                  borderSide: BorderSide.none),
+                              enabledBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                  borderSide: BorderSide.none),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: customTheme.card,
+                              prefixIcon: const Icon(
+                                MdiIcons.emailOutline,
                               ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: customTheme.card,
-                          prefixIcon: const Icon(
-                            MdiIcons.emailOutline,
+                              contentPadding: const EdgeInsets.all(0),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            controller: stpersonalEmail,
+                            textCapitalization: TextCapitalization.sentences,
+                            readOnly: true,
                           ),
-                          contentPadding: const EdgeInsets.all(0),
                         ),
-                        keyboardType: TextInputType.emailAddress,
-                        controller: stpersonalEmail,
-                        textCapitalization: TextCapitalization.sentences,
-                        readOnly: true,
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      child: TextFormField(
+                        FxButton.text(
+                            onPressed: () {
+                              String username = ststudentId.text;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => resetEmail(
+                                          username: username,
+                                        )),
+                              );
+                            },
+                            child: FxText.bodyMedium("Reset",
+                                letterSpacing: 0.1,
+                                color: theme.colorScheme.primary,
+                                fontWeight: 700))
+                      ]),
+                      TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
                             color: theme.colorScheme.onBackground,
@@ -247,10 +285,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         textCapitalization: TextCapitalization.sentences,
                         readOnly: true,
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      child: TextFormField(
+                      TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
                             color: theme.colorScheme.onBackground,
@@ -298,10 +333,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         controller: ststudentHandphone,
                         textCapitalization: TextCapitalization.sentences,
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      child: TextFormField(
+                      TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
                             color: theme.colorScheme.onBackground,
@@ -349,10 +381,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         textCapitalization: TextCapitalization.sentences,
                         controller: ststudentTelephoneNumber,
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 24),
-                      child: FxButton(
+                      FxButton(
                           onPressed: () {
                             if (_formkey.currentState!.validate()) {
                               updateProfile();
@@ -364,11 +393,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               fontWeight: 600,
                               color: theme.colorScheme.onPrimary,
                               letterSpacing: 0.3)),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
+            )
           ],
         )));
   }
@@ -407,7 +436,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     if (ststudentHandphone.text.isNotEmpty &&
         ststudentTelephoneNumber.text.isNotEmpty) {
-// Try reading data from the counter key. If it doesn't exist, return 0.
       final alumniID = stalumniId.text;
       final body = {
         "graduatedProgrammeName": stgraduatedProgrammeName.text,
@@ -451,6 +479,66 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Blank Field Not Allowed")));
+    }
+  }
+
+  _loadPicker(ImageSource source, BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userID = prefs.getInt('userID') ?? 0;
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: source);
+
+    if (image != null) {
+      File file = File(image.path);
+      String dir = path.dirname(file.path);
+      DateTime now = DateTime.now();
+      String formattedDate = DateFormat('yyyyMMddHHmmss').format(now);
+      String newFile = userID.toString() + "_Profile_" + formattedDate + ".jpg";
+      prefs.setString("userProfile", newFile);
+      String newPath = path.join(dir, newFile);
+      file = await File(file.path).copy(newPath);
+      uploadImage(file, context, newFile);
+    }
+    Navigator.pop(context);
+  }
+
+  void _showPickOptionsDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content:
+                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                ListTile(
+                  title: const Text("Pick from Gallery"),
+                  onTap: () {
+                    _loadPicker(ImageSource.gallery, context);
+                  },
+                ),
+                ListTile(
+                  title: const Text("Take a picture"),
+                  onTap: () {
+                    _loadPicker(ImageSource.camera, context);
+                  },
+                )
+              ]),
+            ));
+  }
+
+  uploadImage(File file, BuildContext context, String newFile) async {
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token') ?? " ";
+    var request = http.MultipartRequest(
+        "POST", Uri.parse("https://chilamlol.pythonanywhere.com/image/upload"));
+    request.headers["Content-type"] = "application/json";
+    request.headers["user-token"] = token;
+    final file2 = await http.MultipartFile.fromPath("file", file.path);
+    request.files.add(file2);
+    var response = await request.send();
+
+    if (response.statusCode == 201) {
+      setState(() {
+        pickedImage = newFile;
+      });
     }
   }
 }
@@ -516,5 +604,18 @@ class UpdateAlumniState {
     } else {
       return UpdateAlumniState(error: json['error']);
     }
+  }
+}
+
+DecorationImage getImage(String image) {
+  String getImage = "https://chilamlol.pythonanywhere.com/static/";
+
+  if (image != "") {
+    return DecorationImage(
+        image: NetworkImage(getImage + image), fit: BoxFit.fill);
+  } else {
+    return const DecorationImage(
+        image: AssetImage('./assets/images/profile/avatar-place.png'),
+        fit: BoxFit.fill);
   }
 }

@@ -268,6 +268,9 @@ class _Login2ScreenState extends State<Login2Screen> {
                   const SnackBar(content: Text("Invalid Credentials")));
             }
           }
+        } else if (response.statusCode == 401 || response.statusCode == 400) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Invalid Credentials")));
         } else {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text("Server Error")));
@@ -285,8 +288,9 @@ class _Login2ScreenState extends State<Login2Screen> {
         }
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Blank Field Not Allowed")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              "Blank Field Not Allowed! If you have any inquiries, please contact admin at alumni@newinti.edu.my")));
     }
   }
 }

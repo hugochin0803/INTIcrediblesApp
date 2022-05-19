@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutkit/theme/app_theme.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutx/flutx.dart';
@@ -20,6 +22,9 @@ class EventProfileScreen extends StatefulWidget {
 class _EventProfileScreenState extends State<EventProfileScreen> {
   late CustomTheme customTheme;
   late ThemeData theme;
+
+  double lat = 3.0746710731221096;
+  double long = 101.59192857639037;
 
   @override
   void initState() {
@@ -329,22 +334,42 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
                                                             ),
                                                             Container(
                                                               padding:
-                                                                  EdgeInsets
-                                                                      .fromLTRB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          10),
-                                                              child: FxText.h5(
-                                                                  "INTI Career Services, Ground Floor, Block C , No.3 Jalan SS15/8,47500 Subang Jaya, Selangor, Malaysia",
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      500,
-                                                                  letterSpacing:
-                                                                      -1,
-                                                                  color: theme
-                                                                      .colorScheme
-                                                                      .onBackground),
+                                                                  const EdgeInsets
+                                                                          .fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      10),
+                                                              child: Container(
+                                                                child: Column(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      FxText.bodySmall(
+                                                                          "INTI Career Services, Ground Floor, Block C , No.3 Jalan SS15/8,47500 Subang Jaya, Selangor, Malaysia",
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight:
+                                                                              500,
+                                                                          letterSpacing:
+                                                                              -1,
+                                                                          color: theme
+                                                                              .colorScheme
+                                                                              .onBackground),
+                                                                      Container(
+                                                                        margin: const EdgeInsets.only(
+                                                                            top:
+                                                                                5),
+                                                                        child: FxButton.block(
+                                                                            elevation: 0,
+                                                                            borderRadiusAll: 4,
+                                                                            padding: FxSpacing.y(12),
+                                                                            onPressed: () {
+                                                                              _showBottomSheet(context);
+                                                                            },
+                                                                            child: FxText.button("Location", fontWeight: 600, color: theme.colorScheme.onPrimary, letterSpacing: 0.5)),
+                                                                      ),
+                                                                    ]),
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -432,6 +457,95 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: new Text("Email not supported")));
+    }
+  }
+
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext buildContext) {
+          return Container(
+            decoration: BoxDecoration(
+                color: theme.backgroundColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16))),
+            child: Padding(
+              padding: FxSpacing.fromLTRB(24, 24, 24, 36),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Icon(Icons.supervisor_account_outlined,
+                              size: 26, color: theme.colorScheme.onBackground),
+                          Container(
+                              margin: FxSpacing.top(4),
+                              child: FxButton.text(
+                                  onPressed: () {
+                                    launchWaze(lat, long);
+                                  },
+                                  child: FxText.bodyMedium("Waze",
+                                      letterSpacing: 0.1,
+                                      color: theme.colorScheme.primary,
+                                      fontWeight: 700))),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Icon(Icons.supervisor_account_outlined,
+                              size: 26, color: theme.colorScheme.onBackground),
+                          Container(
+                              margin: FxSpacing.top(4),
+                              child: FxButton.text(
+                                  onPressed: () {
+                                    launchGoogleMaps(lat, long);
+                                  },
+                                  child: FxText.bodyMedium("Google Map",
+                                      letterSpacing: 0.1,
+                                      color: theme.colorScheme.primary,
+                                      fontWeight: 700)))
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<void> launchWaze(double lat, double long) async {
+    var url = 'waze://?ll=${lat.toString()},${long.toString()}';
+    var fallbackUrl =
+        'https://waze.com/ul?ll=${lat.toString()},${long.toString()}&navigate=yes';
+    try {
+      bool launched =
+          await launch(url, forceSafariVC: false, forceWebView: false);
+      if (!launched) {
+        await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+      }
+    } catch (e) {
+      await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+    }
+  }
+
+  Future<void> launchGoogleMaps(double lat, double long) async {
+    var url = 'google.navigation:q=${lat.toString()},${long.toString()}';
+    var fallbackUrl =
+        'https://www.google.com/maps/search/?api=1&query=${lat.toString()},${long.toString()}';
+    try {
+      bool launched =
+          await launch(url, forceSafariVC: false, forceWebView: false);
+      if (!launched) {
+        await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
+      }
+    } catch (e) {
+      await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
     }
   }
 }

@@ -16,6 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutkit/screens/auth/reset_password.dart';
 import 'package:http/http.dart' as http;
 
+import '../event/edit_profile_screen.dart';
+
 // ignore: camel_case_types
 class otpVerification extends StatefulWidget {
   const otpVerification({Key? key}) : super(key: key);
@@ -43,7 +45,8 @@ class _otpVerification extends State<otpVerification> {
   void loademail() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      if (prefs.getBool('forgotPassword') == true) {
+      if (prefs.getBool('forgotPassword') == true ||
+          prefs.getBool('changeEmail') == true) {
         email = prefs.getString('resetEmail') ?? "";
       } else {
         email = prefs.getString('email') ?? "";
@@ -192,7 +195,8 @@ class _otpVerification extends State<otpVerification> {
   Future<void> otpVerify() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String email = "";
-    final flag = prefs.getBool('forgotPassword') ?? false;
+    final flag = prefs.getBool('forgotPassword') ??
+        (prefs.getBool('changeEmail') ?? false);
     if (flag == true) {
       email = prefs.getString('resetEmail') ?? "";
 
@@ -206,10 +210,20 @@ class _otpVerification extends State<otpVerification> {
         var futureGetAlumni = GetOTPState.fromJson(jsonDecode(response.body));
 
         if (futureGetAlumni.otpVerify == 1) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => resetPassword()),
-          );
+          final flag = prefs.getBool('changeEmail') ?? false;
+
+          if (flag) {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => const EditProfileScreen()),
+              ModalRoute.withName('/'),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const resetPassword()),
+            );
+          }
         } else {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text("Invalid OTP!")));
@@ -280,7 +294,8 @@ Future<void> getAlumni() async {
   // Try reading data from the counter key. If it doesn't exist, return 0.
 
   String email = "";
-  if (prefs.getBool('forgotPassword') == true) {
+  if (prefs.getBool('forgotPassword') == true ||
+      prefs.getBool('changeEmail') == true) {
     email = prefs.getString('resetEmail') ?? "";
   } else {
     email = prefs.getString('email') ?? "";

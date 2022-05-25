@@ -13,6 +13,7 @@ import 'package:flutkit/screens/other/faq_question_screen.dart';
 import 'package:flutkit/screens/other/about_app_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class EventProfileScreen extends StatefulWidget {
   @override
@@ -420,19 +421,31 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
 
   openwhatsapp() async {
     var whatsapp = "+60123853230";
+    final url = Uri(
+        scheme: 'https',
+        host: 'api.whatsapp.com',
+        path: '/send/',
+        query: 'phone=60123853230');
     var whatappURL = "https://wa.me/$whatsapp";
+    var whatappIphone = "https://api.whatsapp.com/send?phone=$whatsapp}";
     if (Platform.isIOS) {
       // for iOS phone only
-      if (await canLaunch(whatappURL)) {
-        await launch(whatappURL, forceSafariVC: false);
+      if (await canLaunchUrl(url)) {
+        await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        );
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("whatsapp no installed")));
       }
     } else {
       // android , web
-      if (await canLaunch(whatappURL)) {
-        await launch(whatappURL);
+      if (await canLaunchUrl(url)) {
+        await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        );
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
@@ -441,22 +454,15 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
   }
 
   openemail() async {
-    String email = 'alumni@newinti.edu.my';
-
-    // String? encodeQueryParameters(Map<String, String> params) {
-    //   return params.entries
-    //       .map((e) =>
-    //           '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-    //       .join('&');
-    // }
-
-    final Uri emailUri = Uri(scheme: 'mailto', path: email);
-
-    if (await canLaunch(emailUri.toString())) {
-      await launch(emailUri.toString());
+    final url = Uri(
+      scheme: 'mailto',
+      path: 'alumni@newinti.edu.my',
+    );
+    if (await launchUrl(url)) {
+      launchUrl(url);
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: new Text("Email not supported")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Unable to open email application!")));
     }
   }
 

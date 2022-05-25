@@ -467,7 +467,7 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
           return Container(
             decoration: BoxDecoration(
                 color: theme.backgroundColor,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16))),
             child: Padding(
@@ -480,34 +480,52 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          Icon(Icons.supervisor_account_outlined,
-                              size: 26, color: theme.colorScheme.onBackground),
-                          Container(
-                              margin: FxSpacing.top(4),
-                              child: FxButton.text(
-                                  onPressed: () {
-                                    launchWaze(lat, long);
-                                  },
-                                  child: FxText.bodyMedium("Waze",
-                                      letterSpacing: 0.1,
-                                      color: theme.colorScheme.primary,
-                                      fontWeight: 700))),
+                          GestureDetector(
+                              onTap: () {
+                                launchWaze(lat, long);
+                              },
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    const Image(
+                                      image: AssetImage(
+                                          './assets/images/all/waze.png'),
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                    Container(
+                                        margin: FxSpacing.top(4),
+                                        child: FxText.bodyMedium("Waze",
+                                            letterSpacing: 0.1,
+                                            color:
+                                                theme.colorScheme.onBackground,
+                                            fontWeight: 700)),
+                                  ]))
                         ],
                       ),
                       Column(
                         children: <Widget>[
-                          Icon(Icons.supervisor_account_outlined,
-                              size: 26, color: theme.colorScheme.onBackground),
-                          Container(
-                              margin: FxSpacing.top(4),
-                              child: FxButton.text(
-                                  onPressed: () {
-                                    launchGoogleMaps(lat, long);
-                                  },
-                                  child: FxText.bodyMedium("Google Map",
-                                      letterSpacing: 0.1,
-                                      color: theme.colorScheme.primary,
-                                      fontWeight: 700)))
+                          GestureDetector(
+                              onTap: () {
+                                launchGoogleMaps(lat, long);
+                              },
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    const Image(
+                                      image: AssetImage(
+                                          './assets/images/all/googlemap.png'),
+                                      width: 32,
+                                      height: 32,
+                                    ),
+                                    Container(
+                                        margin: FxSpacing.top(4),
+                                        child: FxText.bodyMedium("Google Maps",
+                                            letterSpacing: 0.1,
+                                            color:
+                                                theme.colorScheme.onBackground,
+                                            fontWeight: 700)),
+                                  ]))
                         ],
                       ),
                     ],
@@ -520,9 +538,10 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
   }
 
   Future<void> launchWaze(double lat, double long) async {
-    var url = 'waze://?ll=${lat.toString()},${long.toString()}';
+    var url =
+        'https://waze.com/ul?q=INTI%20College%20Subang%20(Kolej%20Antarabangsa%20INTI%20Subang)&navigate=yes';
     var fallbackUrl =
-        'https://waze.com/ul?ll=${lat.toString()},${long.toString()}&navigate=yes';
+        'https://waze.com/ul?q=INTI%20International%20College%20Subang&ll=${lat.toString()},${long.toString()}&navigate=yes';
     try {
       bool launched =
           await launch(url, forceSafariVC: false, forceWebView: false);
@@ -535,7 +554,8 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
   }
 
   Future<void> launchGoogleMaps(double lat, double long) async {
-    var url = 'google.navigation:q=${lat.toString()},${long.toString()}';
+    var url =
+        'https://www.google.com/maps/search/?api=1&query=INTI+International+College+Subang';
     var fallbackUrl =
         'https://www.google.com/maps/search/?api=1&query=${lat.toString()},${long.toString()}';
     try {

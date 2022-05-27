@@ -77,11 +77,13 @@ class _resetEmail extends State<resetEmail> {
                     child: Column(
                       children: <Widget>[
                         Container(
+                          alignment: Alignment.center,
                           margin: const EdgeInsets.only(bottom: 10, top: 8),
                           child: FxText.h6("Confirm Your Password",
                               fontWeight: 800, fontSize: 25),
                         ),
                         Container(
+                          alignment: Alignment.center,
                           margin: const EdgeInsets.only(bottom: 10, top: 0),
                           child: FxText.h6(
                               "Please enter your password to continue:",

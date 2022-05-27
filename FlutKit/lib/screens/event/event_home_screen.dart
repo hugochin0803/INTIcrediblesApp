@@ -1,8 +1,13 @@
+import 'dart:developer';
+
+import 'package:flutkit/screens/event/event_profile_screen.dart';
 import 'package:flutkit/screens/event/event_ticket_screen.dart';
+import 'package:flutkit/screens/notification/notification_list.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutx/flutx.dart';
 import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:provider/provider.dart';
@@ -45,118 +50,184 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final subProvider = Provider.of<AppNotifier>(context);
-    return ListView(
-      padding: FxSpacing.top(FxSpacing.safeAreaTop(context) + 20),
-      children: [
-        Container(
-          margin: FxSpacing.fromLTRB(24, 0, 24, 0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
+    return Scaffold(
+        appBar: AppBar(
+            elevation: 4,
+            backgroundColor: const Color(0xFFEC3E37),
+            automaticallyImplyLeading: false,
+            shadowColor: Colors.grey,
+            title: Container(
+                padding: FxSpacing.fromLTRB(10, 0, 0, 0),
+                child: Row(children: <Widget>[
+                  FxText.bodyLarge(
+                    "INTIcredibles",
+                    color: theme.colorScheme.onPrimary,
+                    fontWeight: 600,
+                    fontSize: 18,
+                  ),
+                ]))),
+        body: ListView(
+          children: [
+            Container(
+              margin: FxSpacing.fromLTRB(24, 20, 24, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FxText.bodyMedium("Welcome,",
+                            fontWeight: 500,
+                            letterSpacing: 0,
+                            color: theme.colorScheme.onBackground),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          child: FxText.headlineSmall(name,
+                              fontSize: 26,
+                              fontWeight: 700,
+                              letterSpacing: -0.3,
+                              color: theme.colorScheme.onBackground),
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const NotificationListScreen()),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          FxContainer(
+                            padding: FxSpacing.all(10),
+                            borderRadiusAll: 4,
+                            child: Icon(
+                              MdiIcons.bell,
+                              size: 18,
+                              color:
+                                  theme.colorScheme.onBackground.withAlpha(160),
+                            ),
+                          ),
+                          Positioned(
+                            right: 4,
+                            top: 4,
+                            child: Container(
+                              width: 4,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                  color: customTheme.colorError,
+                                  shape: BoxShape.circle),
+                            ),
+                          )
+                        ],
+                      )),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EventProfileScreen()),
+                        );
+                      },
+                      child: FxContainer(
+                        padding: FxSpacing.all(8),
+                        margin: FxSpacing.left(16),
+                        borderRadiusAll: 4,
+                        child: Icon(
+                          MdiIcons.accountCircle,
+                          size: 23,
+                          color: theme.colorScheme.onBackground.withAlpha(160),
+                        ),
+                      ))
+                ],
+              ),
+            ),
+            Container(
+              margin: FxSpacing.fromLTRB(24, 0, 24, 0),
+              child: FxText.headlineMedium("Discover Events",
+                  fontSize: 24,
+                  fontWeight: 700,
+                  letterSpacing: -0.3,
+                  color: theme.colorScheme.onBackground),
+            ),
+            Container(
+              margin: FxSpacing.fromLTRB(24, 4, 24, 20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: FxText.titleLarge("Highlight",
+                        fontSize: 17,
+                        fontWeight: 700,
+                        color: theme.colorScheme.onBackground),
+                  ),
+                ],
+              ),
+            ),
+            SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: FxSpacing.zero,
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FxText.labelLarge("Welcome,",
-                        fontSize: 30,
-                        fontWeight: 700,
-                        letterSpacing: -1,
-                        color: theme.colorScheme.onBackground),
+                    ...List.generate(
+                        subProvider.locators1.length,
+                        (int index) => Container(
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              margin: FxSpacing.left(24),
+                              child: singleEvent(
+                                  title: subProvider.locators1[index]["name"],
+                                  image: subProvider.locators1[index]["image"],
+                                  date: DateFormat.d().format(DateTime.parse(
+                                      subProvider.locators1[index]
+                                          ["startDate"])),
+                                  month: DateFormat.MMM().format(DateTime.parse(
+                                      subProvider.locators1[index]
+                                          ["startDate"])),
+                                  startDate: "Start at: " +
+                                      DateFormat.yMMMd().add_jm().format(
+                                          DateTime.parse(subProvider.locators1[index]["startDate"])),
+                                  endDate: "End at: " + DateFormat.yMMMd().add_jm().format(DateTime.parse(subProvider.locators1[index]["endDate"])),
+                                  width: MediaQuery.of(context).size.width * 0.6,
+                                  detail: subProvider.locators1[index]),
+                            )),
                     Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                      child: FxText.labelLarge(name,
-                          fontSize: 30,
-                          fontWeight: 700,
-                          letterSpacing: -1,
-                          color: theme.colorScheme.onBackground),
+                      margin: FxSpacing.fromLTRB(16, 0, 20, 0),
                     ),
-                    FxText.headlineMedium("Discover Events",
-                        fontSize: 24,
-                        fontWeight: 700,
-                        letterSpacing: -0.3,
-                        color: theme.colorScheme.onBackground),
                   ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: FxSpacing.fromLTRB(24, 4, 24, 0),
-          child: Row(
-            children: [
-              Expanded(
-                child: FxText.titleLarge("Highlight",
-                    fontSize: 17,
-                    fontWeight: 700,
-                    color: theme.colorScheme.onBackground),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.30,
-          margin: FxSpacing.top(16),
-          child: ListView(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            padding: FxSpacing.zero,
-            children: [
-              ...List.generate(
-                  subProvider.locators1.length,
-                  (int index) => Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        margin: FxSpacing.left(24),
-                        child: singleEvent(
-                            title: subProvider.locators1[index]["name"],
-                            image: subProvider.locators1[index]["image"],
-                            date: DateFormat.d().format(DateTime.parse(
-                                subProvider.locators1[index]["startDate"])),
-                            month: DateFormat.MMM().format(DateTime.parse(
-                                subProvider.locators1[index]["startDate"])),
-                            startDate: "Start at: " +
-                                DateFormat.yMMMd().add_jm().format(DateTime.parse(
-                                    subProvider.locators1[index]["startDate"])),
-                            endDate: "End at: " +
-                                DateFormat.yMMMd().add_jm().format(
-                                    DateTime.parse(subProvider.locators1[index]["endDate"])),
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            detail: subProvider.locators1[index]),
-                      )),
-              Container(
-                margin: FxSpacing.fromLTRB(16, 0, 20, 0),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: FxSpacing.fromLTRB(24, 16, 24, 0),
-          child: FxText.titleLarge("This Week",
-              fontSize: 17,
-              fontWeight: 700,
-              color: theme.colorScheme.onBackground),
-        ),
-        ...List.generate(
-            subProvider.locators2.length,
-            (int index) => Container(
-                  margin: FxSpacing.fromLTRB(24, 16, 24, 16),
-                  child: singleEvent(
-                      title: subProvider.locators2[index]["name"],
-                      image: subProvider.locators2[index]["image"],
-                      date: DateFormat.d().format(DateTime.parse(
-                          subProvider.locators2[index]["startDate"])),
-                      month: DateFormat.MMM().format(DateTime.parse(
-                          subProvider.locators2[index]["startDate"])),
-                      startDate: "Start at: " +
-                          DateFormat.yMMMd().add_jm().format(DateTime.parse(
-                              subProvider.locators2[index]["startDate"])),
-                      endDate: "End at: " +
-                          DateFormat.yMMMd().add_jm().format(
-                              DateTime.parse(subProvider.locators2[index]["endDate"])),
-                      width: MediaQuery.of(context).size.width - 48,
-                      detail: subProvider.locators2[index]),
                 )),
-      ],
-    );
+            Container(
+              margin: FxSpacing.fromLTRB(24, 16, 24, 0),
+              child: FxText.titleLarge("This Week",
+                  fontSize: 17,
+                  fontWeight: 700,
+                  color: theme.colorScheme.onBackground),
+            ),
+            ...List.generate(
+                subProvider.locators2.length,
+                (int index) => Container(
+                      margin: FxSpacing.fromLTRB(24, 16, 24, 16),
+                      child: singleEvent(
+                          title: subProvider.locators2[index]["name"],
+                          image: subProvider.locators2[index]["image"],
+                          date: DateFormat.d().format(DateTime.parse(
+                              subProvider.locators2[index]["startDate"])),
+                          month: DateFormat.MMM().format(DateTime.parse(
+                              subProvider.locators2[index]["startDate"])),
+                          startDate: "Start at: " +
+                              DateFormat.yMMMd().add_jm().format(DateTime.parse(
+                                  subProvider.locators2[index]["startDate"])),
+                          endDate: "End at: " +
+                              DateFormat.yMMMd().add_jm().format(
+                                  DateTime.parse(subProvider.locators2[index]["endDate"])),
+                          width: MediaQuery.of(context).size.width - 48,
+                          detail: subProvider.locators2[index]),
+                    )),
+          ],
+        ));
   }
 
   Widget singleCategory(
@@ -281,18 +352,19 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              FxText.bodySmall(startDate,
-                                  fontSize: 11,
-                                  color: theme.colorScheme.onBackground,
-                                  fontWeight: 500,
-                                  xMuted: true),
-                              Container(
-                                margin: FxSpacing.top(2),
-                                child: FxText.bodySmall(endDate,
-                                    fontSize: 11,
-                                    color: theme.colorScheme.onBackground,
-                                    fontWeight: 500,
-                                    xMuted: true),
+                              FittedBox(
+                                fit: BoxFit.cover,
+                                child: Text(
+                                  startDate,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ),
+                              FittedBox(
+                                fit: BoxFit.cover,
+                                child: Text(endDate,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w300)),
                               ),
                             ],
                           ),

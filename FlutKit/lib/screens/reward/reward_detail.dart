@@ -7,12 +7,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class EventTicketScreen extends StatefulWidget {
+class RewardDetailScreen extends StatefulWidget {
   @override
-  _EventTicketScreenState createState() => _EventTicketScreenState();
+  _RewardDetailScreenState createState() => _RewardDetailScreenState();
 }
 
-class _EventTicketScreenState extends State<EventTicketScreen> {
+class _RewardDetailScreenState extends State<RewardDetailScreen> {
   late CustomTheme customTheme;
   late ThemeData theme;
 
@@ -33,7 +33,7 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             backgroundColor: theme.colorScheme.primary,
-            title: FxText.sh1("Event Detail",
+            title: FxText.sh1("Reward Detail",
                 color: theme.colorScheme.onPrimary, fontWeight: 600),
             leading: InkWell(
               onTap: () => Navigator.of(context).pop(),
@@ -45,10 +45,12 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
             )),
         body: Column(
           children: [
-            Stack(
-              children: [
-                getImage(subProvider.detail['image']),
-              ],
+            Container(
+              child: Stack(
+                children: [
+                  getImage("./assets/images/apps/event/pattern-1.png"),
+                ],
+              ),
             ),
             Expanded(
               child: ListView(
@@ -59,7 +61,7 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: FxText.h5(subProvider.detail['name'],
+                          child: FxText.h5("jefewfwef",
                               fontSize: 22,
                               color: theme.colorScheme.onBackground,
                               fontWeight: 600),
@@ -97,8 +99,7 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
                                         color: theme.colorScheme.onBackground),
                                     Container(
                                       margin: FxSpacing.top(2),
-                                      child: FxText.caption(
-                                          subProvider.detail["startDate"],
+                                      child: FxText.caption("efewqfwqef",
                                           fontSize: 12,
                                           fontWeight: 500,
                                           color: theme.colorScheme.onBackground,
@@ -133,7 +134,7 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
                                     Container(
                                       margin: FxSpacing.top(2),
                                       child: FxText.caption(
-                                          subProvider.detail["endDate"],
+                                          "ewfwqefewqfwqefqwf",
                                           fontSize: 12,
                                           fontWeight: 500,
                                           color: theme.colorScheme.onBackground,
@@ -162,7 +163,7 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
                     child: RichText(
                       text: TextSpan(children: <TextSpan>[
                         TextSpan(
-                            text: subProvider.detail["description"],
+                            text: "efewfwqefwqfweqffwq",
                             style: FxTextStyle.sh2(
                                 color: theme.colorScheme.onBackground,
                                 muted: true,
@@ -171,10 +172,23 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
                       ]),
                     ),
                   ),
-                  checkRegistrationLink(subProvider.detail['registerLink']),
+                  //checkRegistrationLink(subProvider.detail['registerLink']),
                 ],
               ),
-            )
+            ),
+            FxButton.block(
+                onPressed: () {},
+                style: ButtonStyle(
+                  fixedSize: MaterialStateProperty.all<Size>(
+                      const Size.fromHeight(20)),
+                ),
+                borderRadiusAll: 0,
+                backgroundColor: theme.colorScheme.primary,
+                child: FxText.labelLarge(
+                  "Claim",
+                  color: theme.colorScheme.background,
+                  fontWeight: 600,
+                ))
           ],
         ));
   }
@@ -185,9 +199,12 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
     bool flag = image.contains(substring);
 
     if (flag) {
-      return Image.network(image, fit: BoxFit.fill);
+      return Image.network(
+        image,
+        fit: BoxFit.fill,
+      );
     } else {
-      return Image(
+      return const Image(
         image: AssetImage('./assets/images/apps/event/pattern-1.png'),
         fit: BoxFit.fill,
       );

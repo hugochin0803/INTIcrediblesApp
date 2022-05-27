@@ -3,6 +3,8 @@
 * Version : 1.0.0
 * */
 
+import 'package:flutkit/screens/discussion/discussion_list.dart';
+import 'package:flutkit/screens/reward/reward_marketplace.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutkit/theme/app_notifier.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 import 'event_home_screen.dart';
-import 'event_profile_screen.dart';
 import 'event_upcoming_screen.dart';
 
 class EventFullApp extends StatefulWidget {
@@ -38,7 +39,7 @@ class _EventFullAppState extends State<EventFullApp>
   void initState() {
     customTheme = AppTheme.customTheme;
     theme = AppTheme.theme;
-    _tabController = new TabController(length: 3, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
     _tabController!.addListener(_handleTabSelection);
     _tabController!.animation!.addListener(() {
       final aniValue = _tabController!.animation!.value;
@@ -91,15 +92,15 @@ class _EventFullAppState extends State<EventFullApp>
                             ? Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  Icon(
+                                  const Icon(
                                     MdiIcons.home,
                                     color: Color(0xFFEC3E37),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 4),
+                                    margin: const EdgeInsets.only(top: 4),
                                     decoration: BoxDecoration(
                                         color: theme.primaryColor,
-                                        borderRadius: new BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(2.5))),
                                     height: 5,
                                     width: 5,
@@ -116,15 +117,15 @@ class _EventFullAppState extends State<EventFullApp>
                               ? Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    Icon(
+                                    const Icon(
                                       MdiIcons.ticketConfirmation,
                                       color: Color(0xFFEC3E37),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(top: 4),
+                                      margin: const EdgeInsets.only(top: 4),
                                       decoration: BoxDecoration(
                                           color: theme.primaryColor,
-                                          borderRadius: new BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(2.5))),
                                       height: 5,
                                       width: 5,
@@ -140,34 +141,60 @@ class _EventFullAppState extends State<EventFullApp>
                               ? Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    Icon(
-                                      MdiIcons.account,
+                                    const Icon(
+                                      MdiIcons.gift,
                                       color: Color(0xFFEC3E37),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(top: 4),
+                                      margin: const EdgeInsets.only(top: 4),
                                       decoration: BoxDecoration(
                                           color: theme.primaryColor,
-                                          borderRadius: new BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(2.5))),
-                                      height: 5,
-                                      width: 5,
+                                      height: 4,
+                                      width: 4,
                                     )
                                   ],
                                 )
                               : Icon(
-                                  MdiIcons.accountOutline,
+                                  MdiIcons.giftOutline,
                                   color: theme.colorScheme.onBackground,
                                 )),
+                      Container(
+                        child: (_currentIndex == 3)
+                            ? Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  const Icon(
+                                    MdiIcons.forum,
+                                    color: Color(0xFFEC3E37),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 4),
+                                    decoration: BoxDecoration(
+                                        color: theme.primaryColor,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(2.5))),
+                                    height: 5,
+                                    width: 5,
+                                  )
+                                ],
+                              )
+                            : Icon(
+                                MdiIcons.forumOutline,
+                                color: theme.colorScheme.onBackground,
+                              ),
+                      ),
                     ],
                   ),
                 )),
             body: TabBarView(
               controller: _tabController,
               children: <Widget>[
-                EventHomeScreen(),
+                const EventHomeScreen(),
                 EventUpcomingScreen(),
-                EventProfileScreen()
+                const RewardMarketplaceScreen(),
+                const DiscussionListScreen()
               ],
             ),
           ),

@@ -22,20 +22,31 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(
-              FeatherIcons.chevronLeft,
-              size: 20,
+            leading: InkWell(
+              onTap: () => Navigator.of(context).pop(),
+              child: Icon(
+                FeatherIcons.chevronLeft,
+                size: 20,
+                color: theme.colorScheme.onPrimary,
+              ),
             ),
-          ),
-          title: FxText.sh1("About Us", fontWeight: 600),
-        ),
+            elevation: 4,
+            backgroundColor: const Color(0xFFEC3E37),
+            automaticallyImplyLeading: false,
+            shadowColor: Colors.grey,
+            title: Container(
+                child: Row(children: <Widget>[
+              FxText.bodyLarge(
+                "About Us",
+                color: theme.colorScheme.onPrimary,
+                fontWeight: 600,
+                fontSize: 18,
+              ),
+            ]))),
         backgroundColor: theme.backgroundColor,
         body: Container(
           child: ListView(
-            padding: EdgeInsets.only(top: 0, left: 24, right: 24),
+            padding: EdgeInsets.only(top: 20, left: 24, right: 24),
             children: <Widget>[
               Container(
                 child: Row(

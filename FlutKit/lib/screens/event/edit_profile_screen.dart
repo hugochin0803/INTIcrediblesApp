@@ -5,12 +5,12 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
+
 import 'package:flutkit/screens/event/event_full_app.dart';
 import 'package:flutkit/screens/auth/reset_email.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutx/flutx.dart';
 import 'package:image_picker/image_picker.dart';
@@ -47,6 +47,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   var ststudentId = TextEditingController();
   var ststudentTelephoneNumber = TextEditingController();
   var styearOfGraduation = TextEditingController();
+  String stimage = "";
 
   @override
   void initState() {
@@ -77,16 +78,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
         appBar: AppBar(
           title: FxText.sh1("Edit Profile",
-              color: theme.colorScheme.onBackground, fontWeight: 600),
+              color: theme.colorScheme.onPrimary, fontWeight: 600),
           leading: InkWell(
             onTap: () => Navigator.of(context).pop(),
             child: Icon(
               FeatherIcons.chevronLeft,
               size: 20,
-              color: theme.colorScheme.onBackground,
+              color: theme.colorScheme.onPrimary,
             ),
           ),
           elevation: 0,
+          backgroundColor: theme.colorScheme.primary,
         ),
         body: SafeArea(
             child: ListView(
@@ -107,7 +109,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           height: 140,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            image: getImage(pickedImage),
+                            image: getImage(stimage),
                           ),
                         ),
                         Positioned(
@@ -190,6 +192,44 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         textCapitalization: TextCapitalization.sentences,
                         readOnly: true,
                       ),
+                      TextFormField(
+                        style: FxTextStyle.b1(
+                            letterSpacing: 0.1,
+                            color: theme.colorScheme.onBackground,
+                            fontWeight: 500),
+                        decoration: InputDecoration(
+                          hintText: "Student IC",
+                          hintStyle: FxTextStyle.sh2(
+                              letterSpacing: 0.1,
+                              color: theme.colorScheme.onBackground,
+                              fontWeight: 500),
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: customTheme.card,
+                          prefixIcon: const Icon(
+                            MdiIcons.cardAccountDetails,
+                          ),
+                          contentPadding: const EdgeInsets.all(0),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        controller: stidentificationCard,
+                        textCapitalization: TextCapitalization.sentences,
+                        readOnly: true,
+                      ),
                       Row(children: <Widget>[
                         Expanded(
                           child: TextFormField(
@@ -247,44 +287,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 color: theme.colorScheme.primary,
                                 fontWeight: 700))
                       ]),
-                      TextFormField(
-                        style: FxTextStyle.b1(
-                            letterSpacing: 0.1,
-                            color: theme.colorScheme.onBackground,
-                            fontWeight: 500),
-                        decoration: InputDecoration(
-                          hintText: "Student IC",
-                          hintStyle: FxTextStyle.sh2(
-                              letterSpacing: 0.1,
-                              color: theme.colorScheme.onBackground,
-                              fontWeight: 500),
-                          border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: customTheme.card,
-                          prefixIcon: const Icon(
-                            MdiIcons.cardAccountDetails,
-                          ),
-                          contentPadding: const EdgeInsets.all(0),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        controller: stidentificationCard,
-                        textCapitalization: TextCapitalization.sentences,
-                        readOnly: true,
-                      ),
                       TextFormField(
                         style: FxTextStyle.b1(
                             letterSpacing: 0.1,
@@ -384,7 +386,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       FxButton(
                           onPressed: () {
                             if (_formkey.currentState!.validate()) {
-                              updateProfile();
+                              updateProfile(1);
                             }
                           },
                           borderRadiusAll: 4,
@@ -404,9 +406,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> getAlumni() async {
     final prefs = await SharedPreferences.getInstance();
-    final userID = prefs.getInt('userID') ?? 0;
+    final alumniID = prefs.getInt('alumniID') ?? 0;
     String token = prefs.getString('token') ?? " ";
-    final uri = Uri.http('chilamlol.pythonanywhere.com', '/alumni/$userID');
+    final uri = Uri.http('chilamlol.pythonanywhere.com', '/alumni/$alumniID');
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'user-token': token
@@ -427,10 +429,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     ststudentId.text = futureGetAlumni.studentId;
     ststudentTelephoneNumber.text = futureGetAlumni.studentTelephoneNumber;
     styearOfGraduation.text = futureGetAlumni.yearOfGraduation;
+    stimage = futureGetAlumni.stimage;
     setState(() {});
   }
 
-  Future<void> updateProfile() async {
+  Future<void> updateProfile(int flag) async {
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token') ?? " ";
 
@@ -448,7 +451,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         "studentHandphone": ststudentHandphone.text,
         "studentId": ststudentId.text,
         "studentTelephoneNumber": ststudentTelephoneNumber.text,
-        "yearOfGraduation": styearOfGraduation.text
+        "yearOfGraduation": styearOfGraduation.text,
+        "image": stimage
       };
       final jsonString = json.encode(body);
       final uri =
@@ -460,21 +464,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final response =
           await http.put(uri, headers: requestHeaders, body: jsonString);
 
-      if (response.statusCode == 200) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => EventFullApp()),
-        );
-      } else if (response.statusCode == 404) {
-        //same data
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => EventFullApp()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text(
-                "There is an issue on our end! Please contact admin for assistance!")));
+      if (flag == 1) {
+        if (response.statusCode == 200 || response.statusCode == 404) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EventFullApp()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text(
+                  "There is an issue on our end! Please contact admin for assistance!")));
+        }
+      } else if (flag == 0) {
+        if (response.statusCode != 200 && response.statusCode != 404) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text(
+                  "There is an issue on our end! Please contact admin for assistance!")));
+        }
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -537,7 +543,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     if (response.statusCode == 201) {
       setState(() {
-        pickedImage = newFile;
+        String ImageURL = "https://chilamlol.pythonanywhere.com/static/";
+        stimage = ImageURL + newFile;
+        updateProfile(0);
       });
     }
   }
@@ -556,21 +564,22 @@ class GetAlumniState {
   final String studentId;
   final String studentTelephoneNumber;
   final String yearOfGraduation;
+  final String stimage;
 
-  GetAlumniState({
-    required this.alumniId,
-    required this.graduatedProgrammeName,
-    required this.graduatingCampus,
-    required this.graduatingProgramme,
-    required this.identificationCard,
-    required this.levelOfStudy,
-    required this.name,
-    required this.personalEmail,
-    required this.studentHandphone,
-    required this.studentId,
-    required this.studentTelephoneNumber,
-    required this.yearOfGraduation,
-  });
+  GetAlumniState(
+      {required this.alumniId,
+      required this.graduatedProgrammeName,
+      required this.graduatingCampus,
+      required this.graduatingProgramme,
+      required this.identificationCard,
+      required this.levelOfStudy,
+      required this.name,
+      required this.personalEmail,
+      required this.studentHandphone,
+      required this.studentId,
+      required this.studentTelephoneNumber,
+      required this.yearOfGraduation,
+      required this.stimage});
 
   factory GetAlumniState.fromJson(Map<String, dynamic> json) {
     return GetAlumniState(
@@ -585,7 +594,8 @@ class GetAlumniState {
         studentHandphone: json['studentHandphone'],
         studentId: json['studentId'],
         studentTelephoneNumber: json['studentTelephoneNumber'],
-        yearOfGraduation: json['yearOfGraduation']);
+        yearOfGraduation: json['yearOfGraduation'],
+        stimage: json['image'] ?? "");
   }
 }
 
@@ -611,8 +621,7 @@ DecorationImage getImage(String image) {
   String getImage = "https://chilamlol.pythonanywhere.com/static/";
 
   if (image != "") {
-    return DecorationImage(
-        image: NetworkImage(getImage + image), fit: BoxFit.fill);
+    return DecorationImage(image: NetworkImage(image), fit: BoxFit.fill);
   } else {
     return const DecorationImage(
         image: AssetImage('./assets/images/profile/avatar-place.png'),

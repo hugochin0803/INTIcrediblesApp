@@ -263,9 +263,9 @@ class _resetEmail2 extends State<resetEmail2> {
 
   Future<void> getAlumniData() async {
     final prefs = await SharedPreferences.getInstance();
-    final userID = prefs.getInt('userID') ?? 0;
+    final alumniID = prefs.getInt('alumniID') ?? 0;
     String token = prefs.getString('token') ?? " ";
-    final uri = Uri.http('chilamlol.pythonanywhere.com', '/alumni/$userID');
+    final uri = Uri.http('chilamlol.pythonanywhere.com', '/alumni/$alumniID');
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'user-token': token
@@ -290,28 +290,6 @@ class _resetEmail2 extends State<resetEmail2> {
     setState(() {});
   }
 }
-
-// class _MyCustomClipper extends CustomClipper<Path> {
-//   final BuildContext _context;
-
-//   _MyCustomClipper(this._context);
-
-//   @override
-//   Path getClip(Size size) {
-//     final path = Path();
-//     Size size = MediaQuery.of(_context).size;
-//     path.lineTo(size.width, 0);
-//     path.lineTo(size.width, size.height * 0.3);
-//     path.lineTo(0, size.height * 0.6);
-//     path.close();
-//     return path;
-//   }
-
-//   @override
-//   bool shouldReclip(CustomClipper oldClipper) {
-//     return false;
-//   }
-// }
 
 class GetAlumniState {
   final String message;

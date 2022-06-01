@@ -40,29 +40,31 @@ class _DiscussionListScreen extends State<DiscussionListScreen> {
           elevation: 0,
           backgroundColor: theme.colorScheme.primary,
         ),
-        body: ListView(
-          padding: FxSpacing.zero,
-          children: [
-            ...List.generate(
-                subProvider.locators.length,
-                (int index) => Container(
-                        child: Column(
-                      children: <Widget>[
-                        singleEvent(
-                            image: subProvider.locators[index]["image"],
-                            startdate: subProvider.locators[index]["startDate"],
-                            enddate: subProvider.locators[index]["endDate"],
-                            name: subProvider.locators[index]["name"],
-                            detail: subProvider.locators[index]),
-                        Container(
-                            margin: FxSpacing.fromLTRB(24, 0, 24, 0),
-                            child: const Divider(
-                              height: 0,
-                            ))
-                      ],
-                    )))
-          ],
-        ));
+        body: Center(child: Text("Under Development"))
+        //     body: ListView(
+        //       padding: FxSpacing.zero,
+        //       children: [
+        //         ...List.generate(
+        //             subProvider.locators.length,
+        //             (int index) => Container(
+        //                     child: Column(
+        //                   children: <Widget>[
+        //                     singleEvent(
+        //                         image: subProvider.locators[index]["image"],
+        //                         startdate: subProvider.locators[index]["startDate"],
+        //                         enddate: subProvider.locators[index]["endDate"],
+        //                         name: subProvider.locators[index]["name"],
+        //                         detail: subProvider.locators[index]),
+        //                     Container(
+        //                         margin: FxSpacing.fromLTRB(24, 0, 24, 0),
+        //                         child: const Divider(
+        //                           height: 0,
+        //                         ))
+        //                   ],
+        //                 )))
+        //       ],
+        //     )
+        );
   }
 
   Widget singleEvent(

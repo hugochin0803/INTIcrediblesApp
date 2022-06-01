@@ -23,6 +23,11 @@ class _RewardDetailScreenState extends State<RewardDetailScreen> {
     theme = AppTheme.theme;
   }
 
+  void _showDialog() {
+    showDialog(
+        context: context, builder: (BuildContext context) => _TermsDialog());
+  }
+
   int selectedCategory = 0;
 
   Widget build(BuildContext context) {
@@ -45,47 +50,31 @@ class _RewardDetailScreenState extends State<RewardDetailScreen> {
             )),
         body: Column(
           children: [
-            Container(
-              child: Stack(
-                children: [
-                  getImage("./assets/images/apps/event/pattern-1.png"),
-                ],
-              ),
-            ),
             Expanded(
               child: ListView(
-                padding: FxSpacing.vertical(16),
                 children: [
-                  Container(
-                    margin: FxSpacing.fromLTRB(24, 0, 24, 0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: FxText.h5("jefewfwef",
-                              fontSize: 22,
-                              color: theme.colorScheme.onBackground,
-                              fontWeight: 600),
-                        )
-                      ],
-                    ),
+                  const Image(
+                    image: AssetImage('./assets/images/all/frap.jpg'),
+                    fit: BoxFit.fill,
                   ),
                   Container(
-                    margin: FxSpacing.fromLTRB(24, 16, 24, 0),
+                    margin: FxSpacing.fromLTRB(15, 15, 24, 0),
                     child: Column(
                       children: [
                         Row(
                           children: [
                             Container(
-                              padding: FxSpacing.all(8),
+                              padding: FxSpacing.all(4),
                               decoration: BoxDecoration(
-                                  color:
-                                      theme.colorScheme.primary.withAlpha(24),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                              child: Icon(
-                                MdiIcons.calendar,
-                                size: 18,
-                                color: theme.colorScheme.primary,
+                                  color: theme.colorScheme.onPrimary,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8))),
+                              child: const Image(
+                                image: AssetImage(
+                                    './assets/images/all/starbucks.png'),
+                                height: 40,
+                                width: 40,
+                                fit: BoxFit.fitHeight,
                               ),
                             ),
                             Expanded(
@@ -94,51 +83,26 @@ class _RewardDetailScreenState extends State<RewardDetailScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    FxText.caption("Start Date",
-                                        fontWeight: 600,
-                                        color: theme.colorScheme.onBackground),
-                                    Container(
-                                      margin: FxSpacing.top(2),
-                                      child: FxText.caption("efewqfwqef",
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          color: theme.colorScheme.onBackground,
-                                          xMuted: true),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: FxSpacing.all(8),
-                              decoration: BoxDecoration(
-                                  color:
-                                      theme.colorScheme.primary.withAlpha(24),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
-                              child: Icon(
-                                MdiIcons.calendar,
-                                size: 18,
-                                color: theme.colorScheme.primary,
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: FxSpacing.left(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    FxText.caption("End Date",
-                                        fontWeight: 600,
+                                    FxText.caption("Starbucks",
+                                        fontWeight: 500,
                                         color: theme.colorScheme.onBackground),
                                     Container(
                                       margin: FxSpacing.top(2),
                                       child: FxText.caption(
-                                          "ewfwqefewqfwqefqwf",
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          color: theme.colorScheme.onBackground,
-                                          xMuted: true),
+                                        "Get FREE Frappuccino Blended Beverage",
+                                        fontSize: 12,
+                                        fontWeight: 700,
+                                        color: theme.colorScheme.onBackground,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: FxSpacing.top(2),
+                                      child: FxText.caption(
+                                        "Validity: 365 days after claim",
+                                        fontSize: 8,
+                                        fontWeight: 700,
+                                        color: theme.colorScheme.primary,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -149,25 +113,24 @@ class _RewardDetailScreenState extends State<RewardDetailScreen> {
                       ],
                     ),
                   ),
+
                   Container(
-                    margin: FxSpacing.fromLTRB(24, 16, 24, 0),
-                    child: Row(),
-                  ),
-                  Container(
-                    margin: FxSpacing.fromLTRB(24, 24, 24, 0),
-                    child: FxText.sh1("About This Event",
+                    margin: FxSpacing.fromLTRB(15, 12, 24, 0),
+                    child: FxText.sh1("Description",
                         fontWeight: 700, color: theme.colorScheme.onBackground),
                   ),
                   Container(
-                    margin: FxSpacing.fromLTRB(24, 12, 24, 0),
+                    margin: FxSpacing.fromLTRB(15, 12, 24, 0),
                     child: RichText(
                       text: TextSpan(children: <TextSpan>[
                         TextSpan(
-                            text: "efewfwqefwqfweqffwq",
+                            text:
+                                "ABOUT THE PRODUCT \n\n1)You will receieve 1 voucher for 1 FREE Frappuccino Blended Beverage (Mocha/Expresso/Caramel).\n\n2)Valid for TALL size(12oz) Frappuccino Blended Beverage (Mocha/Expresso/Caramel) only.",
                             style: FxTextStyle.sh2(
                                 color: theme.colorScheme.onBackground,
                                 muted: true,
-                                letterSpacing: 0.3,
+                                letterSpacing: 0.2,
+                                fontSize: 12,
                                 fontWeight: 500)),
                       ]),
                     ),
@@ -177,14 +140,12 @@ class _RewardDetailScreenState extends State<RewardDetailScreen> {
               ),
             ),
             FxButton.block(
-                onPressed: () {},
+                onPressed: () {
+                  _showDialog();
+                },
                 style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all<Size>(
-                      const Size.fromHeight(20)),
-                ),
-                borderRadiusAll: 0,
-                backgroundColor: theme.colorScheme.primary,
-                child: FxText.labelLarge(
+                    padding: MaterialStateProperty.all(FxSpacing.xy(0, 0))),
+                child: FxText.labelSmall(
                   "Claim",
                   color: theme.colorScheme.background,
                   fontWeight: 600,
@@ -254,5 +215,85 @@ class _RewardDetailScreenState extends State<RewardDetailScreen> {
         ),
       );
     }
+  }
+}
+
+class _TermsDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = AppTheme.theme;
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+      child: Container(
+        padding: EdgeInsets.all(20),
+        decoration: new BoxDecoration(
+          color: theme.backgroundColor,
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10.0,
+              offset: const Offset(0.0, 10.0),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Center(
+                    child: FxText.titleLarge("Confirm?", fontWeight: 800),
+                  ),
+                ),
+              ],
+            ),
+            const Divider(),
+            Container(
+              margin: const EdgeInsets.only(top: 8),
+              child: RichText(
+                text: TextSpan(
+                    style: FxTextStyle.titleSmall(
+                        fontWeight: 600, letterSpacing: 0.2),
+                    children: const <TextSpan>[
+                      TextSpan(
+                        text: "Are you sure you want to claim?",
+                      ),
+                    ]),
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.only(top: 8),
+                alignment: AlignmentDirectional.centerEnd,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    FxButton.text(
+                        borderRadiusAll: 4,
+                        elevation: 2,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: FxText.bodyMedium("Decline",
+                            fontWeight: 600, color: theme.colorScheme.primary)),
+                    FxButton(
+                        elevation: 2,
+                        borderRadiusAll: 4,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: FxText.bodyMedium("Accept",
+                            fontWeight: 600,
+                            color: theme.colorScheme.onPrimary)),
+                  ],
+                )),
+          ],
+        ),
+      ),
+    );
   }
 }

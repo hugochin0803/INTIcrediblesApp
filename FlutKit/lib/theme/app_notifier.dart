@@ -2,6 +2,8 @@
 * File : App Theme Notifier (Listener)
 * Version : 1.0.0
 * */
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutkit/provider/api_service.dart';
 import 'package:flutkit/theme/app_theme.dart';
@@ -21,6 +23,8 @@ class AppNotifier extends ChangeNotifier {
   List<dynamic> get locators2 => this._locators2;
   List<dynamic> _faq = [];
   List<dynamic> get faq => this._faq;
+  List<dynamic> _faqdetail = [];
+  List<dynamic> get faqdetail => this._faq;
   dynamic _detail = [];
   dynamic get detail => this._detail;
   String token = "";
@@ -129,4 +133,55 @@ class AppNotifier extends ChangeNotifier {
       print(e);
     }
   }
+
+  Future<void> callFAQAPI() async {
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? " ";
+
+    try {
+      Dio dio = new Dio();
+      dio.options.headers['user-token'] = token;
+
+      _faq = [];
+      _faqdetail = [];
+      var response =
+          await dio.get('https://chilamlol.pythonanywhere.com/faq/nested');
+      //var data = jsonDecode(response.data);
+      if (response.data.length > 0) {
+        _faq = response.data;
+        for (int i = 0; i < response.data.length; i++) {
+          for (int j = 0; j < response.data[i]['faq'].length; j++) {
+            print(response.data[i]['faq'][j]['answer']);
+          }
+        }
+        notifyListeners();
+      } else {
+        _faq = [];
+        _faqdetail = [];
+        notifyListeners();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+class FAQDetail {
+  final String answer;
+  final String faqId;
+  final String question;
+  final String recordStatus;
+
+  FAQDetail({
+    required this.answer,
+    required this.faqId,
+    required this.question,
+    required this.recordStatus,
+  });
+
+  FAQDetail.fromJson(Map<String, dynamic> json)
+      : answer = json['answer'],
+        faqId = json['faqId'],
+        question = json['question'],
+        recordStatus = json['recordStatus'];
 }

@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutx/flutx.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../theme/app_notifier.dart';
 
 class Faqcat {
   final String name;
@@ -54,6 +57,8 @@ class _FAQQuestionScreenState extends State<FAQQuestionScreen> {
     super.initState();
     customTheme = AppTheme.customTheme;
     theme = AppTheme.theme;
+    final subProvider = Provider.of<AppNotifier>(context, listen: false);
+    subProvider.callFAQAPI();
     _fetchFaq();
     _content = List.generate(
         5,
@@ -62,6 +67,7 @@ class _FAQQuestionScreenState extends State<FAQQuestionScreen> {
   }
 
   Widget build(BuildContext context) {
+    final subProvider = Provider.of<AppNotifier>(context);
     return Scaffold(
         appBar: AppBar(
             leading: InkWell(
@@ -86,128 +92,59 @@ class _FAQQuestionScreenState extends State<FAQQuestionScreen> {
               ),
             ]))),
         body: Container(
-          child: ListView(
-            padding: EdgeInsets.only(bottom: 20),
-            children: <Widget>[
-              ListTile(
-                title: FxText.b1("General Question:",
-                    color: theme.colorScheme.onBackground, fontWeight: 600),
-              ),
-              ExpansionPanelList(
-                expandedHeaderPadding: EdgeInsets.all(0),
-                expansionCallback: (int index, bool isExpanded) {
-                  setState(() {
-                    _dataExpansionPanel[index] = !isExpanded;
-                  });
-                },
-                animationDuration: Duration(milliseconds: 500),
-                children: <ExpansionPanel>[
-                  ExpansionPanel(
-                      canTapOnHeader: true,
-                      headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: FxText.sh2("What is INTIcredible",
-                              color: isExpanded
-                                  ? theme.colorScheme.primary
-                                  : theme.colorScheme.onBackground,
-                              fontWeight: isExpanded ? 600 : 500),
-                        );
-                      },
-                      body: Container(
-                        padding:
-                            EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                        child: Center(
-                          child: FxText.b2(_content[0], fontWeight: 500),
-                        ),
-                      ),
-                      isExpanded: _dataExpansionPanel[0]),
-                  ExpansionPanel(
-                      canTapOnHeader: true,
-                      headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: FxText.sh2("How do I register a new account",
-                              color: isExpanded
-                                  ? theme.colorScheme.primary
-                                  : theme.colorScheme.onBackground,
-                              fontWeight: isExpanded ? 600 : 500),
-                        );
-                      },
-                      body: Container(
-                        padding:
-                            EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                        child: Center(
-                          child: FxText.b2(_content[1], fontWeight: 500),
-                        ),
-                      ),
-                      isExpanded: _dataExpansionPanel[1]),
-                  ExpansionPanel(
-                      canTapOnHeader: true,
-                      headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: FxText.sh2("How can I reset password",
-                              color: isExpanded
-                                  ? theme.colorScheme.primary
-                                  : theme.colorScheme.onBackground,
-                              fontWeight: isExpanded ? 600 : 500),
-                        );
-                      },
-                      body: Container(
-                        padding:
-                            EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                        child: Center(
-                          child: FxText.b2(_content[2], fontWeight: 500),
-                        ),
-                      ),
-                      isExpanded: _dataExpansionPanel[2]),
-                  ExpansionPanel(
-                      canTapOnHeader: true,
-                      headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: FxText.sh2("How I contact with administrator",
-                              color: isExpanded
-                                  ? theme.colorScheme.primary
-                                  : theme.colorScheme.onBackground,
-                              fontWeight: isExpanded ? 600 : 500),
-                        );
-                      },
-                      body: Container(
-                        padding:
-                            EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                        child: Center(
-                          child: FxText.sh2(_content[3], fontWeight: 500),
-                        ),
-                      ),
-                      isExpanded: _dataExpansionPanel[3]),
-                  ExpansionPanel(
-                      canTapOnHeader: true,
-                      headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          title: FxText.b1("Where to join an event",
-                              color: isExpanded
-                                  ? theme.colorScheme.primary
-                                  : theme.colorScheme.onBackground,
-                              fontWeight: isExpanded ? 600 : 500),
-                        );
-                      },
-                      body: Container(
-                        padding:
-                            EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                        child: Center(
-                          child: FxText.b2(_content[4], fontWeight: 500),
-                        ),
-                      ),
-                      isExpanded: _dataExpansionPanel[4]),
-                ],
-              ),
-              // Container(
-              //   margin: EdgeInsets.only(top: 20),
-              //   child: Center(
-              //     child: FxText.b1("Visit our site",
-              //         color: theme.colorScheme.primary, fontWeight: 600),
-              //   ),
-              // )
-            ],
-          ),
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
+              padding: EdgeInsets.only(bottom: 20),
+              child: Column(children: <Widget>[
+                ...List.generate(
+                    subProvider.faq.length,
+                    (int index) => Row(children: <Widget>[
+                          ListTile(
+                            title: FxText.b1(subProvider.faq[index]['name'],
+                                color: theme.colorScheme.onBackground,
+                                fontWeight: 600),
+                          ),
+                          ExpansionPanelList(
+                            expandedHeaderPadding: EdgeInsets.all(0),
+                            //expansionCallback: (int index2, bool isExpanded) {
+                            //setState(() {
+                            //_dataExpansionPanel[index2] = !isExpanded;
+                            //});
+                            //},
+                            animationDuration:
+                                const Duration(milliseconds: 500),
+                            children: <ExpansionPanel>[
+                              //...List.generate(
+                              //subProvider.faqdetail.length,
+                              //(int index2) =>
+                              ExpansionPanel(
+                                  canTapOnHeader: true,
+                                  headerBuilder:
+                                      (BuildContext context, bool isExpanded) {
+                                    return ListTile(
+                                      title: FxText.bodyMedium(
+                                          "bye", //subProvider.faqdetail[index2]['question'],
+                                          color: isExpanded
+                                              ? theme.colorScheme.primary
+                                              : theme.colorScheme.onBackground,
+                                          fontWeight: isExpanded ? 600 : 500),
+                                    );
+                                  },
+                                  body: Container(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 20, left: 20, right: 20),
+                                    child: Center(
+                                      child: FxText.bodyMedium(
+                                          "heelo", //subProvider.faqdetail[index2]['answer'],
+                                          fontWeight: 500),
+                                    ),
+                                  ),
+                                  isExpanded: false),
+                              //),
+                            ],
+                          ),
+                        ]))
+              ])),
         ));
   }
 

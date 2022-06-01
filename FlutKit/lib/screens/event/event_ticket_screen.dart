@@ -222,12 +222,9 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
         margin: FxSpacing.fromLTRB(24, 16, 24, 0),
         child: ElevatedButton(
           onPressed: () async {
-            if (await canLaunch(link)) {
-              await launch(
-                link,
-                forceWebView: true,
-                enableJavaScript: true,
-              );
+            final url = Uri(scheme: 'https', host: registerlink);
+            if (await canLaunchUrl(url)) {
+              await launchUrl(url, mode: LaunchMode.externalApplication);
             }
           },
           child: FxText.b2("Click me for more information!",

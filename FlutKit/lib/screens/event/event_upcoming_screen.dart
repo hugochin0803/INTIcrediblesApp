@@ -148,34 +148,6 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
                               ),
                             ),
                           ),
-                          // Container(
-                          //   padding: FxSpacing.fromLTRB(16, 4, 4, 4),
-                          //   decoration: BoxDecoration(
-                          //       color: theme.colorScheme.primary.withAlpha(28),
-                          //       borderRadius:
-                          //           BorderRadius.all(Radius.circular(32))),
-                          //   child: Row(
-                          //     children: [
-                          //       FxText.caption("Add to Reminder",
-                          //           letterSpacing: 0,
-                          //           fontSize: 12,
-                          //           color: theme.colorScheme.primary,
-                          //           fontWeight: 400),
-                          //       Container(
-                          //         padding: FxSpacing.all(8),
-                          //         margin: FxSpacing.left(8),
-                          //         decoration: BoxDecoration(
-                          //             color: theme.colorScheme.primary,
-                          //             shape: BoxShape.circle),
-                          //         child: Icon(
-                          //           MdiIcons.plus,
-                          //           color: theme.colorScheme.onPrimary,
-                          //           size: 18,
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // )
                         ],
                       ),
                     )

@@ -4,6 +4,7 @@ import 'package:flutkit/screens/event/event_ticket_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutx/flutx.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutkit/theme/app_notifier.dart';
@@ -40,31 +41,82 @@ class _DiscussionListScreen extends State<DiscussionListScreen> {
           elevation: 0,
           backgroundColor: theme.colorScheme.primary,
         ),
-        body: Center(child: Text("Under Development"))
-        //     body: ListView(
-        //       padding: FxSpacing.zero,
-        //       children: [
-        //         ...List.generate(
-        //             subProvider.locators.length,
-        //             (int index) => Container(
-        //                     child: Column(
-        //                   children: <Widget>[
-        //                     singleEvent(
-        //                         image: subProvider.locators[index]["image"],
-        //                         startdate: subProvider.locators[index]["startDate"],
-        //                         enddate: subProvider.locators[index]["endDate"],
-        //                         name: subProvider.locators[index]["name"],
-        //                         detail: subProvider.locators[index]),
-        //                     Container(
-        //                         margin: FxSpacing.fromLTRB(24, 0, 24, 0),
-        //                         child: const Divider(
-        //                           height: 0,
-        //                         ))
-        //                   ],
-        //                 )))
-        //       ],
-        //     )
-        );
+        body: ListView(
+          padding: FxSpacing.zero,
+          children: [
+            Container(
+              padding: FxSpacing.fromLTRB(20, 15, 20, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FxText.labelLarge("What's New?",
+                            fontWeight: 700,
+                            fontSize: 25,
+                            letterSpacing: 0,
+                            color: theme.colorScheme.onBackground),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => EventProfileScreen()),
+                        // );
+                      },
+                      child: FxContainer(
+                        padding: FxSpacing.all(8),
+                        margin: FxSpacing.left(16),
+                        borderRadiusAll: 4,
+                        child: Icon(
+                          MdiIcons.clipboardClockOutline,
+                          size: 23,
+                          color: theme.colorScheme.onBackground.withAlpha(160),
+                        ),
+                      ))
+                ],
+              ),
+            ),
+            // ...List.generate(
+            //     subProvider.locators.length,
+            //     (int index) => Container(
+            //             child: Column(
+            //           children: <Widget>[
+            //             singleEvent(
+            //                 image: subProvider.locators[index]["image"],
+            //                 startdate: subProvider.locators[index]["startDate"],
+            //                 enddate: subProvider.locators[index]["endDate"],
+            //                 name: subProvider.locators[index]["name"],
+            //                 detail: subProvider.locators[index]),
+            //             Container(
+            //                 margin: FxSpacing.fromLTRB(24, 0, 24, 0),
+            //                 child: const Divider(
+            //                   height: 0,
+            //                 ))
+            //           ],
+            //         ))),
+            Container(
+                child: Column(
+              children: <Widget>[
+                singleEvent(
+                  image: "",
+                  startdate: "",
+                  enddate: "",
+                  name: "",
+                ),
+                Container(
+                    margin: FxSpacing.fromLTRB(24, 0, 24, 0),
+                    child: const Divider(
+                      height: 0,
+                    ))
+              ],
+            ))
+          ],
+        ));
   }
 
   Widget singleEvent(

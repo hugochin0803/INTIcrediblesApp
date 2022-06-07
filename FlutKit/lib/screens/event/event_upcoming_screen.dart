@@ -171,14 +171,14 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
         image,
         width: 100,
         height: 72,
-        fit: BoxFit.fitWidth,
+        fit: BoxFit.scaleDown,
       );
     } else {
       return const Image(
         image: AssetImage('./assets/images/apps/event/pattern-1.png'),
         width: 100,
         height: 72,
-        fit: BoxFit.fitWidth,
+        fit: BoxFit.scaleDown,
       );
     }
   }

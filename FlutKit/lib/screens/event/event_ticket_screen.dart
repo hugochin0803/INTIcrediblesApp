@@ -45,17 +45,12 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
             )),
         body: Column(
           children: [
-            Stack(
-              children: [
-                getImage(subProvider.detail['image']),
-              ],
-            ),
             Expanded(
               child: ListView(
-                padding: FxSpacing.vertical(16),
                 children: [
+                  getImage(subProvider.detail['image']),
                   Container(
-                    margin: FxSpacing.fromLTRB(24, 0, 24, 0),
+                    margin: FxSpacing.fromLTRB(24, 10, 24, 0),
                     child: Row(
                       children: [
                         Expanded(

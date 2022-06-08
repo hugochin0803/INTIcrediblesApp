@@ -31,7 +31,7 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
     final subProvider = Provider.of<AppNotifier>(context);
     return Scaffold(
         appBar: AppBar(
-          elevation: 0,
+          elevation: 4,
           centerTitle: true,
           backgroundColor: theme.colorScheme.primary,
           automaticallyImplyLeading: false,
@@ -41,6 +41,35 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
         body: ListView(
           padding: FxSpacing.zero,
           children: [
+            Container(
+              padding: FxSpacing.fromLTRB(24, 20, 20, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FxText.labelLarge("They are happening!",
+                            fontWeight: 700,
+                            fontSize: 20,
+                            letterSpacing: 0,
+                            color: theme.colorScheme.onBackground),
+                        FxText.labelLarge("Join our exclusive event now!",
+                            fontWeight: 300,
+                            fontSize: 12,
+                            letterSpacing: 0,
+                            color: theme.colorScheme.onBackground),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+                margin: FxSpacing.fromLTRB(24, 20, 24, 0),
+                child: const Divider(
+                  height: 0,
+                )),
             ...List.generate(
                 subProvider.locators.length,
                 (int index) => Container(
@@ -71,7 +100,7 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
       dynamic detail}) {
     final subProvider = Provider.of<AppNotifier>(context);
     return Container(
-      margin: FxSpacing.all(24),
+      margin: FxSpacing.fromLTRB(24, 15, 24, 15),
       child: InkWell(
         onTap: () {
           subProvider.detail = detail;

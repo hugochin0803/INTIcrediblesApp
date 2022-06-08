@@ -1,9 +1,12 @@
+import 'package:flutkit/screens/notification/notification_detail.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutkit/screens/event/event_ticket_screen.dart';
+import 'package:flutkit/utils/generator.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutx/flutx.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutkit/theme/app_notifier.dart';
@@ -34,6 +37,7 @@ class _NotificationListScreen extends State<NotificationListScreen> {
     final subProvider = Provider.of<AppNotifier>(context);
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: FxText.bodyLarge("Notification",
               color: theme.colorScheme.onPrimary, fontWeight: 600),
           leading: InkWell(
@@ -47,7 +51,20 @@ class _NotificationListScreen extends State<NotificationListScreen> {
           elevation: 0,
           backgroundColor: theme.colorScheme.primary,
         ),
-        body: Center(child: Text("Under Development"))
+        body: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          children: <Widget>[
+            Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: _ProductListWidget(
+                  name: "Welcome to INTIcredibles",
+                  shopName: "20/5/2022 12:56 P.M.",
+                  star: 4.5,
+                  price: 12000,
+                  buildContext: context,
+                )),
+          ],
+        )
         // body: ListView(
         //   padding: FxSpacing.zero,
         //   children: [
@@ -74,134 +91,6 @@ class _NotificationListScreen extends State<NotificationListScreen> {
         );
   }
 
-  Widget singleEvent(
-      {required String image,
-      required String name,
-      required String startdate,
-      required String enddate,
-      dynamic detail}) {
-    final subProvider = Provider.of<AppNotifier>(context);
-    return Container(
-      margin: FxSpacing.all(24),
-      child: InkWell(
-        onTap: () {
-          subProvider.detail = detail;
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EventTicketScreen()));
-        },
-        child: Row(
-          children: [
-            Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                child: getImage(image),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                margin: FxSpacing.left(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FxText.sh2(
-                      name,
-                      color: theme.colorScheme.onBackground,
-                      fontWeight: 600,
-                      fontSize: 12,
-                    ),
-                    Container(
-                      margin: FxSpacing.top(8),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: FxSpacing.all(0),
-                          ),
-                          Expanded(
-                            child: Container(
-                              margin: FxSpacing.left(0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FxText.caption("Start Date",
-                                      fontWeight: 600,
-                                      color: theme.colorScheme.onBackground),
-                                  Container(
-                                    margin: FxSpacing.top(2),
-                                    child: FxText.caption(startdate,
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        color: theme.colorScheme.onBackground,
-                                        xMuted: true),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: FxSpacing.all(0),
-                          ),
-                          Expanded(
-                            child: Container(
-                              margin: FxSpacing.left(0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FxText.caption("End Date",
-                                      fontWeight: 600,
-                                      color: theme.colorScheme.onBackground),
-                                  Container(
-                                    margin: FxSpacing.top(2),
-                                    child: FxText.caption(enddate,
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        color: theme.colorScheme.onBackground,
-                                        xMuted: true),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // Container(
-                          //   padding: FxSpacing.fromLTRB(16, 4, 4, 4),
-                          //   decoration: BoxDecoration(
-                          //       color: theme.colorScheme.primary.withAlpha(28),
-                          //       borderRadius:
-                          //           BorderRadius.all(Radius.circular(32))),
-                          //   child: Row(
-                          //     children: [
-                          //       FxText.caption("Add to Reminder",
-                          //           letterSpacing: 0,
-                          //           fontSize: 12,
-                          //           color: theme.colorScheme.primary,
-                          //           fontWeight: 400),
-                          //       Container(
-                          //         padding: FxSpacing.all(8),
-                          //         margin: FxSpacing.left(8),
-                          //         decoration: BoxDecoration(
-                          //             color: theme.colorScheme.primary,
-                          //             shape: BoxShape.circle),
-                          //         child: Icon(
-                          //           MdiIcons.plus,
-                          //           color: theme.colorScheme.onPrimary,
-                          //           size: 18,
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget getImage(image) {
     String substring = "https";
 
@@ -222,5 +111,101 @@ class _NotificationListScreen extends State<NotificationListScreen> {
         fit: BoxFit.cover,
       );
     }
+  }
+}
+
+class _ProductListWidget extends StatefulWidget {
+  final String name, shopName;
+  final double star;
+  final int price;
+  final BuildContext buildContext;
+
+  const _ProductListWidget(
+      {Key? key,
+      required this.name,
+      required this.shopName,
+      required this.star,
+      required this.price,
+      required this.buildContext})
+      : super(key: key);
+
+  @override
+  __ProductListWidgetState createState() => __ProductListWidgetState();
+}
+
+class __ProductListWidgetState extends State<_ProductListWidget> {
+  late ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    theme = Theme.of(context);
+    String key = Generator.randomString(10);
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NotificationDetailScreen()));
+      },
+      child: FxContainer(
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Hero(
+                tag: key,
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    child: Container(
+                      decoration: const BoxDecoration(),
+                      child: Icon(
+                        MdiIcons.bell,
+                        size: 30,
+                        color: theme.colorScheme.onBackground.withAlpha(160),
+                      ),
+                    )),
+              ),
+            ),
+            FxSpacing.width(20),
+            Expanded(
+              flex: 9,
+              child: Container(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: Column(children: <Widget>[
+                    Row(children: <Widget>[
+                      Flexible(
+                          child: Container(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: FxText.titleSmall(
+                                widget.name,
+                                fontWeight: 600,
+                                fontSize: 13,
+                                letterSpacing: 0,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              )))
+                    ]),
+                    Row(
+                      children: <Widget>[
+                        Flexible(
+                          child: FxText.bodySmall(
+                            widget.shopName,
+                            color:
+                                theme.colorScheme.onBackground.withAlpha(200),
+                            fontWeight: 500,
+                            fontSize: 11,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        )
+                      ],
+                    ),
+                  ])),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

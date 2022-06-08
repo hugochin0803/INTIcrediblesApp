@@ -510,34 +510,50 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          Icon(Icons.supervisor_account_outlined,
-                              size: 26, color: theme.colorScheme.onBackground),
                           Container(
                               margin: FxSpacing.top(4),
                               child: FxButton.text(
                                   onPressed: () {
                                     launchWaze(lat, long);
                                   },
-                                  child: FxText.bodyMedium("Waze",
-                                      letterSpacing: 0.1,
-                                      color: theme.colorScheme.primary,
-                                      fontWeight: 700))),
+                                  child: Column(children: [
+                                    const Image(
+                                      image: AssetImage(
+                                          "./assets/images/all/waze.png"),
+                                      height: 30,
+                                      width: 30,
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                    FxSpacing.height(10),
+                                    FxText.bodyMedium("Waze",
+                                        letterSpacing: 0.1,
+                                        color: theme.colorScheme.primary,
+                                        fontWeight: 700)
+                                  ]))),
                         ],
                       ),
                       Column(
                         children: <Widget>[
-                          Icon(Icons.supervisor_account_outlined,
-                              size: 26, color: theme.colorScheme.onBackground),
                           Container(
                               margin: FxSpacing.top(4),
                               child: FxButton.text(
                                   onPressed: () {
                                     launchGoogleMaps(lat, long);
                                   },
-                                  child: FxText.bodyMedium("Google Map",
-                                      letterSpacing: 0.1,
-                                      color: theme.colorScheme.primary,
-                                      fontWeight: 700)))
+                                  child: Column(children: [
+                                    const Image(
+                                      image: AssetImage(
+                                          "./assets/images/all/googlemap.png"),
+                                      height: 30,
+                                      width: 30,
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                    FxSpacing.height(10),
+                                    FxText.bodyMedium("Google Map",
+                                        letterSpacing: 0.1,
+                                        color: theme.colorScheme.primary,
+                                        fontWeight: 700)
+                                  ])))
                         ],
                       ),
                     ],

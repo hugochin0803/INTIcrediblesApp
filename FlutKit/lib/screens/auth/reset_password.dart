@@ -26,8 +26,8 @@ class resetPassword extends StatefulWidget {
 
 // ignore: camel_case_types
 class _resetPassword extends State<resetPassword> {
-  bool? _passwordVisible1 = false; //_check1 = false;
-  bool? _passwordVisible2 = false; // _check2 = false;
+  bool? _passwordVisible1 = true; //_check1 = false;
+  bool? _passwordVisible2 = true; // _check2 = false;
   late CustomTheme customTheme;
   late ThemeData theme;
 
@@ -49,111 +49,73 @@ class _resetPassword extends State<resetPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/all/background.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              left: 30,
-              right: 30,
-              top: MediaQuery.of(context).size.height * 0.15,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  FxContainer.bordered(
-                    padding: const EdgeInsets.only(top: 16, bottom: 16),
-                    color: theme.scaffoldBackgroundColor,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 1, top: 8),
-                          child: FxText.h6("Reset Password",
-                              fontWeight: 800, fontSize: 25),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 10, top: 0),
-                          child: FxText.h6("Please reset your password",
-                              fontWeight: 400, fontSize: 16),
-                        ),
-                        Container(
-                          height: 150.0,
-                          width: 150.0,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/all/lock.png'),
-                              fit: BoxFit.fill,
-                            ),
-                            shape: BoxShape.rectangle,
+    return Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage('assets/images/all/background.png'),
+          fit: BoxFit.cover,
+        )),
+        child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: Colors.transparent,
+            body: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(
+                  30, MediaQuery.of(context).size.height * 0.07, 30, 0),
+              child: Column(children: <Widget>[
+                ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    FxContainer.bordered(
+                      padding: const EdgeInsets.only(top: 16, bottom: 16),
+                      color: theme.scaffoldBackgroundColor,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 1, top: 8),
+                            child: FxText.h6("Reset Password",
+                                fontWeight: 800, fontSize: 25),
                           ),
-                        ),
-                        Container(
-                            padding: const EdgeInsets.only(left: 16, right: 16),
-                            child: Form(
-                              key: _formkey,
-                              child: Column(
-                                children: <Widget>[
-                                  TextFormField(
-                                    style: FxTextStyle.b1(
-                                        letterSpacing: 0.1,
-                                        color: theme.colorScheme.onBackground,
-                                        fontWeight: 500),
-                                    controller: _pass,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return "Please enter password";
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: "New Password",
-                                      hintStyle: FxTextStyle.sh2(
-                                          letterSpacing: 0.1,
-                                          color: theme.colorScheme.onBackground,
-                                          fontWeight: 500),
-                                      prefixIcon:
-                                          const Icon(MdiIcons.lockOutline),
-                                      suffixIcon: IconButton(
-                                        icon: Icon(_passwordVisible1!
-                                            ? MdiIcons.eyeOutline
-                                            : MdiIcons.eyeOffOutline),
-                                        onPressed: () {
-                                          setState(() {
-                                            _passwordVisible1 =
-                                                !_passwordVisible1!;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    obscureText: _passwordVisible1!,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 16),
-                                    child: TextFormField(
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10, top: 0),
+                            child: FxText.h6("Please reset your password",
+                                fontWeight: 400, fontSize: 16),
+                          ),
+                          Container(
+                            height: 150.0,
+                            width: 150.0,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/all/lock.png'),
+                                fit: BoxFit.fill,
+                              ),
+                              shape: BoxShape.rectangle,
+                            ),
+                          ),
+                          Container(
+                              padding:
+                                  const EdgeInsets.only(left: 16, right: 16),
+                              child: Form(
+                                key: _formkey,
+                                child: Column(
+                                  children: <Widget>[
+                                    TextFormField(
                                       style: FxTextStyle.b1(
                                           letterSpacing: 0.1,
                                           color: theme.colorScheme.onBackground,
                                           fontWeight: 500),
-                                      controller: _confirmPass,
+                                      controller: _pass,
                                       validator: (value) {
+                                        RegExp regex = RegExp(
+                                            r'^(?=.*?[a-z])(?=.*?[0-9]).{8,}$|(?=.*?[a-z])(?=.*?[!@#\$&*~]).{8,}$');
                                         if (value == null || value.isEmpty) {
-                                          return "Please re-enter password";
-                                        }
-
-                                        if (_pass.text != _confirmPass.text) {
-                                          return "Password do not match";
+                                          return "Please enter password";
+                                        } else if (!regex.hasMatch(value)) {
+                                          return 'Enter valid password';
                                         }
                                         return null;
                                       },
                                       decoration: InputDecoration(
-                                        hintText: "Confirm Password",
+                                        hintText: "New Password",
                                         hintStyle: FxTextStyle.sh2(
                                             letterSpacing: 0.1,
                                             color:
@@ -162,61 +124,107 @@ class _resetPassword extends State<resetPassword> {
                                         prefixIcon:
                                             const Icon(MdiIcons.lockOutline),
                                         suffixIcon: IconButton(
-                                          icon: Icon(_passwordVisible2!
+                                          icon: Icon(_passwordVisible1!
                                               ? MdiIcons.eyeOutline
                                               : MdiIcons.eyeOffOutline),
                                           onPressed: () {
                                             setState(() {
-                                              _passwordVisible2 =
-                                                  !_passwordVisible2!;
+                                              _passwordVisible1 =
+                                                  !_passwordVisible1!;
                                             });
                                           },
                                         ),
                                       ),
-                                      obscureText: _passwordVisible2!,
+                                      obscureText: _passwordVisible1!,
                                     ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 16),
-                                    child: FxButton.block(
-                                        elevation: 0,
-                                        borderRadiusAll: 4,
-                                        padding: FxSpacing.y(12),
-                                        onPressed: () {
-                                          if (_formkey.currentState!
-                                              .validate()) {
-                                            resetPassword();
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 16),
+                                      child: TextFormField(
+                                        style: FxTextStyle.b1(
+                                            letterSpacing: 0.1,
+                                            color:
+                                                theme.colorScheme.onBackground,
+                                            fontWeight: 500),
+                                        controller: _confirmPass,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "Please re-enter password";
                                           }
+
+                                          if (_pass.text != _confirmPass.text) {
+                                            return "Password do not match";
+                                          }
+                                          return null;
                                         },
-                                        child: FxText.button("Reset Password",
-                                            fontWeight: 600,
-                                            color: theme.colorScheme.onPrimary,
-                                            letterSpacing: 0.5)),
-                                  ),
-                                ],
-                              ),
-                            ))
-                      ],
+                                        decoration: InputDecoration(
+                                          hintText: "Confirm Password",
+                                          hintStyle: FxTextStyle.sh2(
+                                              letterSpacing: 0.1,
+                                              color: theme
+                                                  .colorScheme.onBackground,
+                                              fontWeight: 500),
+                                          prefixIcon:
+                                              const Icon(MdiIcons.lockOutline),
+                                          suffixIcon: IconButton(
+                                            icon: Icon(_passwordVisible2!
+                                                ? MdiIcons.eyeOutline
+                                                : MdiIcons.eyeOffOutline),
+                                            onPressed: () {
+                                              setState(() {
+                                                _passwordVisible2 =
+                                                    !_passwordVisible2!;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                        obscureText: _passwordVisible2!,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 16),
+                                      child: FxButton.block(
+                                          elevation: 0,
+                                          borderRadiusAll: 4,
+                                          padding: FxSpacing.y(12),
+                                          onPressed: () {
+                                            if (_formkey.currentState!
+                                                .validate()) {
+                                              resetPassword();
+                                            }
+                                          },
+                                          child: FxText.button("Reset Password",
+                                              fontWeight: 600,
+                                              color:
+                                                  theme.colorScheme.onPrimary,
+                                              letterSpacing: 0.5)),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                          Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.fromLTRB(15, 10, 0, 0),
+                              child: Column(children: [
+                                FxText(
+                                  "*Password must be at least 8 characters\n*Password must consist at least:",
+                                  fontWeight: 400,
+                                  fontSize: 10,
+                                  color: theme.colorScheme.primary,
+                                ),
+                                FxText(
+                                  "1 Numeric/Symbol",
+                                  fontWeight: 400,
+                                  fontSize: 10,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ])),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: FxSpacing.safeAreaTop(context) + 12,
-              left: 16,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  FeatherIcons.chevronLeft,
-                  color: theme.colorScheme.onBackground,
+                  ],
                 ),
-              ),
-            )
-          ],
-        ));
+              ]),
+            )));
   }
 
   Future<void> resetPassword() async {

@@ -1,3 +1,5 @@
+import 'package:flutkit/screens/discussion/discussion_add_post.dart';
+import 'package:flutkit/screens/discussion/discussion_detail.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutkit/screens/event/event_ticket_screen.dart';
 
@@ -23,228 +25,389 @@ class _DiscussionListScreen extends State<DiscussionListScreen> {
   @override
   void initState() {
     super.initState();
-    final subProvider = Provider.of<AppNotifier>(context, listen: false);
-    subProvider.callEvent90API();
     customTheme = AppTheme.customTheme;
     theme = AppTheme.theme;
   }
 
-  int selectedCategory = 0;
-
   Widget build(BuildContext context) {
-    final subProvider = Provider.of<AppNotifier>(context);
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DiscussionAddPostScreen()),
+            );
+          },
+          mini: true,
+          child: const Icon(Icons.add),
+          backgroundColor: theme.colorScheme.primary,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         appBar: AppBar(
-          title: FxText.bodyLarge("Discussion board",
+          title: FxText.bodyLarge("Discussion Board",
               color: theme.colorScheme.onPrimary, fontWeight: 600),
           centerTitle: true,
-          elevation: 0,
+          elevation: 4,
           backgroundColor: theme.colorScheme.primary,
         ),
         body: ListView(
-          padding: FxSpacing.zero,
+          padding: FxSpacing.bottom(20),
           children: [
             Container(
-              padding: FxSpacing.fromLTRB(20, 15, 20, 0),
+              padding: FxSpacing.fromLTRB(20, 15, 20, 10),
               child: Row(
                 children: [
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        FxText.labelLarge("What's New?",
+                        FxText.labelLarge("Let's have a look...",
                             fontWeight: 700,
-                            fontSize: 25,
+                            fontSize: 20,
+                            letterSpacing: 0,
+                            color: theme.colorScheme.onBackground),
+                        FxText.labelLarge(
+                            "Share, Comment and Like your thoughts!",
+                            fontWeight: 300,
+                            fontSize: 12,
                             letterSpacing: 0,
                             color: theme.colorScheme.onBackground),
                       ],
                     ),
                   ),
-                  GestureDetector(
-                      onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => EventProfileScreen()),
-                        // );
-                      },
-                      child: FxContainer(
-                        padding: FxSpacing.all(8),
-                        margin: FxSpacing.left(16),
-                        borderRadiusAll: 4,
-                        child: Icon(
-                          MdiIcons.clipboardClockOutline,
-                          size: 23,
-                          color: theme.colorScheme.onBackground.withAlpha(160),
-                        ),
-                      ))
                 ],
               ),
             ),
-            // ...List.generate(
-            //     subProvider.locators.length,
-            //     (int index) => Container(
-            //             child: Column(
-            //           children: <Widget>[
-            //             singleEvent(
-            //                 image: subProvider.locators[index]["image"],
-            //                 startdate: subProvider.locators[index]["startDate"],
-            //                 enddate: subProvider.locators[index]["endDate"],
-            //                 name: subProvider.locators[index]["name"],
-            //                 detail: subProvider.locators[index]),
-            //             Container(
-            //                 margin: FxSpacing.fromLTRB(24, 0, 24, 0),
-            //                 child: const Divider(
-            //                   height: 0,
-            //                 ))
-            //           ],
-            //         ))),
-            Container(
-                child: Column(
-              children: <Widget>[
-                singleEvent(
-                  image: "",
-                  startdate: "",
-                  enddate: "",
-                  name: "",
-                ),
-                Container(
-                    margin: FxSpacing.fromLTRB(24, 0, 24, 0),
-                    child: const Divider(
-                      height: 0,
-                    ))
-              ],
-            ))
-          ],
-        ));
-  }
-
-  Widget singleEvent(
-      {required String image,
-      required String name,
-      required String startdate,
-      required String enddate,
-      dynamic detail}) {
-    final subProvider = Provider.of<AppNotifier>(context);
-    return Container(
-      margin: FxSpacing.all(24),
-      child: InkWell(
-        onTap: () {
-          subProvider.detail = detail;
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EventTicketScreen()));
-        },
-        child: Row(
-          children: [
-            Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                child: getImage(image),
+            FxCard(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DiscussionDetailScreen()),
+                );
+              },
+              shadow: FxShadow(elevation: 4),
+              marginAll: 8,
+              paddingAll: 8,
+              borderRadiusAll: 10,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    padding: FxSpacing.fromLTRB(12, 8, 12, 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        radius: 13,
+                                        backgroundColor:
+                                            theme.colorScheme.primary,
+                                        child: FxText(
+                                          "J",
+                                          color: theme.colorScheme.onPrimary,
+                                        ),
+                                      ),
+                                      FxSpacing.width(10),
+                                      Expanded(
+                                        flex: 1,
+                                        child: FxText.titleSmall(
+                                          "John Smith",
+                                          fontWeight: 600,
+                                        ),
+                                      ),
+                                      FxText.titleSmall(
+                                        "20/05/2022",
+                                        fontWeight: 600,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Container(
+                          margin: FxSpacing.top(13),
+                          child: FxText.bodyMedium(
+                              'What is Malaysians\' favorite city?\n\nSiti Nurhaliza',
+                              fontWeight: 500),
+                        ),
+                        Container(
+                          margin: FxSpacing.top(16),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.favorite_outline,
+                                color: theme.colorScheme.secondary,
+                                size: 20,
+                              ),
+                              FxSpacing.width(8),
+                              FxText.bodySmall(220.toString(), fontWeight: 600),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                      margin: FxSpacing.left(16),
+                                      child: Icon(
+                                        Icons.comment,
+                                        color: theme.colorScheme.primary,
+                                        size: 20,
+                                      )),
+                                  FxSpacing.width(8),
+                                  FxText.bodySmall('Comment', fontWeight: 600),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                      margin: FxSpacing.left(16),
+                                      child: Icon(
+                                        Icons.share,
+                                        color: theme.colorScheme.primary,
+                                        size: 20,
+                                      )),
+                                  FxSpacing.width(8),
+                                  FxText.bodySmall('Share', fontWeight: 600),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
-            Expanded(
-              child: Container(
-                margin: FxSpacing.left(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FxText.sh2(
-                      name,
-                      color: theme.colorScheme.onBackground,
-                      fontWeight: 600,
-                      fontSize: 12,
+            FxCard(
+              onTap: () {},
+              shadow: FxShadow(elevation: 4),
+              marginAll: 8,
+              paddingAll: 8,
+              borderRadiusAll: 10,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    padding: FxSpacing.fromLTRB(12, 8, 12, 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        radius: 13,
+                                        backgroundColor:
+                                            theme.colorScheme.primary,
+                                        child: FxText(
+                                          "B",
+                                          color: theme.colorScheme.onPrimary,
+                                        ),
+                                      ),
+                                      FxSpacing.width(10),
+                                      Expanded(
+                                        flex: 1,
+                                        child: FxText.titleSmall(
+                                          "Brandan Walker",
+                                          fontWeight: 600,
+                                        ),
+                                      ),
+                                      FxText.titleSmall(
+                                        "05/01/2022",
+                                        fontWeight: 600,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Container(
+                          margin: FxSpacing.top(13),
+                          child: FxText.bodyMedium(
+                              'Hiring 5 fresh graduates from INTI to be placed in Maybank Kuala Lumpur, Jalan Tun Perak under the IT Department (Networking)',
+                              fontWeight: 500),
+                        ),
+                        Container(
+                          margin: FxSpacing.top(16),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.favorite_outline,
+                                color: theme.colorScheme.secondary,
+                                size: 20,
+                              ),
+                              FxSpacing.width(8),
+                              FxText.bodySmall(220.toString(), fontWeight: 600),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                      margin: FxSpacing.left(16),
+                                      child: Icon(
+                                        Icons.comment,
+                                        color: theme.colorScheme.primary,
+                                        size: 20,
+                                      )),
+                                  FxSpacing.width(8),
+                                  FxText.bodySmall('Comment', fontWeight: 600),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                      margin: FxSpacing.left(16),
+                                      child: Icon(
+                                        Icons.share,
+                                        color: theme.colorScheme.primary,
+                                        size: 20,
+                                      )),
+                                  FxSpacing.width(8),
+                                  FxText.bodySmall('Share', fontWeight: 600),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    Container(
-                      margin: FxSpacing.top(8),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: FxSpacing.all(0),
-                          ),
-                          Expanded(
-                            child: Container(
-                              margin: FxSpacing.left(0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FxText.caption("Start Date",
-                                      fontWeight: 600,
-                                      color: theme.colorScheme.onBackground),
-                                  Container(
-                                    margin: FxSpacing.top(2),
-                                    child: FxText.caption(startdate,
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        color: theme.colorScheme.onBackground,
-                                        xMuted: true),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: FxSpacing.all(0),
-                          ),
-                          Expanded(
-                            child: Container(
-                              margin: FxSpacing.left(0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FxText.caption("End Date",
-                                      fontWeight: 600,
-                                      color: theme.colorScheme.onBackground),
-                                  Container(
-                                    margin: FxSpacing.top(2),
-                                    child: FxText.caption(enddate,
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        color: theme.colorScheme.onBackground,
-                                        xMuted: true),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // Container(
-                          //   padding: FxSpacing.fromLTRB(16, 4, 4, 4),
-                          //   decoration: BoxDecoration(
-                          //       color: theme.colorScheme.primary.withAlpha(28),
-                          //       borderRadius:
-                          //           BorderRadius.all(Radius.circular(32))),
-                          //   child: Row(
-                          //     children: [
-                          //       FxText.caption("Add to Reminder",
-                          //           letterSpacing: 0,
-                          //           fontSize: 12,
-                          //           color: theme.colorScheme.primary,
-                          //           fontWeight: 400),
-                          //       Container(
-                          //         padding: FxSpacing.all(8),
-                          //         margin: FxSpacing.left(8),
-                          //         decoration: BoxDecoration(
-                          //             color: theme.colorScheme.primary,
-                          //             shape: BoxShape.circle),
-                          //         child: Icon(
-                          //           MdiIcons.plus,
-                          //           color: theme.colorScheme.onPrimary,
-                          //           size: 18,
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
-            )
+            ),
+            FxCard(
+              onTap: () {},
+              shadow: FxShadow(elevation: 4),
+              marginAll: 8,
+              paddingAll: 8,
+              borderRadiusAll: 10,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    padding: FxSpacing.fromLTRB(12, 8, 12, 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        radius: 13,
+                                        backgroundColor:
+                                            theme.colorScheme.primary,
+                                        child: FxText(
+                                          "J",
+                                          color: theme.colorScheme.onPrimary,
+                                        ),
+                                      ),
+                                      FxSpacing.width(10),
+                                      Expanded(
+                                        flex: 1,
+                                        child: FxText.titleSmall(
+                                          "John Smith",
+                                          fontWeight: 600,
+                                        ),
+                                      ),
+                                      FxText.titleSmall(
+                                        "25/06/2020",
+                                        fontWeight: 600,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Container(
+                          margin: FxSpacing.top(13),
+                          child: FxText.bodyMedium(
+                              'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs.',
+                              fontWeight: 500),
+                        ),
+                        Container(
+                          margin: FxSpacing.top(16),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.favorite_outline,
+                                color: theme.colorScheme.secondary,
+                                size: 20,
+                              ),
+                              FxSpacing.width(8),
+                              FxText.bodySmall(220.toString(), fontWeight: 600),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                      margin: FxSpacing.left(16),
+                                      child: Icon(
+                                        Icons.comment,
+                                        color: theme.colorScheme.primary,
+                                        size: 20,
+                                      )),
+                                  FxSpacing.width(8),
+                                  FxText.bodySmall('Comment', fontWeight: 600),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                      margin: FxSpacing.left(16),
+                                      child: Icon(
+                                        Icons.share,
+                                        color: theme.colorScheme.primary,
+                                        size: 20,
+                                      )),
+                                  FxSpacing.width(8),
+                                  FxText.bodySmall('Share', fontWeight: 600),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 
   Widget getImage(image) {

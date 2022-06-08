@@ -278,7 +278,7 @@ class _TermsDialog extends StatelessWidget {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: FxText.bodyMedium("Decline",
+                        child: FxText.bodyMedium("Cancel",
                             fontWeight: 600, color: theme.colorScheme.primary)),
                     FxButton(
                         elevation: 2,

@@ -3,6 +3,8 @@
 * Version : 1.0.0
 * */
 
+import 'package:flutkit/screens/auth/first_time_login_screen.dart';
+import 'package:flutkit/screens/auth/reset_password.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutkit/theme/app_notifier.dart';
 import 'package:flutter/material.dart';

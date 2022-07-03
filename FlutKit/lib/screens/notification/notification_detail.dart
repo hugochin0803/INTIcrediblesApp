@@ -59,27 +59,25 @@ class _NotificationDetailScreen extends State<NotificationDetailScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: FxText.h5("Welcome to INTIcredibles",
+                          child: FxText("Welcome to INTIcredibles",
                               fontSize: 20,
                               color: theme.colorScheme.onBackground,
                               fontWeight: 600),
                         ),
-                        Container(
-                            child: FxText(
-                          "19/2/2020",
-                          fontSize: 12,
-                        ))
+                        FxText("22/6/2022",
+                            fontSize: 12,
+                            color: theme.colorScheme.onBackground,
+                            fontWeight: 600)
                       ],
                     ),
                   ),
-
                   Container(
                     margin: FxSpacing.fromLTRB(24, 12, 24, 0),
                     child: RichText(
                       text: TextSpan(children: <TextSpan>[
                         TextSpan(
                             text: "Welcome Intians!",
-                            style: FxTextStyle.sh2(
+                            style: FxTextStyle.bodySmall(
                                 color: theme.colorScheme.onBackground,
                                 muted: true,
                                 letterSpacing: 0.3,
@@ -87,7 +85,6 @@ class _NotificationDetailScreen extends State<NotificationDetailScreen> {
                       ]),
                     ),
                   ),
-                  //checkRegistrationLink(subProvider.detail['registerLink']),
                 ],
               ),
             )
@@ -103,52 +100,10 @@ class _NotificationDetailScreen extends State<NotificationDetailScreen> {
     if (flag) {
       return Image.network(image, fit: BoxFit.fill);
     } else {
-      return Image(
-        image: AssetImage('./assets/images/apps/event/pattern-1.png'),
+      return const Image(
+        image: AssetImage('./assets/images/all/welcome.jpg'),
         fit: BoxFit.fill,
       );
     }
   }
-
-  // Widget checkRegistrationLink(registerlink) {
-  //   String substring = "https";
-
-  //   if (registerlink.contains(substring)) {
-  //     return Container(
-  //       margin: FxSpacing.fromLTRB(24, 16, 24, 0),
-  //       child: ElevatedButton(
-  //         onPressed: () async {
-  //           if (await canLaunch(registerlink)) {
-  //             await launch(
-  //               registerlink,
-  //               forceWebView: true,
-  //               enableJavaScript: true,
-  //             );
-  //           }
-  //         },
-  //         child: FxText.b2("Click me for more information!",
-  //             fontWeight: 600, color: theme.colorScheme.onPrimary),
-  //         style: ButtonStyle(
-  //             padding: MaterialStateProperty.all(FxSpacing.xy(16, 0))),
-  //       ),
-  //     );
-  //   } else {
-  //     final link = 'https://' + registerlink;
-  //     return Container(
-  //       margin: FxSpacing.fromLTRB(24, 16, 24, 0),
-  //       child: ElevatedButton(
-  //         onPressed: () async {
-  //           final url = Uri(scheme: 'https', host: registerlink);
-  //           if (await canLaunchUrl(url)) {
-  //             await launchUrl(url, mode: LaunchMode.externalApplication);
-  //           }
-  //         },
-  //         child: FxText.b2("Click me for more information!",
-  //             fontWeight: 600, color: theme.colorScheme.onPrimary),
-  //         style: ButtonStyle(
-  //             padding: MaterialStateProperty.all(FxSpacing.xy(16, 0))),
-  //       ),
-  //     );
-  //   }
-  // }
 }

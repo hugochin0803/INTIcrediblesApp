@@ -1,5 +1,5 @@
 import 'package:flutkit/theme/app_theme.dart';
-import 'package:flutkit/screens/event/event_ticket_screen.dart';
+import 'package:flutkit/screens/event/event_detail_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';

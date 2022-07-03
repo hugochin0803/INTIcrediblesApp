@@ -1,6 +1,6 @@
 import 'package:flutkit/screens/notification/notification_detail.dart';
 import 'package:flutkit/theme/app_theme.dart';
-import 'package:flutkit/screens/event/event_ticket_screen.dart';
+import 'package:flutkit/screens/event/event_detail_screen.dart';
 import 'package:flutkit/utils/generator.dart';
 
 import 'package:flutter/material.dart';
@@ -58,7 +58,7 @@ class _NotificationListScreen extends State<NotificationListScreen> {
                 margin: const EdgeInsets.only(top: 20),
                 child: _ProductListWidget(
                   name: "Welcome to INTIcredibles",
-                  shopName: "20/5/2022 12:56 P.M.",
+                  shopName: "22/6/2022",
                   star: 4.5,
                   price: 12000,
                   buildContext: context,

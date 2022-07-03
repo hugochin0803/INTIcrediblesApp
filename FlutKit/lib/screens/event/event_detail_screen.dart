@@ -166,7 +166,19 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
                       ]),
                     ),
                   ),
-                  checkRegistrationLink(subProvider.detail['registerLink']),
+                  Container(
+                    margin: FxSpacing.fromLTRB(24, 16, 24, 0),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        openLink(subProvider.detail['registerLink']);
+                      },
+                      child: FxText.b2("Click me for more information!",
+                          fontWeight: 600, color: theme.colorScheme.onPrimary),
+                      style: ButtonStyle(
+                          padding:
+                              MaterialStateProperty.all(FxSpacing.xy(16, 0))),
+                    ),
+                  ),
                 ],
               ),
             )
@@ -182,52 +194,28 @@ class _EventTicketScreenState extends State<EventTicketScreen> {
     if (flag) {
       return Image.network(image, fit: BoxFit.fill);
     } else {
-      return Image(
+      return const Image(
         image: AssetImage('./assets/images/apps/event/pattern-1.png'),
         fit: BoxFit.fill,
       );
     }
   }
 
-  Widget checkRegistrationLink(registerlink) {
+  void openLink(myUri) async {
     String substring = "https";
 
-    if (registerlink.contains(substring)) {
-      return Container(
-        margin: FxSpacing.fromLTRB(24, 16, 24, 0),
-        child: ElevatedButton(
-          onPressed: () async {
-            if (await canLaunch(registerlink)) {
-              await launch(
-                registerlink,
-                forceWebView: true,
-                enableJavaScript: true,
-              );
-            }
-          },
-          child: FxText.b2("Click me for more information!",
-              fontWeight: 600, color: theme.colorScheme.onPrimary),
-          style: ButtonStyle(
-              padding: MaterialStateProperty.all(FxSpacing.xy(16, 0))),
-        ),
-      );
+    if (myUri.contains(substring)) {
+      Uri uri = Uri.parse(myUri);
+      if (await launchUrl(uri, mode: LaunchMode.inAppWebView)) {
+        // ignore: avoid_print
+        print('Open Successful:' + myUri);
+      } else {}
     } else {
-      final link = 'https://' + registerlink;
-      return Container(
-        margin: FxSpacing.fromLTRB(24, 16, 24, 0),
-        child: ElevatedButton(
-          onPressed: () async {
-            final url = Uri(scheme: 'https', host: registerlink);
-            if (await canLaunchUrl(url)) {
-              await launchUrl(url, mode: LaunchMode.externalApplication);
-            }
-          },
-          child: FxText.b2("Click me for more information!",
-              fontWeight: 600, color: theme.colorScheme.onPrimary),
-          style: ButtonStyle(
-              padding: MaterialStateProperty.all(FxSpacing.xy(16, 0))),
-        ),
-      );
+      final url = Uri(scheme: 'https', host: myUri);
+      if (await launchUrl(url, mode: LaunchMode.inAppWebView)) {
+        // ignore: avoid_print
+        print('Open Successful:' + myUri);
+      } else {}
     }
   }
 }

@@ -31,7 +31,7 @@ class resetEmail extends StatefulWidget {
 class _resetEmail extends State<resetEmail> {
   String username;
   _resetEmail(this.username);
-  bool? _passwordVisible1 = false; //_check1 = false;
+  bool? _passwordVisible1 = true; //_check1 = false;
   late CustomTheme customTheme;
   late ThemeData theme;
 
@@ -52,125 +52,119 @@ class _resetEmail extends State<resetEmail> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/all/background.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              left: 30,
-              right: 30,
-              top: MediaQuery.of(context).size.height * 0.30,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  FxContainer.bordered(
-                    padding: const EdgeInsets.only(top: 16, bottom: 16),
-                    color: theme.scaffoldBackgroundColor,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.only(bottom: 10, top: 8),
-                          child: FxText.h6("Confirm Your Password",
-                              fontWeight: 800, fontSize: 25),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.only(bottom: 10, top: 0),
-                          child: FxText.h6(
-                              "Please enter your password to continue:",
-                              fontWeight: 400,
-                              fontSize: 16),
-                        ),
-                        Container(
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage('assets/images/all/background.png'),
+          fit: BoxFit.cover,
+        )),
+        child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: Colors.transparent,
+            body: Container(
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    FxContainer.bordered(
+                      padding: const EdgeInsets.only(top: 16, bottom: 16),
+                      color: theme.scaffoldBackgroundColor,
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
                             padding: const EdgeInsets.only(left: 16, right: 16),
-                            child: Form(
-                              key: _formkey,
-                              child: Column(
-                                children: <Widget>[
-                                  TextFormField(
-                                    style: FxTextStyle.b1(
-                                        letterSpacing: 0.1,
-                                        color: theme.colorScheme.onBackground,
-                                        fontWeight: 500),
-                                    controller: _pass,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return "Please enter password";
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: "Password",
-                                      hintStyle: FxTextStyle.sh2(
+                            margin: const EdgeInsets.only(bottom: 10, top: 8),
+                            child: FxText.h6("Confirm Your Password",
+                                fontWeight: 800, fontSize: 25),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            margin: const EdgeInsets.only(bottom: 10, top: 0),
+                            child: FxText(
+                                "Please enter your password to continue:",
+                                fontWeight: 400,
+                                fontSize: 16),
+                          ),
+                          Container(
+                              padding:
+                                  const EdgeInsets.only(left: 16, right: 16),
+                              child: Form(
+                                key: _formkey,
+                                child: Column(
+                                  children: <Widget>[
+                                    TextFormField(
+                                      style: FxTextStyle.b1(
                                           letterSpacing: 0.1,
                                           color: theme.colorScheme.onBackground,
                                           fontWeight: 500),
-                                      prefixIcon:
-                                          const Icon(MdiIcons.lockOutline),
-                                      suffixIcon: IconButton(
-                                        icon: Icon(_passwordVisible1!
-                                            ? MdiIcons.eyeOutline
-                                            : MdiIcons.eyeOffOutline),
-                                        onPressed: () {
-                                          setState(() {
-                                            _passwordVisible1 =
-                                                !_passwordVisible1!;
-                                          });
-                                        },
+                                      controller: _pass,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter password";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: "Password",
+                                        hintStyle: FxTextStyle.sh2(
+                                            letterSpacing: 0.1,
+                                            color:
+                                                theme.colorScheme.onBackground,
+                                            fontWeight: 500),
+                                        prefixIcon:
+                                            const Icon(MdiIcons.lockOutline),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(_passwordVisible1!
+                                              ? MdiIcons.eyeOutline
+                                              : MdiIcons.eyeOffOutline),
+                                          onPressed: () {
+                                            setState(() {
+                                              _passwordVisible1 =
+                                                  !_passwordVisible1!;
+                                            });
+                                          },
+                                        ),
                                       ),
+                                      obscureText: _passwordVisible1!,
                                     ),
-                                    obscureText: _passwordVisible1!,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 16),
-                                    child: FxButton.block(
-                                        elevation: 0,
-                                        borderRadiusAll: 4,
-                                        padding: FxSpacing.y(12),
-                                        onPressed: () {
-                                          if (_formkey.currentState!
-                                              .validate()) {
-                                            confirmPassword(username);
-                                          }
-                                        },
-                                        child: FxText.button("Confirm Password",
-                                            fontWeight: 600,
-                                            color: theme.colorScheme.onPrimary,
-                                            letterSpacing: 0.5)),
-                                  ),
-                                ],
-                              ),
-                            ))
-                      ],
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 16),
+                                      child: FxButton.block(
+                                          elevation: 0,
+                                          borderRadiusAll: 4,
+                                          padding: FxSpacing.y(12),
+                                          onPressed: () {
+                                            if (_formkey.currentState!
+                                                .validate()) {
+                                              confirmPassword(username);
+                                            }
+                                          },
+                                          child: FxText.button(
+                                              "Confirm Password",
+                                              fontWeight: 600,
+                                              color:
+                                                  theme.colorScheme.onPrimary,
+                                              letterSpacing: 0.5)),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: FxSpacing.safeAreaTop(context) + 12,
-              left: 16,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  FeatherIcons.chevronLeft,
-                  color: theme.colorScheme.onBackground,
+                  ],
                 ),
               ),
-            )
-          ],
-        ));
+            )));
   }
 
   Future<void> confirmPassword(String username) async {

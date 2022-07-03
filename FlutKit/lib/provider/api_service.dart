@@ -1,5 +1,4 @@
 import 'dart:convert';
-//import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -8,13 +7,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 typedef ApiErrorCallback = void Function(Object error, String errorText);
 
-const isInProduction = true;
+const isInProduction = false;
 
-// const String debugHost = 'https://invitedbiz.worldpos.com.my';
-// const String productionHost = 'https://ibizapi.worldpos.com.my';
-//const endPoint = "";
-
-const debugApi = 'https://edzj-test.fa.em2.oraclecloud.com:443';
+const debugApi = 'chilamlol.pythonanywhere.com';
 const productionApi = 'https://edzj.fa.em2.oraclecloud.com:443';
 const endPointApi = isInProduction ? productionApi : debugApi;
 

@@ -48,86 +48,69 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             backgroundColor: Colors.transparent,
-            body: Stack(
-              children: <Widget>[
-                Positioned(
-                  left: 30,
-                  right: 30,
-                  top: MediaQuery.of(context).size.height * 0.3,
-                  child: Column(
-                    children: <Widget>[
-                      FxContainer.bordered(
-                        color: theme.scaffoldBackgroundColor,
-                        padding: const EdgeInsets.only(top: 16, bottom: 16),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 24, top: 8),
-                              child:
-                                  FxText.h6("FORGOT PASSWORD", fontWeight: 600),
-                            ),
-                            Container(
-                              padding:
-                                  const EdgeInsets.only(left: 16, right: 16),
-                              child: Column(
-                                children: <Widget>[
-                                  TextFormField(
-                                    style: FxTextStyle.b1(
+            body: Container(
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  children: <Widget>[
+                    FxContainer.bordered(
+                      color: theme.scaffoldBackgroundColor,
+                      padding: const EdgeInsets.only(top: 16, bottom: 16),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 24, top: 8),
+                            child:
+                                FxText.h6("FORGOT PASSWORD", fontWeight: 600),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            child: Column(
+                              children: <Widget>[
+                                TextFormField(
+                                  style: FxTextStyle.b1(
+                                      letterSpacing: 0.1,
+                                      color: theme.colorScheme.onBackground,
+                                      fontWeight: 500),
+                                  autofocus: false,
+                                  controller: studentidController,
+                                  keyboardType: TextInputType.text,
+                                  onSaved: (value) {
+                                    studentidController.text = (value)!;
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: "Student ID",
+                                    hintStyle: FxTextStyle.sh2(
                                         letterSpacing: 0.1,
                                         color: theme.colorScheme.onBackground,
                                         fontWeight: 500),
-                                    autofocus: false,
-                                    controller: studentidController,
-                                    keyboardType: TextInputType.text,
-                                    onSaved: (value) {
-                                      studentidController.text = (value)!;
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: "Student ID",
-                                      hintStyle: FxTextStyle.sh2(
-                                          letterSpacing: 0.1,
-                                          color: theme.colorScheme.onBackground,
-                                          fontWeight: 500),
-                                      prefixIcon:
-                                          const Icon(MdiIcons.emailOutline),
-                                    ),
+                                    prefixIcon:
+                                        const Icon(MdiIcons.emailOutline),
                                   ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 16),
-                                    child: FxButton(
-                                        elevation: 0,
-                                        borderRadiusAll: 4,
-                                        onPressed: () {
-                                          forgetpassword();
-                                        },
-                                        child: FxText.button("RESET PASSWORD",
-                                            fontWeight: 600,
-                                            color: theme.colorScheme.onPrimary,
-                                            letterSpacing: 0.5)),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 16),
+                                  child: FxButton(
+                                      elevation: 0,
+                                      borderRadiusAll: 4,
+                                      onPressed: () {
+                                        forgetpassword();
+                                      },
+                                      child: FxText.button("RESET PASSWORD",
+                                          fontWeight: 600,
+                                          color: theme.colorScheme.onPrimary,
+                                          letterSpacing: 0.5)),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  top: FxSpacing.safeAreaTop(context) + 12,
-                  left: 16,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      FeatherIcons.chevronLeft,
-                      color: theme.colorScheme.onBackground,
                     ),
-                  ),
-                )
-              ],
+                  ],
+                ),
+              ),
             )));
   }
 

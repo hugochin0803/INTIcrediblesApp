@@ -1,14 +1,15 @@
+import 'dart:convert';
 import 'package:flutkit/screens/discussion/discussion_list.dart';
 import 'package:flutkit/screens/event/event_full_app.dart';
 import 'package:flutkit/theme/app_theme.dart';
-import 'package:flutkit/screens/event/event_ticket_screen.dart';
-
+import 'package:flutkit/screens/event/event_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutx/flutx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class DiscussionAddPostScreen extends StatefulWidget {
   const DiscussionAddPostScreen({Key? key}) : super(key: key);
@@ -21,6 +22,8 @@ class _DiscussionAddPostScreen extends State<DiscussionAddPostScreen> {
   late CustomTheme customTheme;
   late ThemeData theme;
 
+  var text = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -28,9 +31,10 @@ class _DiscussionAddPostScreen extends State<DiscussionAddPostScreen> {
     theme = AppTheme.theme;
   }
 
-  void _showDialog() {
+  void _showDialog(text) {
     showDialog(
-        context: context, builder: (BuildContext context) => _TermsDialog());
+        context: context,
+        builder: (BuildContext context) => _TermsDialog(text));
   }
 
   Widget build(BuildContext context) {
@@ -80,6 +84,7 @@ class _DiscussionAddPostScreen extends State<DiscussionAddPostScreen> {
                 Container(
                   padding: FxSpacing.fromLTRB(15, 5, 15, 10),
                   child: TextFormField(
+                    controller: text,
                     decoration: InputDecoration(
                       hintText: "Tell me your thought!",
                       isDense: true,
@@ -108,7 +113,7 @@ class _DiscussionAddPostScreen extends State<DiscussionAddPostScreen> {
                         alignment: Alignment.centerRight,
                         child: FxButton(
                           onPressed: () {
-                            _showDialog();
+                            _showDialog(text.text);
                           },
                           elevation: 1,
                           padding: EdgeInsets.all(0),
@@ -154,6 +159,8 @@ class _DiscussionAddPostScreen extends State<DiscussionAddPostScreen> {
 }
 
 class _TermsDialog extends StatelessWidget {
+  late String text;
+  _TermsDialog(this.text);
   @override
   Widget build(BuildContext context) {
     ThemeData theme = AppTheme.theme;
@@ -222,10 +229,7 @@ class _TermsDialog extends StatelessWidget {
                         elevation: 2,
                         borderRadiusAll: 4,
                         onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => EventFullApp()),
-                              (Route<dynamic> route) => false);
+                          addPost(text, context);
                         },
                         child: FxText.bodyMedium("Accept",
                             fontWeight: 600,
@@ -236,5 +240,33 @@ class _TermsDialog extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> addPost(text, context) async {
+    final prefs = await SharedPreferences.getInstance();
+    // Try reading data from the counter key. If it doesn't exist, return 0.
+    int userID = prefs.getInt('userID') ?? 0;
+    String token = prefs.getString('token') ?? " ";
+
+    final uri = Uri.http('chilamlol.pythonanywhere.com', '/post/add');
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'user-token': token
+    };
+
+    final body = {'text': text, 'file': "", 'image': "", 'userId': userID};
+    final jsonString = json.encode(body);
+
+    final response = await http.post(uri, headers: headers, body: jsonString);
+
+    if (response.statusCode == 201) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => EventFullApp()),
+          (Route<dynamic> route) => false);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              "There is an issue on our end! Please contact admin for assistance!")));
+    }
   }
 }

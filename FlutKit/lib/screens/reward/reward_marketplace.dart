@@ -1,12 +1,13 @@
 import 'package:flutkit/screens/reward/reward_detail.dart';
 import 'package:flutkit/theme/app_theme.dart';
-import 'package:flutkit/screens/event/event_ticket_screen.dart';
+import 'package:flutkit/screens/event/event_detail_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutx/flutx.dart';
 import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutkit/theme/app_notifier.dart';
@@ -28,7 +29,7 @@ class _RewardMarketplaceScreen extends State<RewardMarketplaceScreen> {
   void initState() {
     super.initState();
     final subProvider = Provider.of<AppNotifier>(context, listen: false);
-    subProvider.callEvent90API();
+    subProvider.callRewardAPI();
     customTheme = AppTheme.customTheme;
     theme = AppTheme.theme;
   }
@@ -85,58 +86,36 @@ class _RewardMarketplaceScreen extends State<RewardMarketplaceScreen> {
   }
 
   Widget getTabContent1(BuildContext context) {
+    final subProvider = Provider.of<AppNotifier>(context);
     return Scaffold(
         backgroundColor: theme.backgroundColor,
         body: RefreshIndicator(
             backgroundColor: theme.backgroundColor,
-            onRefresh: () async {},
+            onRefresh: () async {
+              setState(() {
+                subProvider.callRewardAPI();
+              });
+            },
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
               children: <Widget>[
-                Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: _ProductListWidget(
-                      name:
-                          "Get 1pc Chicken(Ori/Spicier Spicy), 1pc Honey-Butter",
-                      image: './assets/images/all/texas.png',
-                      shopName: 'Texas Chicken',
-                      star: 4.5,
-                      price: 12000,
-                      buildContext: context,
-                    )),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: _ProductListWidget(
-                    name: "Get FREE Frappuccino Blended Beverage",
-                    image: './assets/images/all/starbucks.png',
-                    shopName: 'Startbucks',
-                    star: 3.8,
-                    price: 14780,
-                    buildContext: context,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: _ProductListWidget(
-                    name: "10% off for one junior scoop of ice-cream",
-                    image: './assets/images/all/kennyrogers.png',
-                    shopName: 'Baskin-Robbins',
-                    buildContext: context,
-                    star: 4,
-                    price: 15000,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: _ProductListWidget(
-                    name: "20% off a drink worth RM7",
-                    image: './assets/images/all/tealive.jpg',
-                    shopName: 'Tealive',
-                    buildContext: context,
-                    star: 5,
-                    price: 12500,
-                  ),
-                ),
+                ...List.generate(
+                    subProvider.voucher.length,
+                    (int index) => Column(
+                          children: <Widget>[
+                            Container(
+                                margin: const EdgeInsets.only(top: 10),
+                                child: _ProductListWidget(
+                                    name: subProvider.voucher[index]["title"],
+                                    image: subProvider.voucher[index]
+                                        ["merchantLogo"],
+                                    shopName: subProvider.voucher[index]
+                                        ["merchantName"],
+                                    buildContext: context,
+                                    flag: 0,
+                                    detail: subProvider.voucher[index])),
+                          ],
+                        ))
               ],
             ))
         // This trailing comma makes auto-formatting nicer for build methods.
@@ -144,58 +123,61 @@ class _RewardMarketplaceScreen extends State<RewardMarketplaceScreen> {
   }
 
   Widget getTabContent2(BuildContext context) {
+    final subProvider = Provider.of<AppNotifier>(context);
     return Scaffold(
-        backgroundColor: theme.backgroundColor,
-        body: RefreshIndicator(
-            backgroundColor: theme.backgroundColor,
-            onRefresh: () async {},
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-              children: <Widget>[
-                Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: _ProductListWidget(
-                      name:
-                          "Get 1pc Chicken(Ori/Spicier Spicy), 1pc Honey-Butter",
-                      image: './assets/images/all/texas.png',
-                      shopName: 'Texas Chicken',
-                      star: 4.5,
-                      price: 12000,
-                      buildContext: context,
-                    )),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: _ProductListWidget(
-                    name: "Get FREE Frappuccino Blended Beverage",
-                    image: './assets/images/all/starbucks.png',
-                    shopName: 'Startbucks',
-                    star: 3.8,
-                    price: 14780,
-                    buildContext: context,
-                  ),
-                ),
-              ],
-            ))
-        // This trailing comma makes auto-formatting nicer for build methods.
-        );
+      backgroundColor: theme.backgroundColor,
+      body: RefreshIndicator(
+          backgroundColor: theme.backgroundColor,
+          onRefresh: () async {
+            setState(() {
+              subProvider.callRewardAPI();
+            });
+          },
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+            children: <Widget>[
+              ...List.generate(
+                  subProvider.voucherUser.length,
+                  (int index) => Column(
+                        children: <Widget>[
+                          Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: _ProductListWidget(
+                                  name: subProvider.voucherUser[index]["title"],
+                                  image: subProvider.voucherUser[index]
+                                      ["merchantLogo"],
+                                  shopName: subProvider.voucherUser[index]
+                                      ["merchantName"],
+                                  buildContext: context,
+                                  flag: 1,
+                                  detail: subProvider.voucherUser[index])),
+                        ],
+                      ))
+            ],
+          )),
+    );
+  }
+
+  Future<Null> _refreshLocalGallery() async {
+    print('refreshing stocks...');
   }
 }
 
 class _ProductListWidget extends StatefulWidget {
   final String name, shopName, image;
-  final double star;
-  final int price;
+  final int flag;
   final BuildContext buildContext;
+  final dynamic detail;
 
-  const _ProductListWidget(
-      {Key? key,
-      required this.name,
-      required this.image,
-      required this.shopName,
-      required this.star,
-      required this.price,
-      required this.buildContext})
-      : super(key: key);
+  const _ProductListWidget({
+    Key? key,
+    required this.name,
+    required this.image,
+    required this.shopName,
+    required this.buildContext,
+    required this.flag,
+    required this.detail,
+  }) : super(key: key);
 
   @override
   __ProductListWidgetState createState() => __ProductListWidgetState();
@@ -208,6 +190,7 @@ class __ProductListWidgetState extends State<_ProductListWidget> {
   Widget build(BuildContext context) {
     theme = Theme.of(context);
     String key = Generator.randomString(10);
+    final subProvider = Provider.of<AppNotifier>(context);
     return InkWell(
       onTap: () {},
       child: FxContainer(
@@ -222,12 +205,7 @@ class __ProductListWidgetState extends State<_ProductListWidget> {
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
                     child: Container(
                       decoration: BoxDecoration(color: theme.backgroundColor),
-                      child: Image(
-                        image: AssetImage(widget.image),
-                        height: 50,
-                        width: 50,
-                        fit: BoxFit.fitHeight,
-                      ),
+                      child: getImage(widget.image),
                     )),
               ),
             ),
@@ -279,13 +257,16 @@ class __ProductListWidgetState extends State<_ProductListWidget> {
                   alignment: Alignment.centerRight,
                   child: FxButton(
                     onPressed: () {
+                      subProvider.detail = widget.detail;
                       Navigator.push(
                           widget.buildContext,
                           MaterialPageRoute(
-                              builder: (context) => RewardDetailScreen()));
+                              builder: (context) => RewardDetailScreen(
+                                    flag: widget.flag,
+                                  )));
                     },
                     elevation: 1,
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     borderRadiusAll: 10,
                     shadowColor: Colors.grey,
                     child: FxText.bodySmall(
@@ -302,5 +283,27 @@ class __ProductListWidgetState extends State<_ProductListWidget> {
         ),
       ),
     );
+  }
+
+  Widget getImage(image) {
+    String substring = "https";
+
+    bool flag = image.contains(substring);
+
+    if (flag) {
+      return Image.network(
+        image,
+        height: 50,
+        width: 50,
+        fit: BoxFit.fitHeight,
+      );
+    } else {
+      return const Image(
+        image: AssetImage('./assets/images/apps/event/pattern-1.png'),
+        height: 50,
+        width: 50,
+        fit: BoxFit.fitHeight,
+      );
+    }
   }
 }

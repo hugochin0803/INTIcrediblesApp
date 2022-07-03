@@ -55,8 +55,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     customTheme = AppTheme.customTheme;
     theme = AppTheme.theme;
 
+    getImageApi();
     getAlumni();
-    loadProfile();
     clearVariable();
   }
 
@@ -64,13 +64,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("changeEmail");
     prefs.remove("resetEmail");
-  }
-
-  void loadProfile() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      pickedImage = prefs.getString('userProfile') ?? "";
-    });
   }
 
   @override
@@ -300,21 +293,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               fontWeight: 500),
                           border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
+                                Radius.circular(0.0),
                               ),
                               borderSide: BorderSide.none),
                           enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
+                                Radius.circular(0.0),
                               ),
                               borderSide: BorderSide.none),
                           focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
+                                Radius.circular(0.0),
                               ),
                               borderSide: BorderSide.none),
                           filled: true,
-                          fillColor: customTheme.card,
+                          fillColor: const Color.fromARGB(216, 224, 221, 221),
                           prefixIcon: const Icon(
                             MdiIcons.phone,
                           ),
@@ -348,21 +341,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               fontWeight: 500),
                           border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
+                                Radius.circular(0.0),
                               ),
                               borderSide: BorderSide.none),
                           enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
+                                Radius.circular(0.0),
                               ),
                               borderSide: BorderSide.none),
                           focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
+                                Radius.circular(0.0),
                               ),
                               borderSide: BorderSide.none),
                           filled: true,
-                          fillColor: customTheme.card,
+                          fillColor: const Color.fromARGB(216, 224, 221, 221),
                           prefixIcon: const Icon(
                             MdiIcons.phoneClassic,
                           ),
@@ -429,8 +422,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     ststudentId.text = futureGetAlumni.studentId;
     ststudentTelephoneNumber.text = futureGetAlumni.studentTelephoneNumber;
     styearOfGraduation.text = futureGetAlumni.yearOfGraduation;
-    stimage = futureGetAlumni.stimage;
     setState(() {});
+  }
+
+  Future<void> getImageApi() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userID = prefs.getInt('userID') ?? 0;
+    String token = prefs.getString('token') ?? " ";
+    final uri =
+        Uri.http('chilamlol.pythonanywhere.com', '/account/info/$userID');
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'user-token': token
+    };
+    final response = await http.get(uri, headers: requestHeaders);
+
+    var futureGetImage = GetImageState.fromJson(jsonDecode(response.body));
+
+    setState(() {
+      stimage = futureGetImage.stimage;
+    });
   }
 
   Future<void> updateProfile(int flag) async {
@@ -439,30 +450,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     if (ststudentHandphone.text.isNotEmpty &&
         ststudentTelephoneNumber.text.isNotEmpty) {
-      final alumniID = stalumniId.text;
+      final userID = prefs.getInt('userID') ?? 0;
       final body = {
-        "graduatedProgrammeName": stgraduatedProgrammeName.text,
-        "graduatingCampus": stgraduatingCampus.text,
-        "graduatingProgramme": stgraduatingProgramme.text,
-        "identificationCard": stidentificationCard.text,
-        "levelOfStudy": stlevelOfStudy.text,
-        "name": stname.text,
-        "personalEmail": stpersonalEmail.text,
-        "studentHandphone": ststudentHandphone.text,
-        "studentId": ststudentId.text,
-        "studentTelephoneNumber": ststudentTelephoneNumber.text,
-        "yearOfGraduation": styearOfGraduation.text,
-        "image": stimage
+        'email': stpersonalEmail.text,
+        'handphone': ststudentHandphone.text,
+        'telephone': ststudentTelephoneNumber.text,
+        'profilePicture': stimage
       };
       final jsonString = json.encode(body);
-      final uri =
-          Uri.http('chilamlol.pythonanywhere.com', '/alumni/update/$alumniID');
-      Map<String, String> requestHeaders = {
+      final uri = Uri.http(
+          'chilamlol.pythonanywhere.com', '/account/update-profile/$userID');
+      Map<String, String> headers = {
         'Content-type': 'application/json',
         'user-token': token
       };
-      final response =
-          await http.put(uri, headers: requestHeaders, body: jsonString);
+      final response = await http.put(uri, headers: headers, body: jsonString);
 
       if (flag == 1) {
         if (response.statusCode == 200 || response.statusCode == 404) {
@@ -543,11 +545,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     if (response.statusCode == 201) {
       setState(() {
-        String ImageURL = "https://chilamlol.pythonanywhere.com/static/";
-        stimage = ImageURL + newFile;
+        String imageURL = "https://chilamlol.pythonanywhere.com/static/";
+        stimage = imageURL + newFile;
         updateProfile(0);
       });
     }
+  }
+}
+
+class GetImageState {
+  final String stimage;
+
+  GetImageState({required this.stimage});
+
+  factory GetImageState.fromJson(Map<String, dynamic> json) {
+    return GetImageState(stimage: json['profilePicture'] ?? "");
   }
 }
 
@@ -618,8 +630,6 @@ class UpdateAlumniState {
 }
 
 DecorationImage getImage(String image) {
-  String getImage = "https://chilamlol.pythonanywhere.com/static/";
-
   if (image != "") {
     return DecorationImage(image: NetworkImage(image), fit: BoxFit.fill);
   } else {

@@ -70,145 +70,140 @@ class _Login2ScreenState extends State<Login2Screen> {
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(
-                    30, MediaQuery.of(context).size.height * 0.2, 30, 0),
-                child: Column(
-                  children: <Widget>[
-                    ListView(
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        FxContainer.bordered(
-                          padding: const EdgeInsets.only(top: 16, bottom: 16),
-                          color: theme.scaffoldBackgroundColor,
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                height: 100.0,
-                                width: 300.0,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/all/login_logo.png'),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  shape: BoxShape.rectangle,
+            body: Container(
+                alignment: Alignment.center,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: <Widget>[
+                      FxContainer.bordered(
+                        padding: const EdgeInsets.only(top: 16, bottom: 16),
+                        color: theme.scaffoldBackgroundColor,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 100.0,
+                              width: 300.0,
+                              margin:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/all/login_logo.png'),
+                                  fit: BoxFit.fill,
                                 ),
+                                shape: BoxShape.rectangle,
                               ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(bottom: 24, top: 8),
-                                child: FxText.h6("LOGIN", fontWeight: 600),
-                              ),
-                              Container(
-                                padding:
-                                    const EdgeInsets.only(left: 16, right: 16),
-                                child: Column(
-                                  children: <Widget>[
-                                    TextFormField(
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 24, top: 8),
+                              child: FxText.h6("LOGIN", fontWeight: 600),
+                            ),
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 16, right: 16),
+                              child: Column(
+                                children: <Widget>[
+                                  TextFormField(
+                                    style: FxTextStyle.b1(
+                                        letterSpacing: 0.1,
+                                        color: theme.colorScheme.onBackground,
+                                        fontWeight: 500),
+                                    autofocus: false,
+                                    controller: idController,
+                                    keyboardType: TextInputType.text,
+                                    onSaved: (value) {
+                                      idController.text = (value)!;
+                                    },
+                                    textInputAction: TextInputAction.next,
+                                    decoration: InputDecoration(
+                                      hintText: "Student ID",
+                                      hintStyle: FxTextStyle.sh2(
+                                          letterSpacing: 0.1,
+                                          color: theme.colorScheme.onBackground,
+                                          fontWeight: 500),
+                                      prefixIcon:
+                                          const Icon(MdiIcons.emailOutline),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 16),
+                                    child: TextFormField(
                                       style: FxTextStyle.b1(
                                           letterSpacing: 0.1,
                                           color: theme.colorScheme.onBackground,
                                           fontWeight: 500),
                                       autofocus: false,
-                                      controller: idController,
+                                      controller: passwordController,
                                       keyboardType: TextInputType.text,
                                       onSaved: (value) {
-                                        idController.text = (value)!;
+                                        passwordController.text = (value)!;
                                       },
-                                      textInputAction: TextInputAction.next,
+                                      textInputAction: TextInputAction.done,
                                       decoration: InputDecoration(
-                                        hintText: "Student ID",
+                                        hintText: "Password",
                                         hintStyle: FxTextStyle.sh2(
                                             letterSpacing: 0.1,
                                             color:
                                                 theme.colorScheme.onBackground,
                                             fontWeight: 500),
                                         prefixIcon:
-                                            const Icon(MdiIcons.emailOutline),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 16),
-                                      child: TextFormField(
-                                        style: FxTextStyle.b1(
-                                            letterSpacing: 0.1,
-                                            color:
-                                                theme.colorScheme.onBackground,
-                                            fontWeight: 500),
-                                        autofocus: false,
-                                        controller: passwordController,
-                                        keyboardType: TextInputType.text,
-                                        onSaved: (value) {
-                                          passwordController.text = (value)!;
-                                        },
-                                        textInputAction: TextInputAction.done,
-                                        decoration: InputDecoration(
-                                          hintText: "Password",
-                                          hintStyle: FxTextStyle.sh2(
-                                              letterSpacing: 0.1,
-                                              color: theme
-                                                  .colorScheme.onBackground,
-                                              fontWeight: 500),
-                                          prefixIcon:
-                                              const Icon(MdiIcons.lockOutline),
-                                          suffixIcon: IconButton(
-                                            icon: Icon(_passwordVisible!
-                                                ? MdiIcons.eyeOutline
-                                                : MdiIcons.eyeOffOutline),
-                                            onPressed: () {
-                                              setState(() {
-                                                _passwordVisible =
-                                                    !_passwordVisible!;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        obscureText: _passwordVisible!,
-                                      ),
-                                    ),
-                                    Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            5, 5, 0, 0),
-                                        alignment: Alignment.centerRight,
-                                        child: FxButton.text(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const ForgotPasswordScreen()),
-                                              );
-                                            },
-                                            child: FxText.b1(
-                                              "Forgot Password?",
-                                              fontWeight: 300,
-                                              fontSize: 14,
-                                            ))),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 5),
-                                      child: FxButton.block(
-                                          elevation: 0,
-                                          borderRadiusAll: 4,
-                                          padding: FxSpacing.y(12),
+                                            const Icon(MdiIcons.lockOutline),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(_passwordVisible!
+                                              ? MdiIcons.eyeOutline
+                                              : MdiIcons.eyeOffOutline),
                                           onPressed: () {
-                                            login();
+                                            setState(() {
+                                              _passwordVisible =
+                                                  !_passwordVisible!;
+                                            });
                                           },
-                                          child: FxText.button("LOGIN",
-                                              fontWeight: 600,
-                                              color:
-                                                  theme.colorScheme.onPrimary,
-                                              letterSpacing: 0.5)),
+                                        ),
+                                      ),
+                                      obscureText: _passwordVisible!,
                                     ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                                  ),
+                                  Container(
+                                      margin:
+                                          const EdgeInsets.fromLTRB(5, 5, 0, 0),
+                                      alignment: Alignment.centerRight,
+                                      child: FxButton.text(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ForgotPasswordScreen()),
+                                            );
+                                          },
+                                          child: FxText.b1(
+                                            "Forgot Password?",
+                                            fontWeight: 300,
+                                            fontSize: 14,
+                                          ))),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 5),
+                                    child: FxButton.block(
+                                        elevation: 0,
+                                        borderRadiusAll: 4,
+                                        padding: FxSpacing.y(12),
+                                        onPressed: () {
+                                          login();
+                                        },
+                                        child: FxText.button("LOGIN",
+                                            fontWeight: 600,
+                                            color: theme.colorScheme.onPrimary,
+                                            letterSpacing: 0.5)),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ))));
   }
 
@@ -218,9 +213,11 @@ class _Login2ScreenState extends State<Login2Screen> {
         'username': idController.text,
         'password': generateMd5(passwordController.text)
       };
+
       final jsonString = json.encode(body);
       final uri = Uri.http('chilamlol.pythonanywhere.com', '/login');
       final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+
       try {
         final response =
             await http.post(uri, headers: headers, body: jsonString);
@@ -238,6 +235,7 @@ class _Login2ScreenState extends State<Login2Screen> {
             prefs.setInt('userID', futureLogin.userID);
             prefs.setInt('alumniID', futureLogin.alumniID);
             prefs.setString('name', futureLogin.name);
+            prefs.setString("token", futureLogin.token);
             if (futureLogin.userRole == 1) {
               if (futureLogin.activationStatus == 0) {
                 Navigator.push(
@@ -260,7 +258,6 @@ class _Login2ScreenState extends State<Login2Screen> {
               } else if (futureLogin.activationStatus == 30) {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setBool("isLoggedIn", true);
-                prefs.setString("token", futureLogin.token);
 
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => EventFullApp()),
@@ -312,7 +309,7 @@ class LoginState {
       required this.userID,
       required this.alumniID,
       required this.activationStatus,
-      required this.name,
+      this.name = "",
       required this.token,
       required this.userRole});
 

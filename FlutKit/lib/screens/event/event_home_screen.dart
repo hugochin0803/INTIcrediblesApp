@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutkit/screens/event/event_profile_screen.dart';
-import 'package:flutkit/screens/event/event_ticket_screen.dart';
+import 'package:flutkit/screens/event/event_detail_screen.dart';
 import 'package:flutkit/screens/notification/notification_list.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -208,23 +208,23 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
             ),
             ...List.generate(
                 subProvider.locators2.length,
-                (int index) => Container(
+                (int index2) => Container(
                       margin: FxSpacing.fromLTRB(24, 16, 24, 16),
                       child: singleEvent(
-                          title: subProvider.locators2[index]["name"],
-                          image: subProvider.locators2[index]["image"],
+                          title: subProvider.locators2[index2]["name"],
+                          image: subProvider.locators2[index2]["image"],
                           date: DateFormat.d().format(DateTime.parse(
-                              subProvider.locators2[index]["startDate"])),
+                              subProvider.locators2[index2]["startDate"])),
                           month: DateFormat.MMM().format(DateTime.parse(
-                              subProvider.locators2[index]["startDate"])),
+                              subProvider.locators2[index2]["startDate"])),
                           startDate: "Start at: " +
                               DateFormat.yMMMd().add_jm().format(DateTime.parse(
-                                  subProvider.locators2[index]["startDate"])),
+                                  subProvider.locators2[index2]["startDate"])),
                           endDate: "End at: " +
                               DateFormat.yMMMd().add_jm().format(
-                                  DateTime.parse(subProvider.locators2[index]["endDate"])),
+                                  DateTime.parse(subProvider.locators2[index2]["endDate"])),
                           width: MediaQuery.of(context).size.width - 48,
-                          detail: subProvider.locators2[index]),
+                          detail: subProvider.locators2[index2]),
                     )),
           ],
         ));
@@ -356,15 +356,19 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                                 fit: BoxFit.cover,
                                 child: Text(
                                   startDate,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w300),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 12,
+                                      color: theme.colorScheme.onBackground),
                                 ),
                               ),
                               FittedBox(
                                 fit: BoxFit.cover,
                                 child: Text(endDate,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w300)),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 12,
+                                        color: theme.colorScheme.onBackground)),
                               ),
                             ],
                           ),

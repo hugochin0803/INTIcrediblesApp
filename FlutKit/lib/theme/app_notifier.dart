@@ -21,6 +21,12 @@ class AppNotifier extends ChangeNotifier {
   List<dynamic> get locators1 => this._locators1;
   List<dynamic> _locators2 = [];
   List<dynamic> get locators2 => this._locators2;
+  List<dynamic> _voucher = [];
+  List<dynamic> get voucher => this._voucher;
+  List<dynamic> _post = [];
+  List<dynamic> get post => this._post;
+  List<dynamic> _voucherUser = [];
+  List<dynamic> get voucherUser => this._voucherUser;
   List<dynamic> _faq = [];
   List<dynamic> get faq => this._faq;
   List<dynamic> _faqdetail = [];
@@ -103,7 +109,7 @@ class AppNotifier extends ChangeNotifier {
     token = prefs.getString('token') ?? " ";
 
     try {
-      Dio dio = new Dio();
+      Dio dio = Dio();
       dio.options.headers['user-token'] = token;
 
       _locators1 = [];
@@ -111,12 +117,22 @@ class AppNotifier extends ChangeNotifier {
           .get('https://chilamlol.pythonanywhere.com/event/upcoming/90');
       var response2 = await dio
           .get('https://chilamlol.pythonanywhere.com/event/upcoming/7');
-      // var data = jsonDecode(response.data);
-      if (response.data.length > 0) {
-        for (var i = 0; i < 3; i++) {
-          _locators1.add(response.data[i]);
+
+      if (response.statusCode == 200) {
+        if (response.data.length > 0) {
+          if (response.data.length > 3) {
+            for (var i = 0; i < 3; i++) {
+              _locators1.add(response.data[i]);
+            }
+          } else {
+            _locators1 = response.data;
+          }
+
+          notifyListeners();
+        } else {
+          _locators1 = [];
+          notifyListeners();
         }
-        notifyListeners();
       } else {
         _locators1 = [];
         notifyListeners();
@@ -130,6 +146,68 @@ class AppNotifier extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
+
+  Future<void> callRewardAPI() async {
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? " ";
+    int userID = prefs.getInt('userID') ?? 0;
+
+    try {
+      Dio dio = Dio();
+      dio.options.headers['user-token'] = token;
+
+      _voucher = [];
+      var response =
+          await dio.get('https://chilamlol.pythonanywhere.com/voucher/$userID');
+      var response2 = await dio
+          .get('https://chilamlol.pythonanywhere.com/voucher/active/$userID');
+
+      if (response.data.length > 0) {
+        _voucher = response.data;
+        notifyListeners();
+      } else {
+        _voucher = [];
+        notifyListeners();
+      }
+
+      if (response2.data.length > 0) {
+        _voucherUser = response2.data;
+        notifyListeners();
+      } else {
+        _voucherUser = [];
+        notifyListeners();
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
+
+  Future<void> callPostAPI() async {
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? " ";
+    int userID = prefs.getInt('userID') ?? 0;
+
+    try {
+      Dio dio = Dio();
+      dio.options.headers['user-token'] = token;
+
+      _post = [];
+      var response = await dio
+          .get('https://chilamlol.pythonanywhere.com/post/nested/$userID');
+      if (response.data.length > 0) {
+        _post = response.data;
+        notifyListeners();
+      } else {
+        _post = [];
+        notifyListeners();
+      }
+    } catch (e) {
+      // ignore: avoid_print
       print(e);
     }
   }

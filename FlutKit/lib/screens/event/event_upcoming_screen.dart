@@ -1,5 +1,5 @@
 import 'package:flutkit/theme/app_theme.dart';
-import 'package:flutkit/screens/event/event_ticket_screen.dart';
+import 'package:flutkit/screens/event/event_detail_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutx/flutx.dart';
@@ -35,7 +35,7 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
           centerTitle: true,
           backgroundColor: theme.colorScheme.primary,
           automaticallyImplyLeading: false,
-          title: FxText.sh1("Upcoming Event",
+          title: FxText("Upcoming Event",
               color: theme.colorScheme.onPrimary, fontWeight: 600),
         ),
         body: ListView(
@@ -72,8 +72,7 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
                 )),
             ...List.generate(
                 subProvider.locators.length,
-                (int index) => Container(
-                        child: Column(
+                (int index) => Column(
                       children: <Widget>[
                         singleEvent(
                             image: subProvider.locators[index]["image"],
@@ -87,7 +86,7 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
                               height: 0,
                             ))
                       ],
-                    )))
+                    ))
           ],
         ));
   }
@@ -119,7 +118,7 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FxText.sh2(
+                    FxText(
                       name,
                       color: theme.colorScheme.onBackground,
                       fontWeight: 600,
@@ -138,12 +137,13 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  FxText.caption("Start Date",
+                                  FxText("Start Date",
+                                      fontSize: 12,
                                       fontWeight: 600,
                                       color: theme.colorScheme.onBackground),
                                   Container(
                                     margin: FxSpacing.top(2),
-                                    child: FxText.caption(startdate,
+                                    child: FxText(startdate,
                                         fontSize: 12,
                                         fontWeight: 500,
                                         color: theme.colorScheme.onBackground,
@@ -163,6 +163,7 @@ class _EventUpcomingScreenState extends State<EventUpcomingScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   FxText.caption("End Date",
+                                      fontSize: 12,
                                       fontWeight: 600,
                                       color: theme.colorScheme.onBackground),
                                   Container(

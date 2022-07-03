@@ -48,8 +48,6 @@ class _resetEmail2 extends State<resetEmail2> {
 
   var email = TextEditingController();
   var confirmEmail = TextEditingController();
-  var handphone = TextEditingController();
-  var telephone = TextEditingController();
 
   late Future<GetAlumniState> futureGetAlumni;
   @override
@@ -63,81 +61,51 @@ class _resetEmail2 extends State<resetEmail2> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/all/background.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              left: 30,
-              right: 30,
-              top: MediaQuery.of(context).size.height * 0.20,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  FxContainer.bordered(
-                    padding: const EdgeInsets.only(top: 16, bottom: 16),
-                    color: theme.scaffoldBackgroundColor,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 1, top: 8),
-                          child: FxText.h6("Reset Email",
-                              fontWeight: 800, fontSize: 25),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 10, top: 0),
-                          child: FxText.h6("Please enter your new email here",
-                              fontWeight: 400, fontSize: 16),
-                        ),
-                        Container(
-                            padding: const EdgeInsets.only(left: 16, right: 16),
-                            child: Form(
-                              key: _formkey,
-                              child: Column(
-                                children: <Widget>[
-                                  TextFormField(
-                                    style: FxTextStyle.b1(
-                                        letterSpacing: 0.1,
-                                        color: theme.colorScheme.onBackground,
-                                        fontWeight: 500),
-                                    controller: email,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter email';
-                                      }
-                                      if (!RegExp(
-                                              "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                          .hasMatch(value)) {
-                                        return 'Please enter valid Email';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: "Personal Email",
-                                      hintStyle: FxTextStyle.sh2(
-                                          letterSpacing: 0.1,
-                                          color: theme.colorScheme.onBackground,
-                                          fontWeight: 500),
-                                      prefixIcon:
-                                          const Icon(MdiIcons.emailOutline),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 16),
-                                    child: TextFormField(
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage('assets/images/all/background.png'),
+          fit: BoxFit.cover,
+        )),
+        child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: Colors.transparent,
+            body: Container(
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  children: <Widget>[
+                    FxContainer.bordered(
+                      padding: const EdgeInsets.only(top: 16, bottom: 16),
+                      color: theme.scaffoldBackgroundColor,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 1, top: 8),
+                            child: FxText.h6("Reset Email",
+                                fontWeight: 800, fontSize: 25),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10, top: 0),
+                            child: FxText.h6("Please enter your new email here",
+                                fontWeight: 400, fontSize: 16),
+                          ),
+                          Container(
+                              padding:
+                                  const EdgeInsets.only(left: 16, right: 16),
+                              child: Form(
+                                key: _formkey,
+                                child: Column(
+                                  children: <Widget>[
+                                    TextFormField(
                                       style: FxTextStyle.b1(
                                           letterSpacing: 0.1,
                                           color: theme.colorScheme.onBackground,
                                           fontWeight: 500),
-                                      controller: confirmEmail,
+                                      controller: email,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please enter email';
@@ -145,15 +113,12 @@ class _resetEmail2 extends State<resetEmail2> {
                                         if (!RegExp(
                                                 "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                             .hasMatch(value)) {
-                                          return 'Please enyer valid Email';
-                                        }
-                                        if (email.text != confirmEmail.text) {
-                                          return "Email do not match";
+                                          return 'Please enter valid Email';
                                         }
                                         return null;
                                       },
                                       decoration: InputDecoration(
-                                        hintText: "Confirm Email",
+                                        hintText: "Personal Email",
                                         hintStyle: FxTextStyle.sh2(
                                             letterSpacing: 0.1,
                                             color:
@@ -163,97 +128,105 @@ class _resetEmail2 extends State<resetEmail2> {
                                             const Icon(MdiIcons.emailOutline),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 16),
-                                    child: FxButton.block(
-                                        elevation: 0,
-                                        borderRadiusAll: 4,
-                                        padding: FxSpacing.y(12),
-                                        onPressed: () {
-                                          if (_formkey.currentState!
-                                              .validate()) {
-                                            updateProfile();
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 16),
+                                      child: TextFormField(
+                                        style: FxTextStyle.b1(
+                                            letterSpacing: 0.1,
+                                            color:
+                                                theme.colorScheme.onBackground,
+                                            fontWeight: 500),
+                                        controller: confirmEmail,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter email';
                                           }
+                                          if (!RegExp(
+                                                  "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                              .hasMatch(value)) {
+                                            return 'Please enyer valid Email';
+                                          }
+                                          if (email.text != confirmEmail.text) {
+                                            return "Email do not match";
+                                          }
+                                          return null;
                                         },
-                                        child: FxText.button("SUBMIT",
-                                            fontWeight: 600,
-                                            color: theme.colorScheme.onPrimary,
-                                            letterSpacing: 0.5)),
-                                  ),
-                                ],
-                              ),
-                            ))
-                      ],
+                                        decoration: InputDecoration(
+                                          hintText: "Confirm Email",
+                                          hintStyle: FxTextStyle.sh2(
+                                              letterSpacing: 0.1,
+                                              color: theme
+                                                  .colorScheme.onBackground,
+                                              fontWeight: 500),
+                                          prefixIcon:
+                                              const Icon(MdiIcons.emailOutline),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 16),
+                                      child: FxButton.block(
+                                          elevation: 0,
+                                          borderRadiusAll: 4,
+                                          padding: FxSpacing.y(12),
+                                          onPressed: () {
+                                            if (_formkey.currentState!
+                                                .validate()) {
+                                              updateProfile();
+                                            }
+                                          },
+                                          child: FxText.button("SUBMIT",
+                                              fontWeight: 600,
+                                              color:
+                                                  theme.colorScheme.onPrimary,
+                                              letterSpacing: 0.5)),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: FxSpacing.safeAreaTop(context) + 12,
-              left: 16,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  FeatherIcons.chevronLeft,
-                  color: theme.colorScheme.onBackground,
+                  ],
                 ),
               ),
-            )
-          ],
-        ));
+            )));
   }
 
   Future<void> updateProfile() async {
-    final prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString('token') ?? " ";
-
-    if (ststudentHandphone.text.isNotEmpty &&
+    if (email.text.isNotEmpty &&
+        confirmEmail.text.isNotEmpty &&
+        ststudentHandphone.text.isNotEmpty &&
         ststudentTelephoneNumber.text.isNotEmpty) {
-      final alumniID = stalumniId.text;
+      final prefs = await SharedPreferences.getInstance();
+
+// Try reading data from the counter key. If it doesn't exist, return 0.
+      final userID = prefs.getInt('userID') ?? 0;
       final body = {
-        "graduatedProgrammeName": stgraduatedProgrammeName.text,
-        "graduatingCampus": stgraduatingCampus.text,
-        "graduatingProgramme": stgraduatingProgramme.text,
-        "identificationCard": stidentificationCard.text,
-        "levelOfStudy": stlevelOfStudy.text,
-        "name": stname.text,
-        "personalEmail": confirmEmail.text,
-        "studentHandphone": ststudentHandphone.text,
-        "studentId": ststudentId.text,
-        "studentTelephoneNumber": ststudentTelephoneNumber.text,
-        "yearOfGraduation": styearOfGraduation.text
+        'email': confirmEmail.text,
+        'handphone': ststudentHandphone.text,
+        'telephone': ststudentTelephoneNumber.text,
+        'profilePicture': ""
       };
       final jsonString = json.encode(body);
-      final uri =
-          Uri.http('chilamlol.pythonanywhere.com', '/alumni/update/$alumniID');
-      Map<String, String> requestHeaders = {
-        'Content-type': 'application/json',
-        'user-token': token
-      };
-      final response =
-          await http.put(uri, headers: requestHeaders, body: jsonString);
+      final uri = Uri.http(
+          'chilamlol.pythonanywhere.com', '/account/update-profile/$userID');
+      final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+      final response = await http.put(uri, headers: headers, body: jsonString);
 
       if (response.statusCode == 200) {
+        var futureGetAlumni =
+            GetAlumniState.fromJson(jsonDecode(response.body));
+
         prefs.setString('resetEmail', confirmEmail.text);
         prefs.setBool('changeEmail', true);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const otpVerification()),
         );
-      } else if (response.statusCode == 404) {
-        //same data
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => EventFullApp()),
-        );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text(
-                "There is an issue on our end! Please contact admin for assistance!")));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Server Error")));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -293,15 +266,13 @@ class _resetEmail2 extends State<resetEmail2> {
 
 class GetAlumniState {
   final String message;
-  final String status;
 
   GetAlumniState({
     required this.message,
-    required this.status,
   });
 
   factory GetAlumniState.fromJson(Map<String, dynamic> json) {
-    return GetAlumniState(message: json['message'], status: json['status']);
+    return GetAlumniState(message: json['message']);
   }
 }
 

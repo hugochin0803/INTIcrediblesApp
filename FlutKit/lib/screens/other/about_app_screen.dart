@@ -143,7 +143,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
                     color: theme.colorScheme.onBackground),
               ),
               Container(
-                margin: EdgeInsets.only(top: 16),
+                margin: EdgeInsets.only(top: 16, bottom: 20),
                 child: FxText.b2(
                     "4. To enable alumni in contributing to the enrichment of INTI and community.",
                     fontSize: 16,

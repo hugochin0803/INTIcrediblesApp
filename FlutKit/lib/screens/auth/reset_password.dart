@@ -58,12 +58,11 @@ class _resetPassword extends State<resetPassword> {
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(
-                  30, MediaQuery.of(context).size.height * 0.07, 30, 0),
-              child: Column(children: <Widget>[
-                ListView(
-                  shrinkWrap: true,
+            body: Container(
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
                   children: <Widget>[
                     FxContainer.bordered(
                       padding: const EdgeInsets.only(top: 16, bottom: 16),
@@ -72,12 +71,12 @@ class _resetPassword extends State<resetPassword> {
                         children: <Widget>[
                           Container(
                             margin: const EdgeInsets.only(bottom: 1, top: 8),
-                            child: FxText.h6("Reset Password",
+                            child: FxText("Reset Password",
                                 fontWeight: 800, fontSize: 25),
                           ),
                           Container(
                             margin: const EdgeInsets.only(bottom: 10, top: 0),
-                            child: FxText.h6("Please reset your password",
+                            child: FxText("Please reset your password",
                                 fontWeight: 400, fontSize: 16),
                           ),
                           Container(
@@ -223,7 +222,7 @@ class _resetPassword extends State<resetPassword> {
                     ),
                   ],
                 ),
-              ]),
+              ),
             )));
   }
 
@@ -231,34 +230,27 @@ class _resetPassword extends State<resetPassword> {
     if (_pass.text.isNotEmpty && _confirmPass.text.isNotEmpty) {
       final prefs = await SharedPreferences.getInstance();
 
-// Try reading data from the counter key. If it doesn't exist, return 0.
       final userID = prefs.getInt('resetUserId') ?? 0;
-      final body = {
-        'userId': userID,
-        'password': generateMd5(_confirmPass.text)
-      };
+      final body = {'password': generateMd5(_confirmPass.text)};
       final jsonString = json.encode(body);
-      final uri =
-          Uri.http('chilamlol.pythonanywhere.com', '/account/reset-password');
+      final uri = Uri.http(
+          'chilamlol.pythonanywhere.com', '/account/reset-password/$userID');
       final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-      final response = await http.post(uri, headers: headers, body: jsonString);
+      final response = await http.put(uri, headers: headers, body: jsonString);
 
       if (response.statusCode == 200) {
         var futureResetPassword =
             ResetPasswordState.fromJson(jsonDecode(response.body));
 
-        if (futureResetPassword.status == "200") {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Password reset successful!")));
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Login2Screen()),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text(
-                  "There is an issue on our end! Please contact admin for assistance!")));
-        }
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Password reset successful!")));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Login2Screen()),
+        );
+      } else if (response.statusCode == 202) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Old password used! Please create a new password!")));
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Server Error")));
@@ -272,14 +264,18 @@ class _resetPassword extends State<resetPassword> {
 
 class ResetPasswordState {
   final String message;
-  final String status;
+  final String error;
 
   ResetPasswordState({
-    required this.message,
-    required this.status,
+    this.message = "",
+    this.error = "",
   });
 
   factory ResetPasswordState.fromJson(Map<String, dynamic> json) {
-    return ResetPasswordState(message: json['message'], status: json['status']);
+    if (json['message'] != null || json['message'] != "") {
+      return ResetPasswordState(message: json['message']);
+    } else {
+      return ResetPasswordState(error: json['error']);
+    }
   }
 }

@@ -444,35 +444,30 @@ class _EventProfileScreenState extends State<EventProfileScreen> {
   }
 
   openwhatsapp() async {
-    var whatsapp = "+60123853230";
     final url = Uri(
         scheme: 'https',
         host: 'api.whatsapp.com',
         path: '/send/',
         query: 'phone=60123853230');
-    var whatappURL = "https://wa.me/$whatsapp";
-    var whatappIphone = "https://api.whatsapp.com/send?phone=$whatsapp}";
     if (Platform.isIOS) {
       // for iOS phone only
-      if (await canLaunchUrl(url)) {
-        await launchUrl(
-          url,
-          mode: LaunchMode.externalApplication,
-        );
+      if (await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      )) {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("whatsapp no installed")));
+            const SnackBar(content: Text("Unable to open WhatsApp")));
       }
     } else {
       // android , web
-      if (await canLaunchUrl(url)) {
-        await launchUrl(
-          url,
-          mode: LaunchMode.externalApplication,
-        );
+      if (await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      )) {
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Unable to open WhatsApp")));
       }
     }
   }

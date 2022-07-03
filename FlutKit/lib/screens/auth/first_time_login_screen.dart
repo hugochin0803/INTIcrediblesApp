@@ -8,7 +8,6 @@ import 'dart:io';
 import 'package:flutkit/screens/auth/update_profile.dart';
 import 'package:flutkit/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutx/flutx.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:crypto/crypto.dart';
@@ -26,8 +25,9 @@ class firstTimeLogin extends StatefulWidget {
 
 // ignore: camel_case_types
 class _firstTimeLogin extends State<firstTimeLogin> {
-  bool? _passwordVisible1 = false; //_check1 = false;
-  bool? _passwordVisible2 = false; // _check2 = false;
+  bool? _passwordVisible1 = true;
+  bool? _passwordVisible2 = true;
+
   late CustomTheme customTheme;
   late ThemeData theme;
 
@@ -49,24 +49,22 @@ class _firstTimeLogin extends State<firstTimeLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/all/background.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              left: 30,
-              right: 30,
-              top: MediaQuery.of(context).size.height * 0.15,
-              child: ListView(
-                shrinkWrap: true,
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage('assets/images/all/background.png'),
+          fit: BoxFit.cover,
+        )),
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          backgroundColor: Colors.transparent,
+          body: Container(
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
                 children: <Widget>[
                   FxContainer.bordered(
                     padding: const EdgeInsets.only(top: 16, bottom: 16),
@@ -108,12 +106,12 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                                     controller: _pass,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return "Please enter password";
+                                        return "Please enter password!";
                                       }
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                      hintText: "NewPassword",
+                                      hintText: "New Password",
                                       hintStyle: FxTextStyle.sh2(
                                           letterSpacing: 0.1,
                                           color: theme.colorScheme.onBackground,
@@ -144,11 +142,11 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                                       controller: _confirmPass,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return "Please re-enter password";
+                                          return "Please re-enter password!";
                                         }
 
                                         if (_pass.text != _confirmPass.text) {
-                                          return "Password do not match";
+                                          return "Password do not match!";
                                         }
                                         return null;
                                       },
@@ -193,6 +191,24 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                                             color: theme.colorScheme.onPrimary,
                                             letterSpacing: 0.5)),
                                   ),
+                                  Container(
+                                      alignment: Alignment.center,
+                                      margin: const EdgeInsets.fromLTRB(
+                                          15, 10, 0, 0),
+                                      child: Column(children: [
+                                        FxText(
+                                          "*Password must be at least 8 characters\n*Password must consist at least:",
+                                          fontWeight: 400,
+                                          fontSize: 10,
+                                          color: theme.colorScheme.primary,
+                                        ),
+                                        FxText(
+                                          "1 Numeric/Symbol",
+                                          fontWeight: 400,
+                                          fontSize: 10,
+                                          color: theme.colorScheme.primary,
+                                        ),
+                                      ])),
                                 ],
                               ),
                             ))
@@ -202,20 +218,7 @@ class _firstTimeLogin extends State<firstTimeLogin> {
                 ],
               ),
             ),
-            Positioned(
-              top: FxSpacing.safeAreaTop(context) + 12,
-              left: 16,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  FeatherIcons.chevronLeft,
-                  color: theme.colorScheme.onBackground,
-                ),
-              ),
-            )
-          ],
+          ),
         ));
   }
 
@@ -223,32 +226,22 @@ class _firstTimeLogin extends State<firstTimeLogin> {
     if (_pass.text.isNotEmpty && _confirmPass.text.isNotEmpty) {
       final prefs = await SharedPreferences.getInstance();
 
-// Try reading data from the counter key. If it doesn't exist, return 0.
       final userID = prefs.getInt('userID') ?? 0;
-      final body = {
-        'userId': userID,
-        'password': generateMd5(_confirmPass.text)
-      };
+      final body = {'password': generateMd5(_confirmPass.text)};
       final jsonString = json.encode(body);
-      final uri =
-          Uri.http('chilamlol.pythonanywhere.com', '/account/reset-password');
+      final uri = Uri.http(
+          'chilamlol.pythonanywhere.com', '/account/reset-password/$userID');
       final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-      final response = await http.post(uri, headers: headers, body: jsonString);
+      final response = await http.put(uri, headers: headers, body: jsonString);
 
       if (response.statusCode == 200) {
         var futureResetPassword =
             ResetPasswordState.fromJson(jsonDecode(response.body));
 
-        if (futureResetPassword.status == "200") {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const updateProfile()),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text(
-                  "There is an issue on our end! Please contact admin for assistance!")));
-        }
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const updateProfile()),
+        );
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Server Error")));
@@ -260,38 +253,14 @@ class _firstTimeLogin extends State<firstTimeLogin> {
   }
 }
 
-// class _MyCustomClipper extends CustomClipper<Path> {
-//   final BuildContext _context;
-
-//   _MyCustomClipper(this._context);
-
-//   @override
-//   Path getClip(Size size) {
-//     final path = Path();
-//     Size size = MediaQuery.of(_context).size;
-//     path.lineTo(size.width, 0);
-//     path.lineTo(size.width, size.height * 0.3);
-//     path.lineTo(0, size.height * 0.6);
-//     path.close();
-//     return path;
-//   }
-
-//   @override
-//   bool shouldReclip(CustomClipper oldClipper) {
-//     return false;
-//   }
-// }
-
 class ResetPasswordState {
   final String message;
-  final String status;
 
   ResetPasswordState({
     required this.message,
-    required this.status,
   });
 
   factory ResetPasswordState.fromJson(Map<String, dynamic> json) {
-    return ResetPasswordState(message: json['message'], status: json['status']);
+    return ResetPasswordState(message: json['message']);
   }
 }
